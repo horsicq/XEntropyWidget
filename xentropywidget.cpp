@@ -48,7 +48,7 @@ void XEntropyWidget::reload()
 
     if(dep.exec()==QDialog::Accepted)
     {
-        ui->lineEditTotalEntropy->setText(XBinary::doubleToString(entropyData.dTotalEntropy));
+        ui->lineEditTotalEntropy->setText(XBinary::doubleToString(entropyData.dTotalEntropy,2));
 
         ui->progressBarTotalEntropy->setMaximum(1000);
         ui->progressBarTotalEntropy->setValue(entropyData.dTotalEntropy*100);
