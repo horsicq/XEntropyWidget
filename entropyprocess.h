@@ -28,11 +28,14 @@ class EntropyProcess : public QObject
 {
     Q_OBJECT
 public:
+    static const int N_MAX_GRAPH=100;
+
     struct DATA
     {
         qint64 nOffset;
         qint64 nSize;
         double dTotalEntropy;
+        double dGraph[N_MAX_GRAPH];
     };
 
     explicit EntropyProcess(QObject *parent=nullptr);
