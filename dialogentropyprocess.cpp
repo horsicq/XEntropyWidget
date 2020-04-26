@@ -45,12 +45,20 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *parent, QIODevice *pDevice,E
 
 DialogEntropyProcess::~DialogEntropyProcess()
 {
+    pEntropyProcess->stop();
+
+    pThread->quit();
+    pThread->wait();
+
     delete ui;
+
+    delete pThread;
+    delete pEntropyProcess;
 }
 
 void DialogEntropyProcess::on_pushButtonCancel_clicked()
 {
-
+    pEntropyProcess->stop();
 }
 
 void DialogEntropyProcess::errorMessage(QString sText)
