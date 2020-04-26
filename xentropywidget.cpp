@@ -44,6 +44,9 @@ void XEntropyWidget::setData(QIODevice *pDevice)
 
 void XEntropyWidget::reload()
 {
+    entropyData.nOffset=0;
+    entropyData.nSize=pDevice->size();
+
     DialogEntropyProcess dep(this,pDevice,&entropyData);
 
     if(dep.exec()==QDialog::Accepted)

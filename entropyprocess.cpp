@@ -22,7 +22,7 @@
 
 EntropyProcess::EntropyProcess(QObject *parent) : QObject(parent)
 {
-
+    bIsStop=false;
 }
 
 void EntropyProcess::setData(QIODevice *pDevice, DATA *pData)
@@ -33,7 +33,7 @@ void EntropyProcess::setData(QIODevice *pDevice, DATA *pData)
 
 void EntropyProcess::stop()
 {
-
+    bIsStop=true;
 }
 
 void EntropyProcess::process()
@@ -41,9 +41,13 @@ void EntropyProcess::process()
     QElapsedTimer scanTimer;
     scanTimer.start();
 
+    bIsStop=false;
+
     XBinary binary(pDevice);
 
-    pData->dTotalEntropy=binary.getEntropy(0,-1);
+    pData->dTotalEntropy=binary.getEntropy(pData->nOffset,pData->nSize);
+
+    bIsStop=false;
 
     emit completed(scanTimer.elapsed());
 }

@@ -30,6 +30,8 @@ class EntropyProcess : public QObject
 public:
     struct DATA
     {
+        qint64 nOffset;
+        qint64 nSize;
         double dTotalEntropy;
     };
 
@@ -50,6 +52,7 @@ public slots:
 private:
     QIODevice *pDevice;
     DATA *pData;
+    bool bIsStop;
 };
 
 #endif // ENTROPYPROCESS_H
