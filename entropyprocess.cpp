@@ -45,6 +45,9 @@ void EntropyProcess::process()
 
     XBinary binary(pDevice);
 
+    emit progressValueMinimum(0);
+    emit progressValueMaximum(N_MAX_GRAPH);
+
     pData->dTotalEntropy=binary.getEntropy(pData->nOffset,pData->nSize);
 
     qint64 nGraph=(pData->nSize)/N_MAX_GRAPH;
@@ -54,6 +57,8 @@ void EntropyProcess::process()
         for(int i=0;(i<N_MAX_GRAPH)&&(!bIsStop);i++)
         {
             pData->dGraph[i]=binary.getEntropy(pData->nOffset+i*nGraph,nGraph);
+
+            emit progressValueMaximum(i);
         }
     }
 
