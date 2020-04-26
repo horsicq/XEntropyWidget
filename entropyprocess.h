@@ -44,9 +44,9 @@ public:
 signals:
     void errorMessage(QString sText);
     void completed(qint64 nElapsed);
-    void progressValueChanged(qint32 nValue);
-    void progressValueMinimum(qint32 nValue);
-    void progressValueMaximum(qint32 nValue);
+    void progressValueChanged2(qint32 nValue);
+    void progressValueMinimum2(qint32 nValue);
+    void progressValueMaximum2(qint32 nValue);
 
 public slots:
     void stop();

@@ -35,9 +35,9 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *parent, QIODevice *pDevice,E
     connect(pThread, SIGNAL(started()), pEntropyProcess, SLOT(process()));
     connect(pEntropyProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
     connect(pEntropyProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
-    connect(pEntropyProcess, SIGNAL(progressValueChanged(qint32)), this, SLOT(progressValueChanged(qint32)));
-    connect(pEntropyProcess, SIGNAL(progressValueMinimum(qint32)), this, SLOT(progressValueMinimum(qint32)));
-    connect(pEntropyProcess, SIGNAL(progressValueMaximum(qint32)), this, SLOT(progressValueMaximum(qint32)));
+    connect(pEntropyProcess, SIGNAL(progressValueChanged2(qint32)), this, SLOT(progressValueChanged2(qint32)));
+    connect(pEntropyProcess, SIGNAL(progressValueMinimum2(qint32)), this, SLOT(progressValueMinimum2(qint32)));
+    connect(pEntropyProcess, SIGNAL(progressValueMaximum2(qint32)), this, SLOT(progressValueMaximum2(qint32)));
 
     pEntropyProcess->setData(pDevice,pData);
     pThread->start();
@@ -73,17 +73,17 @@ void DialogEntropyProcess::onCompleted(qint64 nElapsed)
     accept();
 }
 
-void DialogEntropyProcess::progressValueChanged(qint32 nValue)
+void DialogEntropyProcess::progressValueChanged2(qint32 nValue)
 {
-    ui->progressBar->setValue(nValue);
+    ui->progressBar2->setValue(nValue);
 }
 
-void DialogEntropyProcess::progressValueMaximum(qint32 nValue)
+void DialogEntropyProcess::progressValueMaximum2(qint32 nValue)
 {
-    ui->progressBar->setMaximum(nValue);
+    ui->progressBar2->setMaximum(nValue);
 }
 
-void DialogEntropyProcess::progressValueMinimum(qint32 nValue)
+void DialogEntropyProcess::progressValueMinimum2(qint32 nValue)
 {
-    ui->progressBar->setMinimum(nValue);
+    ui->progressBar2->setMinimum(nValue);
 }
