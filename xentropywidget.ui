@@ -16,8 +16,8 @@
   <widget class="QGroupBox" name="groupBoxTotalEntropy">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>60</y>
+     <x>360</x>
+     <y>10</y>
      <width>251</width>
      <height>51</height>
     </rect>
