@@ -18,6 +18,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QGroupBox" name="groupBoxTotalEntropy">
+       <property name="maximumSize">
+        <size>
+         <width>160</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="title">
         <string>Total entropy</string>
        </property>
@@ -46,6 +52,12 @@
         </item>
         <item>
          <widget class="QProgressBar" name="progressBarTotalEntropy">
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
           <property name="maximum">
            <number>1000</number>
           </property>

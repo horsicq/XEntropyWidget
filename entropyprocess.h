@@ -35,7 +35,9 @@ public:
         qint64 nOffset;
         qint64 nSize;
         double dTotalEntropy;
-        double dGraph[N_MAX_GRAPH];
+        double dOffset[N_MAX_GRAPH];
+        double dOffsetEntropy[N_MAX_GRAPH];
+        qint32 nMaxGraph;
     };
 
     explicit EntropyProcess(QObject *parent=nullptr);

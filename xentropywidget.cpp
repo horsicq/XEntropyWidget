@@ -57,10 +57,11 @@ void XEntropyWidget::reload()
 
     if(dep.exec()==QDialog::Accepted)
     {
-        ui->lineEditTotalEntropy->setText(XBinary::doubleToString(entropyData.dTotalEntropy,2));
+        ui->lineEditTotalEntropy->setText(XBinary::doubleToString(entropyData.dTotalEntropy,5));
 
-        ui->progressBarTotalEntropy->setMaximum(1000);
+        ui->progressBarTotalEntropy->setMaximum(8*100);
         ui->progressBarTotalEntropy->setValue(entropyData.dTotalEntropy*100);
-        // TODO
+
+        pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph);
     }
 }

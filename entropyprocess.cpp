@@ -55,13 +55,16 @@ void EntropyProcess::process()
 
     pData->dTotalEntropy=binary.getEntropy(pData->nOffset,pData->nSize);
 
-    qint64 nGraph=(pData->nSize)/N_MAX_GRAPH;
+    pData->nMaxGraph=N_MAX_GRAPH;
+
+    qint64 nGraph=(pData->nSize)/pData->nMaxGraph;
 
     if(nGraph)
     {
-        for(int i=0;(i<N_MAX_GRAPH)&&(!bIsStop);i++)
+        for(int i=0;(i<pData->nMaxGraph)&&(!bIsStop);i++)
         {
-            pData->dGraph[i]=binary.getEntropy(pData->nOffset+i*nGraph,nGraph);
+            pData->dOffset[i]=pData->nOffset+i*nGraph;
+            pData->dOffsetEntropy[i]=binary.getEntropy(pData->nOffset+i*nGraph,nGraph);
 
             emit progressValueChanged2(i);
         }
