@@ -59,6 +59,7 @@ private:
     QIODevice *pDevice;
     DATA *pData;
     bool bIsStop;
+    XBinary binary;
 };
 
 #endif // ENTROPYPROCESS_H

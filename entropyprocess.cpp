@@ -22,6 +22,10 @@
 
 EntropyProcess::EntropyProcess(QObject *parent) : QObject(parent)
 {
+    connect(&binary,SIGNAL(entropyProgressValueChanged(qint32)),this,SIGNAL(progressValueChanged1(qint32)));
+    connect(&binary,SIGNAL(entropyProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimum1(qint32)));
+    connect(&binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximum1(qint32)));
+
     bIsStop=false;
 }
 
@@ -33,6 +37,7 @@ void EntropyProcess::setData(QIODevice *pDevice, DATA *pData)
 
 void EntropyProcess::stop()
 {
+    binary.setEntropyProcessEnable(false);
     bIsStop=true;
 }
 
@@ -43,7 +48,7 @@ void EntropyProcess::process()
 
     bIsStop=false;
 
-    XBinary binary(pDevice);
+    binary.setData(this->pDevice);
 
     emit progressValueMinimum2(0);
     emit progressValueMaximum2(N_MAX_GRAPH);
