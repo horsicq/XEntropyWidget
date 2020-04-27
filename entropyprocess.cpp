@@ -63,7 +63,7 @@ void EntropyProcess::process()
         {
             pData->dGraph[i]=binary.getEntropy(pData->nOffset+i*nGraph,nGraph);
 
-            emit progressValueMaximum2(i);
+            emit progressValueChanged2(i);
         }
     }
 
