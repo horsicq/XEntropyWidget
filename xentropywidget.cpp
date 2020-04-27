@@ -41,11 +41,14 @@ XEntropyWidget::~XEntropyWidget()
     delete ui;
 }
 
-void XEntropyWidget::setData(QIODevice *pDevice)
+void XEntropyWidget::setData(QIODevice *pDevice, bool bAuto)
 {
     this->pDevice=pDevice;
 
-    reload();
+    if(bAuto)
+    {
+        reload();
+    }
 }
 
 void XEntropyWidget::reload()
@@ -64,4 +67,9 @@ void XEntropyWidget::reload()
 
         pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph);
     }
+}
+
+void XEntropyWidget::on_pushButtonReload_clicked()
+{
+    reload();
 }

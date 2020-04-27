@@ -49,8 +49,11 @@ class XEntropyWidget : public QWidget
 public:
     explicit XEntropyWidget(QWidget *parent=nullptr);
     ~XEntropyWidget();
-    void setData(QIODevice *pDevice);
+    void setData(QIODevice *pDevice, bool bAuto=false);
     void reload();
+
+private slots:
+    void on_pushButtonReload_clicked();
 
 private:
     Ui::XEntropyWidget *ui;

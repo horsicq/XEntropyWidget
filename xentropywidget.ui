@@ -13,9 +13,16 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="pushButtonReload">
+       <property name="text">
+        <string>Reload</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QGroupBox" name="groupBoxTotalEntropy">
        <property name="maximumSize">
@@ -88,13 +95,32 @@
     </layout>
    </item>
    <item>
-    <widget class="QwtPlot" name="widgetEntropy" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
+     <widget class="QWidget" name="tabEntropy">
+      <attribute name="title">
+       <string>Entropy</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QwtPlot" name="widgetEntropy" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabBytes">
+      <attribute name="title">
+       <string>Bytes</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>
