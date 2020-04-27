@@ -28,6 +28,12 @@ XEntropyWidget::XEntropyWidget(QWidget *parent) :
     ui->setupUi(this);
 
     entropyData={};
+
+    QPen pen(Qt::red);
+    pCurve=new QwtPlotCurve;
+    pCurve->setPen(pen);
+    pCurve->attach(ui->widgetEntropy);
+    ui->widgetEntropy->setAutoReplot();
 }
 
 XEntropyWidget::~XEntropyWidget()
