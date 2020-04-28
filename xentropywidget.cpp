@@ -91,6 +91,38 @@ void XEntropyWidget::reload()
 
         pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph);
         ui->widgetEntropy->replot();
+
+        ui->tableWidgetBytes->clear();
+
+        ui->tableWidgetBytes->setRowCount(256);
+        ui->tableWidgetBytes->setColumnCount(3);
+
+        QStringList slHeader;
+        slHeader.append(tr("Byte"));
+        slHeader.append(tr("Count"));
+        slHeader.append(QString("%"));
+
+        ui->tableWidgetBytes->setHorizontalHeaderLabels(slHeader);
+        ui->tableWidgetBytes->horizontalHeader()->setVisible(true);
+
+        for(int i=0;i<256;i++)
+        {
+            QTableWidgetItem *itemByte=new QTableWidgetItem;
+
+            itemByte->setText(QString("0x%1").arg(i,2,16,QChar('0')));
+            itemByte->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetBytes->setItem(i,0,itemByte);
+
+            QTableWidgetItem *itemCount=new QTableWidgetItem;
+
+            itemCount->setText(QString::number(entropyData.byteCounts.nCount[i]));
+            itemCount->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetBytes->setItem(i,1,itemCount);
+        }
+
+        ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
+        ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
+        ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
     }
 }
 
