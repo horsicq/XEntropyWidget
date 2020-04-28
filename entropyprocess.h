@@ -35,6 +35,7 @@ public:
         qint64 nOffset;
         qint64 nSize;
         double dTotalEntropy;
+        QString sStatus;
         double dOffset[N_MAX_GRAPH];
         double dOffsetEntropy[N_MAX_GRAPH];
         qint32 nMaxGraph;

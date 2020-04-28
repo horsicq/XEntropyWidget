@@ -65,6 +65,10 @@ void XEntropyWidget::reload()
         ui->progressBarTotalEntropy->setMaximum(8*100);
         ui->progressBarTotalEntropy->setValue(entropyData.dTotalEntropy*100);
 
+        ui->lineEditOffset->setValue32_64(entropyData.nOffset);
+        ui->lineEditSize->setValue32_64(entropyData.nSize);
+        ui->labelStatus->setText(entropyData.sStatus);
+
         pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph);
         ui->widgetEntropy->replot();
     }

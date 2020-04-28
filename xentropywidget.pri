@@ -26,3 +26,8 @@ FORMS += \
     XCONFIG += xqwt
     include(../XQwt/xqwt.pri)
 }
+
+!contains(XCONFIG, xlineedithex) {
+    XCONFIG += xlineedithex
+    include($$PWD/../Controls/xlineedithex.pri)
+}

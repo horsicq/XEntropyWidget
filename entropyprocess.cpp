@@ -55,6 +55,15 @@ void EntropyProcess::process()
 
     pData->dTotalEntropy=binary.getEntropy(pData->nOffset,pData->nSize);
 
+    if(XBinary::isPacked(pData->dTotalEntropy))
+    {
+        pData->sStatus=tr("packed");
+    }
+    else
+    {
+        pData->sStatus=tr("not packed");
+    }
+
     pData->nMaxGraph=N_MAX_GRAPH;
 
     qint64 nGraph=(pData->nSize)/pData->nMaxGraph;
