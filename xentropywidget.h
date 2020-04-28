@@ -22,6 +22,8 @@
 #define XENTROPYWIDGET_H
 
 #include <QWidget>
+#include <QStandardItemModel>
+#include <QItemSelection>
 #include "dialogentropyprocess.h"
 #include "qwt_plot.h"
 #include "qwt_plot_marker.h"
@@ -54,6 +56,10 @@ public:
 
 private slots:
     void on_pushButtonReload_clicked();
+    void updateRegions();
+    void on_tableViewSelection(const QItemSelection &selected, const QItemSelection &deselected);
+
+    void on_comboBoxType_currentIndexChanged(int index);
 
 private:
     Ui::XEntropyWidget *ui;

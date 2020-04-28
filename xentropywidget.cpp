@@ -47,6 +47,26 @@ void XEntropyWidget::setData(QIODevice *pDevice, bool bAuto)
 
     if(bAuto)
     {
+        const QSignalBlocker blocker(ui->comboBoxType);
+
+        ui->comboBoxType->clear();
+
+        QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(XBinary::getFileTypes(pDevice));
+
+        int nCount=listFileTypes.count();
+
+        for(int i=0;i<nCount;i++)
+        {
+            XBinary::FT ft=listFileTypes.at(i);
+            ui->comboBoxType->addItem(XBinary::fileTypeIdToString(ft),ft);
+        }
+
+        if(nCount)
+        {
+            ui->comboBoxType->setCurrentIndex(nCount-1);
+            updateRegions();
+        }
+
         reload();
     }
 }
@@ -77,4 +97,128 @@ void XEntropyWidget::reload()
 void XEntropyWidget::on_pushButtonReload_clicked()
 {
     reload();
+}
+
+void XEntropyWidget::updateRegions()
+{
+    XBinary::FT ft=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
+
+    XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(pDevice,ft);
+
+    XLineEditHEX::MODE mode;
+
+    if(memoryMap.mode==XBinary::MODE_16)
+    {
+        mode=XLineEditHEX::MODE_16;
+    }
+    else if(memoryMap.mode==XBinary::MODE_32)
+    {
+        mode=XLineEditHEX::MODE_32;
+    }
+    else if(memoryMap.mode==XBinary::MODE_64)
+    {
+        mode=XLineEditHEX::MODE_64;
+    }
+    else if(memoryMap.mode==XBinary::MODE_UNKNOWN)
+    {
+        mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
+    }
+
+    QAbstractItemModel *pOldModel=ui->tableViewRegions->model();
+
+    int nCount=memoryMap.listRecords.count();
+
+    QStandardItemModel *pModel=new QStandardItemModel(nCount,4,this);
+
+    pModel->setHeaderData(0,Qt::Horizontal,tr("Name"));
+    pModel->setHeaderData(1,Qt::Horizontal,tr("Offset"));
+    pModel->setHeaderData(2,Qt::Horizontal,tr("Address"));
+    pModel->setHeaderData(3,Qt::Horizontal,tr("Size"));
+
+    QColor colDisabled=QWidget::palette().color(QPalette::Window);
+
+    for(int i=0,j=0;i<nCount;i++)
+    {
+        bool bIsVirtual=memoryMap.listRecords.at(i).bIsVirtual;
+
+        if(!bIsVirtual)
+        {
+            QStandardItem *itemName=new QStandardItem;
+
+            itemName->setData(memoryMap.listRecords.at(i).nOffset,Qt::UserRole+0);
+            itemName->setData(memoryMap.listRecords.at(i).nAddress,Qt::UserRole+1);
+
+            if(bIsVirtual)
+            {
+                itemName->setBackground(colDisabled);
+            }
+
+            itemName->setText(memoryMap.listRecords.at(i).sName);
+            pModel->setItem(j,0,itemName);
+
+            QStandardItem *itemOffset=new QStandardItem;
+
+            if(bIsVirtual)
+            {
+                itemOffset->setBackground(colDisabled);
+            }
+
+            itemOffset->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nOffset));
+            pModel->setItem(j,1,itemOffset);
+
+            QStandardItem *itemAddress=new QStandardItem;
+
+            if(bIsVirtual)
+            {
+                itemAddress->setBackground(colDisabled);
+            }
+
+            itemAddress->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nAddress));
+            pModel->setItem(j,2,itemAddress);
+
+            QStandardItem *itemSize=new QStandardItem;
+
+            if(bIsVirtual)
+            {
+                itemSize->setBackground(colDisabled);
+            }
+
+            itemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
+            pModel->setItem(j,3,itemSize);
+
+            j++;
+        }
+    }
+
+    ui->tableViewRegions->setModel(pModel);
+
+    delete pOldModel;
+
+    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
+    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
+    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
+
+    qint32 nColumnSize=XLineEditHEX::getWidthFromMode(mode);
+
+    ui->tableViewRegions->setColumnWidth(1,nColumnSize);
+    ui->tableViewRegions->setColumnWidth(2,nColumnSize);
+    ui->tableViewRegions->setColumnWidth(3,nColumnSize);
+
+    connect(ui->tableViewRegions->selectionModel(),SIGNAL(selectionChanged(QItemSelection, QItemSelection)),this,SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
+}
+
+void XEntropyWidget::on_tableViewSelection(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    Q_UNUSED(selected)
+    Q_UNUSED(deselected)
+
+    qDebug("on_tableViewSelection");
+}
+
+void XEntropyWidget::on_comboBoxType_currentIndexChanged(int index)
+{
+    Q_UNUSED(index)
+
+    updateRegions();
 }
