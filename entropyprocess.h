@@ -38,6 +38,7 @@ public:
         QString sStatus;
         double dOffset[N_MAX_GRAPH];
         double dOffsetEntropy[N_MAX_GRAPH];
+        XBinary::BYTES_STATS bytesStats;
         qint32 nMaxGraph;
     };
 

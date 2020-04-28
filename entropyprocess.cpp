@@ -54,6 +54,7 @@ void EntropyProcess::process()
     emit progressValueMaximum2(N_MAX_GRAPH);
 
     pData->dTotalEntropy=binary.getEntropy(pData->nOffset,pData->nSize);
+    pData->bytesStats=binary.getBytesStats(pData->nOffset,pData->nSize);
 
     if(XBinary::isPacked(pData->dTotalEntropy))
     {
