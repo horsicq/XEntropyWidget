@@ -61,10 +61,18 @@ void EntropyProcess::process()
 
     if(nGraph)
     {
+//        for(int i=0;(i<pData->nMaxGraph)&&(!bIsStop);i++)
+//        {
+//            pData->dOffset[i]=pData->nOffset+i*nGraph;
+//            pData->dOffsetEntropy[i]=binary.getEntropy(pData->nOffset+i*nGraph,nGraph);
+
+//            emit progressValueChanged2(i);
+//        }
         for(int i=0;(i<pData->nMaxGraph)&&(!bIsStop);i++)
         {
             pData->dOffset[i]=pData->nOffset+i*nGraph;
-            pData->dOffsetEntropy[i]=binary.getEntropy(pData->nOffset+i*nGraph,nGraph);
+
+            pData->dOffsetEntropy[i]=binary.getEntropy(pData->nOffset+i*nGraph,qMin(nGraph*(pData->nMaxGraph/10),pData->nSize-(i*nGraph)));
 
             emit progressValueChanged2(i);
         }

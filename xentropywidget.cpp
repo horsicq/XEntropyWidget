@@ -33,7 +33,7 @@ XEntropyWidget::XEntropyWidget(QWidget *parent) :
     pCurve=new QwtPlotCurve;
     pCurve->setPen(pen);
     pCurve->attach(ui->widgetEntropy);
-    ui->widgetEntropy->setAutoReplot();
+//    ui->widgetEntropy->setAutoReplot();
 }
 
 XEntropyWidget::~XEntropyWidget()
@@ -66,6 +66,7 @@ void XEntropyWidget::reload()
         ui->progressBarTotalEntropy->setValue(entropyData.dTotalEntropy*100);
 
         pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph);
+        ui->widgetEntropy->replot();
     }
 }
 
