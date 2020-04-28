@@ -101,6 +101,8 @@ void XEntropyWidget::on_pushButtonReload_clicked()
 
 void XEntropyWidget::updateRegions()
 {
+    XBinary binary(pDevice);
+
     XBinary::FT ft=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
 
     XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(pDevice,ft);
@@ -124,18 +126,22 @@ void XEntropyWidget::updateRegions()
         mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
     }
 
-    QAbstractItemModel *pOldModel=ui->tableViewRegions->model();
+    ui->tableWidgetRegions->clear();
+
+    ui->tableWidgetRegions->setRowCount(XBinary::getNumberOfPhysicalRecords(&memoryMap));
+    ui->tableWidgetRegions->setColumnCount(5);
+
+    QStringList slHeader;
+    slHeader.append(tr("Name"));
+    slHeader.append(tr("Offset"));
+    slHeader.append(tr("Size"));
+    slHeader.append(tr("Entropy"));
+    slHeader.append(tr("Status"));
+
+    ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
+    ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
 
     int nCount=memoryMap.listRecords.count();
-
-    QStandardItemModel *pModel=new QStandardItemModel(nCount,4,this);
-
-    pModel->setHeaderData(0,Qt::Horizontal,tr("Name"));
-    pModel->setHeaderData(1,Qt::Horizontal,tr("Offset"));
-    pModel->setHeaderData(2,Qt::Horizontal,tr("Address"));
-    pModel->setHeaderData(3,Qt::Horizontal,tr("Size"));
-
-    QColor colDisabled=QWidget::palette().color(QPalette::Window);
 
     for(int i=0,j=0;i<nCount;i++)
     {
@@ -143,77 +149,53 @@ void XEntropyWidget::updateRegions()
 
         if(!bIsVirtual)
         {
-            QStandardItem *itemName=new QStandardItem;
+            double dEntropy=binary.getEntropy(memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
 
-            itemName->setData(memoryMap.listRecords.at(i).nOffset,Qt::UserRole+0);
-            itemName->setData(memoryMap.listRecords.at(i).nAddress,Qt::UserRole+1);
-
-            if(bIsVirtual)
-            {
-                itemName->setBackground(colDisabled);
-            }
+            QTableWidgetItem *itemName=new QTableWidgetItem;
 
             itemName->setText(memoryMap.listRecords.at(i).sName);
-            pModel->setItem(j,0,itemName);
+            itemName->setData(Qt::UserRole+0,memoryMap.listRecords.at(i).nOffset);
+            itemName->setData(Qt::UserRole+1,memoryMap.listRecords.at(i).nSize);
 
-            QStandardItem *itemOffset=new QStandardItem;
+            ui->tableWidgetRegions->setItem(j,0,itemName);
 
-            if(bIsVirtual)
-            {
-                itemOffset->setBackground(colDisabled);
-            }
+            QTableWidgetItem *itemOffset=new QTableWidgetItem;
 
             itemOffset->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nOffset));
-            pModel->setItem(j,1,itemOffset);
+            itemOffset->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetRegions->setItem(j,1,itemOffset);
 
-            QStandardItem *itemAddress=new QStandardItem;
-
-            if(bIsVirtual)
-            {
-                itemAddress->setBackground(colDisabled);
-            }
-
-            itemAddress->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nAddress));
-            pModel->setItem(j,2,itemAddress);
-
-            QStandardItem *itemSize=new QStandardItem;
-
-            if(bIsVirtual)
-            {
-                itemSize->setBackground(colDisabled);
-            }
+            QTableWidgetItem *itemSize=new QTableWidgetItem;
 
             itemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
-            pModel->setItem(j,3,itemSize);
+            itemSize->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetRegions->setItem(j,2,itemSize);
+
+            QTableWidgetItem *itemEntropy=new QTableWidgetItem;
+
+            itemEntropy->setText(XBinary::doubleToString(dEntropy,5));
+            itemEntropy->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetRegions->setItem(j,3,itemEntropy);
+
+            QTableWidgetItem *itemStatus=new QTableWidgetItem;
+
+            itemStatus->setText(XBinary::isPacked(dEntropy)?(tr("packed")):(tr("not packed")));
+            ui->tableWidgetRegions->setItem(j,4,itemStatus);
 
             j++;
         }
     }
 
-    ui->tableViewRegions->setModel(pModel);
-
-    delete pOldModel;
-
-    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
-    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
-    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
-    ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
+    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
+    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
+    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
+    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Interactive);
 
     qint32 nColumnSize=XLineEditHEX::getWidthFromMode(mode);
 
-    ui->tableViewRegions->setColumnWidth(1,nColumnSize);
-    ui->tableViewRegions->setColumnWidth(2,nColumnSize);
-    ui->tableViewRegions->setColumnWidth(3,nColumnSize);
-
-    connect(ui->tableViewRegions->selectionModel(),SIGNAL(selectionChanged(QItemSelection, QItemSelection)),this,SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
-}
-
-void XEntropyWidget::on_tableViewSelection(const QItemSelection &selected, const QItemSelection &deselected)
-{
-    Q_UNUSED(selected)
-    Q_UNUSED(deselected)
-
-    qDebug("on_tableViewSelection");
+    ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
+    ui->tableWidgetRegions->setColumnWidth(2,nColumnSize);
 }
 
 void XEntropyWidget::on_comboBoxType_currentIndexChanged(int index)
@@ -221,4 +203,9 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int index)
     Q_UNUSED(index)
 
     updateRegions();
+}
+
+void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
+{
+
 }

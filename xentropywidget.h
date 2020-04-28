@@ -57,9 +57,8 @@ public:
 private slots:
     void on_pushButtonReload_clicked();
     void updateRegions();
-    void on_tableViewSelection(const QItemSelection &selected, const QItemSelection &deselected);
-
     void on_comboBoxType_currentIndexChanged(int index);
+    void on_tableWidgetRegions_itemSelectionChanged();
 
 private:
     Ui::XEntropyWidget *ui;
