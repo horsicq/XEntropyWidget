@@ -262,7 +262,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabEntropy">
       <attribute name="title">
@@ -292,7 +292,7 @@
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>180</height>
+           <height>250</height>
           </size>
          </property>
          <property name="title">
@@ -412,14 +412,17 @@
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
          </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
          <attribute name="horizontalHeaderMinimumSectionSize">
           <number>0</number>
          </attribute>
          <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>40</number>
+          <number>50</number>
          </attribute>
          <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-          <bool>false</bool>
+          <bool>true</bool>
          </attribute>
          <attribute name="verticalHeaderVisible">
           <bool>false</bool>

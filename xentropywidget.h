@@ -51,7 +51,7 @@ class XEntropyWidget : public QWidget
 public:
     explicit XEntropyWidget(QWidget *parent=nullptr);
     ~XEntropyWidget();
-    void setData(QIODevice *pDevice, bool bAuto=false);
+    void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
     void reload();
 
 private slots:
@@ -63,8 +63,12 @@ private slots:
 private:
     Ui::XEntropyWidget *ui;
     QIODevice *pDevice;
+    qint64 nOffset;
+    qint64 nSize;
     EntropyProcess::DATA entropyData;
     QwtPlotCurve *pCurve;
+    QwtPlotHistogram *pHistogram;
+    QList<QwtPlotZoneItem *> listZones;
 };
 
 #endif // XENTROPYWIDGET_H
