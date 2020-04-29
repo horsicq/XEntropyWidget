@@ -199,7 +199,17 @@ void XEntropyWidget::updateRegions()
             mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
         }
 
+        int nCount=listZones.count();
+
+        for(int i=0;i<nCount;i++)
+        {
+            listZones.at(i)->setVisible(false);
+        }
+
+        ui->widgetEntropy->replot();
+
         listZones.clear();
+
         ui->tableWidgetRegions->clear();
 
         ui->tableWidgetRegions->setRowCount(XBinary::getNumberOfPhysicalRecords(&memoryMap));
@@ -215,7 +225,7 @@ void XEntropyWidget::updateRegions()
         ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
         ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
 
-        int nCount=memoryMap.listRecords.count();
+        nCount=memoryMap.listRecords.count();
 
         for(int i=0,j=0;i<nCount;i++)
         {
