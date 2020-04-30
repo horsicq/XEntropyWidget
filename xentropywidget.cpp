@@ -186,7 +186,7 @@ void XEntropyWidget::updateRegions()
         {
             mode=XLineEditHEX::MODE_16;
         }
-        else if(memoryMap.mode==XBinary::MODE_32)
+        else if((memoryMap.mode==XBinary::MODE_16SEG)||(memoryMap.mode==XBinary::MODE_32))
         {
             mode=XLineEditHEX::MODE_32;
         }
