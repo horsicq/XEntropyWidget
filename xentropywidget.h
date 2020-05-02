@@ -25,6 +25,7 @@
 #include <QStandardItemModel>
 #include <QItemSelection>
 #include "dialogentropyprocess.h"
+#ifdef XQWT_PRESENT
 #include "qwt_plot.h"
 #include "qwt_plot_marker.h"
 #include "qwt_plot_curve.h"
@@ -39,6 +40,7 @@
 #include "qwt_plot_histogram.h"
 #include "qwt_plot_zoneitem.h"
 #include "qwt_plot_renderer.h"
+#endif
 
 namespace Ui {
 class XEntropyWidget;
@@ -66,9 +68,13 @@ private:
     qint64 nOffset;
     qint64 nSize;
     EntropyProcess::DATA entropyData;
+#ifdef XQWT_PRESENT
+    QwtPlot *pPlotEntropy;
+    QwtPlot *pPlotBytes;
     QwtPlotCurve *pCurve;
     QwtPlotHistogram *pHistogram;
     QList<QwtPlotZoneItem *> listZones;
+#endif
 };
 
 #endif // XENTROPYWIDGET_H

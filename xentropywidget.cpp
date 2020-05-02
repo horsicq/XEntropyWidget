@@ -29,20 +29,28 @@ XEntropyWidget::XEntropyWidget(QWidget *parent) :
 
     entropyData={};
 
+#ifdef XQWT_PRESENT
+    pPlotEntropy=new QwtPlot(this);
+    pPlotBytes=new QwtPlot(this);
+
+    ui->layotEntropy->addWidget(pPlotEntropy);
+    ui->layotBytes->addWidget(pPlotBytes);
+
     QPen penRed(Qt::red);
     pCurve=new QwtPlotCurve;
     pCurve->setPen(penRed);
-    pCurve->attach(ui->widgetEntropy);
+    pCurve->attach(pPlotEntropy);
 //    ui->widgetEntropy->setAutoReplot();
 
     QPen penBlue(Qt::blue);
     pHistogram=new QwtPlotHistogram;
     pHistogram->setPen(penBlue);
 
-    pHistogram->attach(ui->widgetBytes);
+    pHistogram->attach(pPlotBytes);
+#endif
 
-    ui->widgetBytes->setAxisScale(2,0,256,32);
-    ui->widgetBytes->updateAxes();
+    pPlotBytes->setAxisScale(2,0,256,32);
+    pPlotBytes->updateAxes();
 }
 
 XEntropyWidget::~XEntropyWidget()
@@ -106,10 +114,10 @@ void XEntropyWidget::reload()
         ui->lineEditOffset->setValue32_64(entropyData.nOffset);
         ui->lineEditSize->setValue32_64(entropyData.nSize);
         ui->labelStatus->setText(entropyData.sStatus);
-
+#ifdef XQWT_PRESENT
         pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph);
-        ui->widgetEntropy->replot();
-
+        pPlotEntropy->replot();
+#endif
         ui->tableWidgetBytes->clear();
 
         ui->tableWidgetBytes->setRowCount(256);
@@ -147,7 +155,7 @@ void XEntropyWidget::reload()
         ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
         ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
         ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
-
+#ifdef XQWT_PRESENT
         QVector<QwtIntervalSample> samples(256);
 
         for(uint i=0;i< 256; i++)
@@ -159,7 +167,8 @@ void XEntropyWidget::reload()
         }
 
         pHistogram->setSamples(samples);
-        ui->widgetBytes->replot();
+        pPlotBytes->replot();
+#endif
     }
 }
 
@@ -198,17 +207,19 @@ void XEntropyWidget::updateRegions()
         {
             mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
         }
-
-        int nCount=listZones.count();
+        int nCount=0;
+#ifdef XQWT_PRESENT
+        nCount=listZones.count();
 
         for(int i=0;i<nCount;i++)
         {
             listZones.at(i)->setVisible(false);
         }
 
-        ui->widgetEntropy->replot();
+        pPlotEntropy->replot();
 
         listZones.clear();
+#endif
 
         ui->tableWidgetRegions->clear();
 
@@ -265,7 +276,7 @@ void XEntropyWidget::updateRegions()
 
                 itemStatus->setText(XBinary::isPacked(dEntropy)?(tr("packed")):(tr("not packed")));
                 ui->tableWidgetRegions->setItem(j,4,itemStatus);
-
+#ifdef XQWT_PRESENT
                 QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
                 pZone->setInterval(nOffset+memoryMap.listRecords.at(i).nOffset,nOffset+memoryMap.listRecords.at(i).nOffset+memoryMap.listRecords.at(i).nSize);
                 pZone->setVisible(false);
@@ -274,9 +285,9 @@ void XEntropyWidget::updateRegions()
                 pZone->setPen(color);
                 color.setAlpha(20);
                 pZone->setBrush(color);
-                pZone->attach(ui->widgetEntropy);
+                pZone->attach(pPlotEntropy);
                 listZones.append(pZone);
-
+#endif
                 j++;
             }
         }
@@ -305,6 +316,7 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int index)
 
 void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 {
+#ifdef XQWT_PRESENT
     int nCount=listZones.count();
 
     for(int i=0;i<nCount;i++)
@@ -324,5 +336,6 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
         }
     }
 
-    ui->widgetEntropy->replot();
+    pPlotEntropy->replot();
+#endif
 }
