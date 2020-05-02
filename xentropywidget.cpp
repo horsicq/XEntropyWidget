@@ -47,10 +47,10 @@ XEntropyWidget::XEntropyWidget(QWidget *parent) :
     pHistogram->setPen(penBlue);
 
     pHistogram->attach(pPlotBytes);
-#endif
 
     pPlotBytes->setAxisScale(2,0,256,32);
     pPlotBytes->updateAxes();
+#endif
 }
 
 XEntropyWidget::~XEntropyWidget()
