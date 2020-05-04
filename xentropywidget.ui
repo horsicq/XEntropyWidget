@@ -343,11 +343,14 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="layotEntropy">
-         <property name="sizeConstraint">
-          <enum>QLayout::SetDefaultConstraint</enum>
+        <widget class="QwtPlot" name="widgetEntropy" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
-        </layout>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -433,7 +436,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="layotBytes"/>
+        <widget class="QwtPlot" name="widgetBytes" native="true"/>
        </item>
       </layout>
      </widget>
@@ -446,6 +449,12 @@
    <class>XLineEditHEX</class>
    <extends>QLineEdit</extends>
    <header>xlineedithex.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QwtPlot</class>
+   <extends>QWidget</extends>
+   <header>qwt_plot.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
