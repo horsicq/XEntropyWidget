@@ -288,7 +288,7 @@ void XEntropyWidget::updateRegions()
         ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
         ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Interactive);
 
-        qint32 nColumnSize=XLineEditHEX::getWidthFromMode(mode);
+        qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,mode);
 
         ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
         ui->tableWidgetRegions->setColumnWidth(2,nColumnSize);
