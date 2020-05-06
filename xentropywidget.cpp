@@ -107,7 +107,7 @@ void XEntropyWidget::reload()
         ui->lineEditSize->setValue32_64(entropyData.nSize);
         ui->labelStatus->setText(entropyData.sStatus);
 
-        pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph);
+        pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph+1);
         ui->widgetEntropy->replot();
 
         ui->tableWidgetBytes->clear();
