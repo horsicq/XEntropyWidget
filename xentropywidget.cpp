@@ -43,6 +43,8 @@ XEntropyWidget::XEntropyWidget(QWidget *parent) :
 
     ui->widgetBytes->setAxisScale(2,0,256,32);
     ui->widgetBytes->updateAxes();
+
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 XEntropyWidget::~XEntropyWidget()
@@ -147,6 +149,8 @@ void XEntropyWidget::reload()
         ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
         ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
         ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
+
+        // TODO Size 0,2 columns
 
         QVector<QwtIntervalSample> samples(256);
 

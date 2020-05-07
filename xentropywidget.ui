@@ -399,7 +399,7 @@
         <widget class="QTableWidget" name="tableWidgetBytes">
          <property name="maximumSize">
           <size>
-           <width>200</width>
+           <width>240</width>
            <height>16777215</height>
           </size>
          </property>
