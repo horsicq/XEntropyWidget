@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>536</width>
-    <height>121</height>
+    <width>535</width>
+    <height>99</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,17 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QProgressBar" name="progressBar1">
-     <property name="value">
-      <number>24</number>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QProgressBar" name="progressBar2">
+    <widget class="QProgressBar" name="progressBar">
      <property name="value">
       <number>24</number>
      </property>
