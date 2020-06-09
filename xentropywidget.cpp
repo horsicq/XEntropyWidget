@@ -182,7 +182,7 @@ void XEntropyWidget::updateRegions()
 
     if(subDevice.open(QIODevice::ReadOnly))
     {
-        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(&subDevice,ft);
+        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(ft,&subDevice);
 
         XLineEditHEX::MODE mode;
 
