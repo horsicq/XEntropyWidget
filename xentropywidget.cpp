@@ -336,3 +336,8 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 
     ui->widgetEntropy->replot();
 }
+
+void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
+{
+    // TODO
+}
