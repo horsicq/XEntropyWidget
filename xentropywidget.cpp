@@ -58,6 +58,11 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
     this->nOffset=nOffset;
     this->nSize=nSize;
 
+    if(this->nSize==-1)
+    {
+        this->nSize=(pDevice->size())-(this->nOffset);
+    }
+
     if(bAuto)
     {
         const QSignalBlocker blocker(ui->comboBoxType);
