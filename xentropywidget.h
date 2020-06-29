@@ -24,6 +24,7 @@
 #include <QWidget>
 #include <QStandardItemModel>
 #include <QItemSelection>
+#include <QImageWriter>
 #include "dialogentropyprocess.h"
 #include "qwt_plot.h"
 #include "qwt_plot_marker.h"
@@ -59,7 +60,6 @@ private slots:
     void updateRegions();
     void on_comboBoxType_currentIndexChanged(int index);
     void on_tableWidgetRegions_itemSelectionChanged();
-
     void on_pushButtonSaveEntropy_clicked();
 
 private:

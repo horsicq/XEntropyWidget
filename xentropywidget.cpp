@@ -339,5 +339,6 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 
 void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
 {
+    const QList<QByteArray> imageFormats=QImageWriter::supportedImageFormats();
     // TODO
 }
