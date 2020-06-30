@@ -89,5 +89,3 @@ void EntropyProcess::process()
 
     emit completed(scanTimer.elapsed());
 }
-
-
