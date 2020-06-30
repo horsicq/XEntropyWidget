@@ -96,6 +96,11 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
     }
 }
 
+void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
+{
+    this->sSaveDirectory=sSaveDirectory;
+}
+
 void XEntropyWidget::reload()
 {
     entropyData.nOffset=nOffset;
@@ -341,4 +346,13 @@ void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
 {
     const QList<QByteArray> imageFormats=QImageWriter::supportedImageFormats();
     // TODO
+}
+
+QString XEntropyWidget::getResultName()
+{
+    QString sResult;
+
+    // TODO
+
+    return sResult;
 }
