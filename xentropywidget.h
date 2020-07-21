@@ -59,7 +59,7 @@ public:
 private slots:
     void on_pushButtonReload_clicked();
     void updateRegions();
-    void on_comboBoxType_currentIndexChanged(int index);
+    void on_comboBoxType_currentIndexChanged(int nIndex);
     void on_tableWidgetRegions_itemSelectionChanged();
     void on_pushButtonSaveEntropy_clicked();
     QString getResultName();

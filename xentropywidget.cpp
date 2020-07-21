@@ -311,9 +311,9 @@ void XEntropyWidget::updateRegions()
     }
 }
 
-void XEntropyWidget::on_comboBoxType_currentIndexChanged(int index)
+void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 {
-    Q_UNUSED(index)
+    Q_UNUSED(nIndex)
 
     updateRegions();
 }
