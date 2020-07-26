@@ -27,6 +27,8 @@ DialogEntropy::DialogEntropy(QWidget *parent, QIODevice *pDevice, qint64 nOffset
 {
     ui->setupUi(this);
 
+    setWindowFlags(Qt::Window);
+
     ui->widgetEntropy->setData(pDevice,nOffset,nSize,true);
 }
 
