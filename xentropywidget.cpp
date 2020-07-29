@@ -344,15 +344,55 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 
 void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
 {
-    const QList<QByteArray> imageFormats=QImageWriter::supportedImageFormats();
-    // TODO
+    const QList<QByteArray> listImageFormats=QImageWriter::supportedImageFormats();
+
+    QStringList listFilter;
+
+    int nCount=listImageFormats.count();
+
+    if(nCount)
+    {
+        QString sImageFilter=tr("Images")+" (";
+
+        for(int i=0;i<nCount;i++)
+        {
+            if(i>0)
+            {
+                sImageFilter+=" ";
+            }
+
+            sImageFilter+="*.";
+            sImageFilter+=listImageFormats.at(i);
+        }
+
+        sImageFilter+=")";
+
+        listFilter.append(sImageFilter);
+    }
+
+    listFilter.append(QString("PDF %1 (*.pdf)").arg(tr("Documents")));
+    listFilter.append(QString("Postscript %1 (*.ps)").arg(tr("Documents")));
+
+    QString sFilter=listFilter.join(";;");
+
+    QString sFileName=getResultName();
+
+    sFileName=QFileDialog::getSaveFileName(this,tr("Save diagram"),sFileName,sFilter);
+
+    if(!sFileName.isEmpty())
+    {
+        QwtPlotRenderer renderer;
+        renderer.setDiscardFlag(QwtPlotRenderer::DiscardBackground,false);
+        //        renderer.setLayoutFlag(QwtPlotRenderer::KeepFrames,true);
+        renderer.renderDocument(ui->widgetEntropy,sFileName,QSizeF(300,200),85);
+    }
 }
 
 QString XEntropyWidget::getResultName()
 {
     QString sResult;
 
-    // TODO
+    sResult="Image.png";
 
     return sResult;
 }

@@ -25,6 +25,7 @@
 #include <QStandardItemModel>
 #include <QItemSelection>
 #include <QImageWriter>
+#include <QFileDialog>
 #include "dialogentropyprocess.h"
 #include "qwt_plot.h"
 #include "qwt_plot_marker.h"
