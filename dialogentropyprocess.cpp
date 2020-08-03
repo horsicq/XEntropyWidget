@@ -21,8 +21,8 @@
 #include "dialogentropyprocess.h"
 #include "ui_dialogentropyprocess.h"
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *parent, QIODevice *pDevice,EntropyProcess::DATA *pData) :
-    QDialog(parent),
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice, EntropyProcess::DATA *pData) :
+    QDialog(pParent),
     ui(new Ui::DialogEntropyProcess)
 {
     ui->setupUi(this);
