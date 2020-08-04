@@ -51,7 +51,7 @@ class XEntropyWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit XEntropyWidget(QWidget *parent=nullptr);
+    explicit XEntropyWidget(QWidget *pParent=nullptr);
     ~XEntropyWidget();
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
     void setSaveDirectory(QString sSaveDirectory);

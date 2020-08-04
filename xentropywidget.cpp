@@ -21,8 +21,8 @@
 #include "xentropywidget.h"
 #include "ui_xentropywidget.h"
 
-XEntropyWidget::XEntropyWidget(QWidget *parent) :
-    QWidget(parent),
+XEntropyWidget::XEntropyWidget(QWidget *pParent) :
+    QWidget(pParent),
     ui(new Ui::XEntropyWidget)
 {
     ui->setupUi(this);
