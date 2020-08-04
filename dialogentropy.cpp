@@ -21,8 +21,8 @@
 #include "dialogentropy.h"
 #include "ui_dialogentropy.h"
 
-DialogEntropy::DialogEntropy(QWidget *parent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
-    QDialog(parent),
+DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
+    QDialog(pParent),
     ui(new Ui::DialogEntropy)
 {
     ui->setupUi(this);
