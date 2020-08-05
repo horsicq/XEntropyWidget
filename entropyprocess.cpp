@@ -20,7 +20,7 @@
 //
 #include "entropyprocess.h"
 
-EntropyProcess::EntropyProcess(QObject *parent) : QObject(parent)
+EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
     bIsStop=false;
 }

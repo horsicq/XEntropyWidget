@@ -43,7 +43,7 @@ public:
         qint32 nMaxGraph;
     };
 
-    explicit EntropyProcess(QObject *parent=nullptr);
+    explicit EntropyProcess(QObject *pParent=nullptr);
     void setData(QIODevice *pDevice,DATA *pData);
 
 signals:
