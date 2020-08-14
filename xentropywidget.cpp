@@ -151,6 +151,7 @@ void XEntropyWidget::reload()
 
             QTableWidgetItem *itemProcent=new QTableWidgetItem;
 
+            // TODO setData
             itemProcent->setText(XBinary::doubleToString(((double)entropyData.byteCounts.nCount[i]*100)/entropyData.byteCounts.nSize,4));
             itemProcent->setTextAlignment(Qt::AlignRight);
             ui->tableWidgetBytes->setItem(i,2,itemProcent);
