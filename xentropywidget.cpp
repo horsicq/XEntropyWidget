@@ -195,7 +195,7 @@ void XEntropyWidget::updateRegions()
     {
         XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(fileType,&subDevice);
 
-        XLineEditHEX::MODE mode;
+        XLineEditHEX::MODE mode=XLineEditHEX::MODE_32;
 
         if(memoryMap.mode==XBinary::MODE_16)
         {
