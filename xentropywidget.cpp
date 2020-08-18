@@ -187,13 +187,13 @@ void XEntropyWidget::updateRegions()
 {
     XBinary binary(pDevice);
 
-    XBinary::FT ft=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    XBinary::FT fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
 
     SubDevice subDevice(pDevice,nOffset,nSize);
 
     if(subDevice.open(QIODevice::ReadOnly))
     {
-        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(ft,&subDevice);
+        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(fileType,&subDevice);
 
         XLineEditHEX::MODE mode;
 
