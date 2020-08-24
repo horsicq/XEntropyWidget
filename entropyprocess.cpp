@@ -44,7 +44,7 @@ void EntropyProcess::process()
 
     bIsStop=false;
 
-    binary.setData(this->pDevice);
+    binary.setDevice(this->pDevice);
 
     emit progressValueMinimum(0);
     emit progressValueMaximum(N_MAX_GRAPH);
