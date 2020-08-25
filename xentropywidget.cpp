@@ -137,24 +137,24 @@ void XEntropyWidget::reload()
 
         for(int i=0;i<256;i++)
         {
-            QTableWidgetItem *itemByte=new QTableWidgetItem;
+            QTableWidgetItem *pItemByte=new QTableWidgetItem;
 
-            itemByte->setText(QString("0x%1").arg(i,2,16,QChar('0')));
-            itemByte->setTextAlignment(Qt::AlignRight);
-            ui->tableWidgetBytes->setItem(i,0,itemByte);
+            pItemByte->setText(QString("0x%1").arg(i,2,16,QChar('0')));
+            pItemByte->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetBytes->setItem(i,0,pItemByte);
 
-            QTableWidgetItem *itemCount=new QTableWidgetItem;
+            QTableWidgetItem *pItemCount=new QTableWidgetItem;
 
-            itemCount->setData(Qt::DisplayRole,entropyData.byteCounts.nCount[i]);
-            itemCount->setTextAlignment(Qt::AlignRight);
-            ui->tableWidgetBytes->setItem(i,1,itemCount);
+            pItemCount->setData(Qt::DisplayRole,entropyData.byteCounts.nCount[i]);
+            pItemCount->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetBytes->setItem(i,1,pItemCount);
 
-            QTableWidgetItem *itemProcent=new QTableWidgetItem;
+            QTableWidgetItem *pItemProcent=new QTableWidgetItem;
 
             // TODO setData
-            itemProcent->setText(XBinary::doubleToString(((double)entropyData.byteCounts.nCount[i]*100)/entropyData.byteCounts.nSize,4));
-            itemProcent->setTextAlignment(Qt::AlignRight);
-            ui->tableWidgetBytes->setItem(i,2,itemProcent);
+            pItemProcent->setText(XBinary::doubleToString(((double)entropyData.byteCounts.nCount[i]*100)/entropyData.byteCounts.nSize,4));
+            pItemProcent->setTextAlignment(Qt::AlignRight);
+            ui->tableWidgetBytes->setItem(i,2,pItemProcent);
         }
 
         ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
@@ -251,36 +251,36 @@ void XEntropyWidget::updateRegions()
             {
                 double dEntropy=binary.getEntropy(nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
 
-                QTableWidgetItem *itemName=new QTableWidgetItem;
+                QTableWidgetItem *pItemName=new QTableWidgetItem;
 
-                itemName->setText(memoryMap.listRecords.at(i).sName);
-                itemName->setData(Qt::UserRole+0,memoryMap.listRecords.at(i).nOffset);
-                itemName->setData(Qt::UserRole+1,memoryMap.listRecords.at(i).nSize);
+                pItemName->setText(memoryMap.listRecords.at(i).sName);
+                pItemName->setData(Qt::UserRole+0,memoryMap.listRecords.at(i).nOffset);
+                pItemName->setData(Qt::UserRole+1,memoryMap.listRecords.at(i).nSize);
 
-                ui->tableWidgetRegions->setItem(j,0,itemName);
+                ui->tableWidgetRegions->setItem(j,0,pItemName);
 
-                QTableWidgetItem *itemOffset=new QTableWidgetItem;
+                QTableWidgetItem *pItemOffset=new QTableWidgetItem;
 
-                itemOffset->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nOffset));
-                itemOffset->setTextAlignment(Qt::AlignRight);
-                ui->tableWidgetRegions->setItem(j,1,itemOffset);
+                pItemOffset->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nOffset));
+                pItemOffset->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(j,1,pItemOffset);
 
-                QTableWidgetItem *itemSize=new QTableWidgetItem;
+                QTableWidgetItem *pItemSize=new QTableWidgetItem;
 
-                itemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
-                itemSize->setTextAlignment(Qt::AlignRight);
-                ui->tableWidgetRegions->setItem(j,2,itemSize);
+                pItemSize->setText(XLineEditHEX::getFormatString(mode,memoryMap.listRecords.at(i).nSize));
+                pItemSize->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(j,2,pItemSize);
 
-                QTableWidgetItem *itemEntropy=new QTableWidgetItem;
+                QTableWidgetItem *pItemEntropy=new QTableWidgetItem;
 
-                itemEntropy->setText(XBinary::doubleToString(dEntropy,5));
-                itemEntropy->setTextAlignment(Qt::AlignRight);
-                ui->tableWidgetRegions->setItem(j,3,itemEntropy);
+                pItemEntropy->setText(XBinary::doubleToString(dEntropy,5));
+                pItemEntropy->setTextAlignment(Qt::AlignRight);
+                ui->tableWidgetRegions->setItem(j,3,pItemEntropy);
 
-                QTableWidgetItem *itemStatus=new QTableWidgetItem;
+                QTableWidgetItem *pItemStatus=new QTableWidgetItem;
 
-                itemStatus->setText(XBinary::isPacked(dEntropy)?(tr("packed")):(tr("not packed")));
-                ui->tableWidgetRegions->setItem(j,4,itemStatus);
+                pItemStatus->setText(XBinary::isPacked(dEntropy)?(tr("packed")):(tr("not packed")));
+                ui->tableWidgetRegions->setItem(j,4,pItemStatus);
 
                 QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
                 pZone->setInterval(nOffset+memoryMap.listRecords.at(i).nOffset,nOffset+memoryMap.listRecords.at(i).nOffset+memoryMap.listRecords.at(i).nSize);
