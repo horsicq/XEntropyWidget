@@ -55,11 +55,10 @@ public:
     ~XEntropyWidget();
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
     void setSaveDirectory(QString sSaveDirectory);
-    void reload();
+    void reload(bool bGraph,bool bRegions);
 
 private slots:
     void on_pushButtonReload_clicked();
-    void updateRegions();
     void on_comboBoxType_currentIndexChanged(int nIndex);
     void on_tableWidgetRegions_itemSelectionChanged();
     void on_pushButtonSaveEntropy_clicked();

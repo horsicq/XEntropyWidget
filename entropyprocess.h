@@ -22,6 +22,7 @@
 #define ENTROPYPROCESS_H
 
 #include <QObject>
+#include "xlineedithex.h"
 #include "xformats.h"
 
 class EntropyProcess : public QObject
@@ -30,6 +31,15 @@ class EntropyProcess : public QObject
 
 public:
     static const int N_MAX_GRAPH=100;
+
+    struct MEMORY_RECORD
+    {
+        QString sName;
+        qint64 nOffset;
+        qint64 nSize;
+        double dEntropy;
+        QString sStatus;
+    };
 
     struct DATA
     {
@@ -41,10 +51,13 @@ public:
         double dOffsetEntropy[N_MAX_GRAPH+1];
         XBinary::BYTE_COUNTS byteCounts;
         qint32 nMaxGraph;
+        XBinary::FT fileType;
+        XLineEditHEX::MODE mode;
+        QList<MEMORY_RECORD> listMemoryRecords;
     };
 
     explicit EntropyProcess(QObject *pParent=nullptr);
-    void setData(QIODevice *pDevice,DATA *pData);
+    void setData(QIODevice *pDevice,DATA *pData,bool bGraph, bool bRegions);
 
 signals:
     void errorMessage(QString sText);
@@ -62,6 +75,8 @@ private:
     DATA *pData;
     bool bIsStop;
     XBinary binary;
+    bool bGraph;
+    bool bRegions;
 };
 
 #endif // ENTROPYPROCESS_H

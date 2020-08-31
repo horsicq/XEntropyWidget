@@ -21,7 +21,7 @@
 #include "dialogentropyprocess.h"
 #include "ui_dialogentropyprocess.h"
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice, EntropyProcess::DATA *pData) :
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions) :
     QDialog(pParent),
     ui(new Ui::DialogEntropyProcess)
 {
@@ -39,8 +39,10 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice,
     connect(pEntropyProcess, SIGNAL(progressValueMinimum(qint32)), this, SLOT(progressValueMinimum(qint32)));
     connect(pEntropyProcess, SIGNAL(progressValueMaximum(qint32)), this, SLOT(progressValueMaximum(qint32)));
 
-    pEntropyProcess->setData(pDevice,pData);
+    pEntropyProcess->setData(pDevice,pData,bGraph,bRegions);
     pThread->start();
+
+    bIsStop=false;
 }
 
 DialogEntropyProcess::~DialogEntropyProcess()
@@ -58,6 +60,8 @@ DialogEntropyProcess::~DialogEntropyProcess()
 
 void DialogEntropyProcess::on_pushButtonCancel_clicked()
 {
+    bIsStop=true;
+
     pEntropyProcess->stop();
 }
 
@@ -70,7 +74,14 @@ void DialogEntropyProcess::onCompleted(qint64 nElapsed)
 {
     Q_UNUSED(nElapsed)
 
-    accept();
+    if(!bIsStop)
+    {
+        accept();
+    }
+    else
+    {
+        reject();
+    }
 }
 
 void DialogEntropyProcess::progressValueChanged(qint32 nValue)
