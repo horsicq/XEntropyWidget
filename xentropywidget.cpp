@@ -79,17 +79,17 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
         {
             QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(XBinary::getFileTypes(&subDevice));
 
-            int nCount=listFileTypes.count();
+            int nNumberOfFileTypes=listFileTypes.count();
 
-            for(int i=0;i<nCount;i++)
+            for(int i=0;i<nNumberOfFileTypes;i++)
             {
                 XBinary::FT fileType=listFileTypes.at(i);
                 ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType),fileType);
             }
 
-            if(nCount)
+            if(nNumberOfFileTypes)
             {
-                ui->comboBoxType->setCurrentIndex(nCount-1);
+                ui->comboBoxType->setCurrentIndex(nNumberOfFileTypes-1);
                 entropyData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
             }
 
