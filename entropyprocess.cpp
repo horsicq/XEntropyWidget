@@ -115,9 +115,9 @@ void EntropyProcess::process()
             pData->mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
         }
 
-        int nCount=memoryMap.listRecords.count();
+        int nNumberOfRecords=memoryMap.listRecords.count();
 
-        for(int i=0,j=0;i<nCount;i++)
+        for(int i=0,j=0;i<nNumberOfRecords;i++)
         {
             bool bIsVirtual=memoryMap.listRecords.at(i).bIsVirtual;
 
