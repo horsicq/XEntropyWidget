@@ -42,9 +42,12 @@ private slots:
     void on_pushButtonCancel_clicked();
     void errorMessage(QString sText);
     void onCompleted(qint64 nElapsed);
-    void progressValueChanged(qint32 nValue);
-    void progressValueMaximum(qint32 nValue);
-    void progressValueMinimum(qint32 nValue);
+    void progressValueChangedMain(qint32 nValue);
+    void progressValueMaximumMain(qint32 nValue);
+    void progressValueMinimumMain(qint32 nValue);
+    void progressValueChangedOpt(qint32 nValue);
+    void progressValueMaximumOpt(qint32 nValue);
+    void progressValueMinimumOpt(qint32 nValue);
 
 private:
     Ui::DialogEntropyProcess *ui;

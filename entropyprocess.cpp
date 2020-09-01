@@ -23,6 +23,10 @@
 EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
     bIsStop=false;
+
+    connect(&binary,SIGNAL(entropyProgressValueChanged(qint32)),this,SIGNAL(progressValueChangedOpt(qint32)));
+    connect(&binary,SIGNAL(entropyProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimumOpt(qint32)));
+    connect(&binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximumOpt(qint32)));
 }
 
 void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions)
@@ -50,8 +54,8 @@ void EntropyProcess::process()
 
     if(bGraph)
     {
-        emit progressValueMinimum(0);
-        emit progressValueMaximum(N_MAX_GRAPH);
+        emit progressValueMinimumMain(0);
+        emit progressValueMaximumMain(N_MAX_GRAPH);
 
         pData->dTotalEntropy=binary.getEntropy(pData->nOffset,pData->nSize);
         pData->byteCounts=binary.getByteCounts(pData->nOffset,pData->nSize);
@@ -82,7 +86,7 @@ void EntropyProcess::process()
 
                 pData->dOffsetEntropy[i]=binary.getEntropy(pData->nOffset+i*nGraph,qMin(nGraph*(pData->nMaxGraph/10),pData->nSize-(i*nGraph)));
 
-                emit progressValueChanged(i);
+                emit progressValueChangedMain(i);
             }
 
             pData->dOffset[pData->nMaxGraph]=pData->nOffset+pData->nSize;

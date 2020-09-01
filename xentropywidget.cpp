@@ -242,7 +242,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 QTableWidgetItem *pItemStatus=new QTableWidgetItem;
 
                 pItemStatus->setText(entropyData.listMemoryRecords.at(i).sStatus);
-                pItemEntropy->setTextAlignment(Qt::AlignLeft);
+                pItemStatus->setTextAlignment(Qt::AlignLeft);
                 ui->tableWidgetRegions->setItem(i,4,pItemStatus);
 
                 QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
