@@ -287,18 +287,18 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 
 void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 {
-    int nCount=listZones.count();
+    int nNumberOfZones=listZones.count();
 
-    for(int i=0;i<nCount;i++)
+    for(int i=0;i<nNumberOfZones;i++)
     {
         listZones.at(i)->setVisible(false);
     }
 
     QList<QTableWidgetItem *> listItems=ui->tableWidgetRegions->selectedItems();
 
-    nCount=listItems.count();
+    int nNumberOfItems=listItems.count();
 
-    for(int i=0;i<nCount;i++)
+    for(int i=0;i<nNumberOfItems;i++)
     {
         if(listItems.at(i)->column()==0)
         {
@@ -315,13 +315,13 @@ void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
 
     QStringList listFilter;
 
-    int nCount=listImageFormats.count();
+    int nNumberOfImageFormats=listImageFormats.count();
 
-    if(nCount)
+    if(nNumberOfImageFormats)
     {
         QString sImageFilter=tr("Images")+" (";
 
-        for(int i=0;i<nCount;i++)
+        for(int i=0;i<nNumberOfImageFormats;i++)
         {
             if(i>0)
             {
