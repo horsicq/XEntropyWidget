@@ -294,15 +294,15 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
         listZones.at(i)->setVisible(false);
     }
 
-    QList<QTableWidgetItem *> listItems=ui->tableWidgetRegions->selectedItems();
+    QList<QTableWidgetItem *> listSelectedItems=ui->tableWidgetRegions->selectedItems();
 
-    int nNumberOfItems=listItems.count();
+    int nNumberOfItems=listSelectedItems.count();
 
     for(int i=0;i<nNumberOfItems;i++)
     {
-        if(listItems.at(i)->column()==0)
+        if(listSelectedItems.at(i)->column()==0)
         {
-            listZones.at(listItems.at(i)->row())->setVisible(true);
+            listZones.at(listSelectedItems.at(i)->row())->setVisible(true);
         }
     }
 
