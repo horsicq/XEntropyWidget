@@ -21,6 +21,15 @@
 #include "xentropywidget.h"
 #include "ui_xentropywidget.h"
 
+class XProcentWidgetItem : public QTableWidgetItem
+{
+public:
+    bool operator <(const QTableWidgetItem &other) const
+    {
+        return text().toDouble()<other.text().toDouble();
+    }
+};
+
 XEntropyWidget::XEntropyWidget(QWidget *pParent) :
     QWidget(pParent),
     ui(new Ui::XEntropyWidget)
@@ -152,10 +161,10 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 pItemCount->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetBytes->setItem(i,1,pItemCount);
 
-                QTableWidgetItem *pItemProcent=new QTableWidgetItem;
+                XProcentWidgetItem *pItemProcent=new XProcentWidgetItem;
 
-                // TODO setData
                 pItemProcent->setText(XBinary::doubleToString(((double)entropyData.byteCounts.nCount[i]*100)/entropyData.byteCounts.nSize,4));
+
                 pItemProcent->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetBytes->setItem(i,2,pItemProcent);
             }
