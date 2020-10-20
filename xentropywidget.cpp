@@ -86,7 +86,7 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
 
         if(subDevice.open(QIODevice::ReadOnly))
         {
-            QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(XBinary::getFileTypes(&subDevice));
+            QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(XBinary::getFileTypes(&subDevice,true));
 
             int nNumberOfFileTypes=listFileTypes.count();
 
