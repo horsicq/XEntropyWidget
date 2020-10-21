@@ -57,7 +57,7 @@ public:
     };
 
     explicit EntropyProcess(QObject *pParent=nullptr);
-    void setData(QIODevice *pDevice,DATA *pData,bool bGraph, bool bRegions);
+    void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions);
 
 signals:
     void errorMessage(QString sText);

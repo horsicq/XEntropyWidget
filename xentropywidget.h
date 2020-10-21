@@ -53,7 +53,7 @@ class XEntropyWidget : public QWidget
 public:
     explicit XEntropyWidget(QWidget *pParent=nullptr);
     ~XEntropyWidget();
-    void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, bool bAuto=false);
+    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto=false);
     void setSaveDirectory(QString sSaveDirectory);
     void reload(bool bGraph,bool bRegions);
 
