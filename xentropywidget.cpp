@@ -36,6 +36,8 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
 {
     ui->setupUi(this);
 
+    this->pParent=pParent;
+
     entropyData={};
 
     QPen penRed(Qt::red);
@@ -62,11 +64,12 @@ XEntropyWidget::~XEntropyWidget()
     delete ui;
 }
 
-void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto)
+void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto,QWidget *pParent)
 {
     this->pDevice=pDevice;
     this->nOffset=nOffset;
     this->nSize=nSize;
+    this->pParent=pParent;
 
     if(this->nSize==-1)
     {
@@ -116,7 +119,7 @@ void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
 
 void XEntropyWidget::reload(bool bGraph, bool bRegions)
 {
-    DialogEntropyProcess dep(this,pDevice,&entropyData,bGraph,bRegions);
+    DialogEntropyProcess dep(pParent,pDevice,&entropyData,bGraph,bRegions);
 
     if(dep.exec()==QDialog::Accepted)
     {

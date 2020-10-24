@@ -53,7 +53,7 @@ class XEntropyWidget : public QWidget
 public:
     explicit XEntropyWidget(QWidget *pParent=nullptr);
     ~XEntropyWidget();
-    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto=false);
+    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto=false,QWidget *pParent=nullptr);
     void setSaveDirectory(QString sSaveDirectory);
     void reload(bool bGraph,bool bRegions);
 
@@ -67,6 +67,7 @@ private slots:
 private:
     Ui::XEntropyWidget *ui;
     QIODevice *pDevice;
+    QWidget *pParent;
     qint64 nOffset;
     qint64 nSize;
     EntropyProcess::DATA entropyData;
