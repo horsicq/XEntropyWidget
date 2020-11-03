@@ -132,7 +132,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
             ui->lineEditOffset->setValue32_64(entropyData.nOffset);
             ui->lineEditSize->setValue32_64(entropyData.nSize);
-            ui->labelStatus->setText(entropyData.sStatus);
+            ui->lineEditStatus->setText(entropyData.sStatus);
 
             pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph+1);
             ui->widgetEntropy->replot();
