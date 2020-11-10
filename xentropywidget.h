@@ -66,8 +66,8 @@ private slots:
 
 private:
     Ui::XEntropyWidget *ui;
-    QIODevice *pDevice;
-    QWidget *pParent;
+    QIODevice *g_pDevice;
+    QWidget *g_pParent;
     qint64 nOffset;
     qint64 nSize;
     EntropyProcess::DATA entropyData;
