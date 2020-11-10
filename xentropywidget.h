@@ -68,8 +68,8 @@ private:
     Ui::XEntropyWidget *ui;
     QIODevice *g_pDevice;
     QWidget *g_pParent;
-    qint64 nOffset;
-    qint64 nSize;
+    qint64 g_nOffset;
+    qint64 g_nSize;
     EntropyProcess::DATA entropyData;
     QwtPlotCurve *pCurve;
     QwtPlotHistogram *pHistogram;

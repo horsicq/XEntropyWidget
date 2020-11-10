@@ -67,17 +67,17 @@ XEntropyWidget::~XEntropyWidget()
 void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto,QWidget *pParent)
 {
     this->g_pDevice=pDevice;
-    this->nOffset=nOffset;
-    this->nSize=nSize;
+    this->g_nOffset=nOffset;
+    this->g_nSize=nSize;
     this->g_pParent=pParent;
 
-    if(this->nSize==-1)
+    if(this->g_nSize==-1)
     {
-        this->nSize=(pDevice->size())-(this->nOffset);
+        this->g_nSize=(pDevice->size())-(this->g_nOffset);
     }
 
-    entropyData.nOffset=this->nOffset;
-    entropyData.nSize=this->nSize;
+    entropyData.nOffset=this->g_nOffset;
+    entropyData.nSize=this->g_nSize;
 
     if(bAuto)
     {
@@ -258,7 +258,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 ui->tableWidgetRegions->setItem(i,4,pItemStatus);
 
                 QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
-                pZone->setInterval(nOffset+entropyData.listMemoryRecords.at(i).nOffset,nOffset+entropyData.listMemoryRecords.at(i).nOffset+entropyData.listMemoryRecords.at(i).nSize);
+                pZone->setInterval(g_nOffset+entropyData.listMemoryRecords.at(i).nOffset,g_nOffset+entropyData.listMemoryRecords.at(i).nOffset+entropyData.listMemoryRecords.at(i).nSize);
                 pZone->setVisible(false);
                 QColor color=Qt::darkBlue;
                 color.setAlpha(100);
