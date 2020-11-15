@@ -27,45 +27,45 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice,
 {
     ui->setupUi(this);
 
-    pEntropyProcess=new EntropyProcess;
-    pThread=new QThread;
+    g_pEntropyProcess=new EntropyProcess;
+    g_pThread=new QThread;
 
-    pEntropyProcess->moveToThread(pThread);
+    g_pEntropyProcess->moveToThread(g_pThread);
 
-    connect(pThread, SIGNAL(started()), pEntropyProcess, SLOT(process()));
-    connect(pEntropyProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
-    connect(pEntropyProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
-    connect(pEntropyProcess, SIGNAL(progressValueChangedMain(qint32)), this, SLOT(progressValueChangedMain(qint32)));
-    connect(pEntropyProcess, SIGNAL(progressValueMinimumMain(qint32)), this, SLOT(progressValueMinimumMain(qint32)));
-    connect(pEntropyProcess, SIGNAL(progressValueMaximumMain(qint32)), this, SLOT(progressValueMaximumMain(qint32)));
-    connect(pEntropyProcess, SIGNAL(progressValueChangedOpt(qint32)), this, SLOT(progressValueChangedOpt(qint32)));
-    connect(pEntropyProcess, SIGNAL(progressValueMinimumOpt(qint32)), this, SLOT(progressValueMinimumOpt(qint32)));
-    connect(pEntropyProcess, SIGNAL(progressValueMaximumOpt(qint32)), this, SLOT(progressValueMaximumOpt(qint32)));
+    connect(g_pThread, SIGNAL(started()), g_pEntropyProcess, SLOT(process()));
+    connect(g_pEntropyProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
+    connect(g_pEntropyProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
+    connect(g_pEntropyProcess, SIGNAL(progressValueChangedMain(qint32)), this, SLOT(progressValueChangedMain(qint32)));
+    connect(g_pEntropyProcess, SIGNAL(progressValueMinimumMain(qint32)), this, SLOT(progressValueMinimumMain(qint32)));
+    connect(g_pEntropyProcess, SIGNAL(progressValueMaximumMain(qint32)), this, SLOT(progressValueMaximumMain(qint32)));
+    connect(g_pEntropyProcess, SIGNAL(progressValueChangedOpt(qint32)), this, SLOT(progressValueChangedOpt(qint32)));
+    connect(g_pEntropyProcess, SIGNAL(progressValueMinimumOpt(qint32)), this, SLOT(progressValueMinimumOpt(qint32)));
+    connect(g_pEntropyProcess, SIGNAL(progressValueMaximumOpt(qint32)), this, SLOT(progressValueMaximumOpt(qint32)));
 
-    pEntropyProcess->setData(pDevice,pData,bGraph,bRegions);
-    pThread->start();
+    g_pEntropyProcess->setData(pDevice,pData,bGraph,bRegions);
+    g_pThread->start();
 
-    bIsStop=false;
+    g_bIsStop=false;
 }
 
 DialogEntropyProcess::~DialogEntropyProcess()
 {
-    pEntropyProcess->stop();
+    g_pEntropyProcess->stop();
 
-    pThread->quit();
-    pThread->wait();
+    g_pThread->quit();
+    g_pThread->wait();
 
     delete ui;
 
-    delete pThread;
-    delete pEntropyProcess;
+    delete g_pThread;
+    delete g_pEntropyProcess;
 }
 
 void DialogEntropyProcess::on_pushButtonCancel_clicked()
 {
-    bIsStop=true;
+    g_bIsStop=true;
 
-    pEntropyProcess->stop();
+    g_pEntropyProcess->stop();
 }
 
 void DialogEntropyProcess::errorMessage(QString sText)
@@ -77,7 +77,7 @@ void DialogEntropyProcess::onCompleted(qint64 nElapsed)
 {
     Q_UNUSED(nElapsed)
 
-    if(!bIsStop)
+    if(!g_bIsStop)
     {
         accept();
     }

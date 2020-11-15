@@ -51,9 +51,9 @@ private slots:
 
 private:
     Ui::DialogEntropyProcess *ui;
-    EntropyProcess *pEntropyProcess;
-    QThread *pThread;
-    bool bIsStop;
+    EntropyProcess *g_pEntropyProcess;
+    QThread *g_pThread;
+    bool g_bIsStop;
 };
 
 #endif // DIALOGENTROPYPROCESS_H
