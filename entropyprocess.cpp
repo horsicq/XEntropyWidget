@@ -22,25 +22,25 @@
 
 EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
-    bIsStop=false;
+    g_bIsStop=false;
 
-    connect(&binary,SIGNAL(entropyProgressValueChanged(qint32)),this,SIGNAL(progressValueChangedOpt(qint32)));
-    connect(&binary,SIGNAL(entropyProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimumOpt(qint32)));
-    connect(&binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximumOpt(qint32)));
+    connect(&g_binary,SIGNAL(entropyProgressValueChanged(qint32)),this,SIGNAL(progressValueChangedOpt(qint32)));
+    connect(&g_binary,SIGNAL(entropyProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimumOpt(qint32)));
+    connect(&g_binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximumOpt(qint32)));
 }
 
 void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions)
 {
-    this->pDevice=pDevice;
-    this->pData=pData;
-    this->bGraph=bGraph;
-    this->bRegions=bRegions;
+    this->g_pDevice=pDevice;
+    this->g_pData=pData;
+    this->g_bGraph=bGraph;
+    this->g_bRegions=bRegions;
 }
 
 void EntropyProcess::stop()
 {
-    binary.setEntropyProcessEnable(false);
-    bIsStop=true;
+    g_binary.setEntropyProcessEnable(false);
+    g_bIsStop=true;
 }
 
 void EntropyProcess::process()
@@ -48,30 +48,30 @@ void EntropyProcess::process()
     QElapsedTimer scanTimer;
     scanTimer.start();
 
-    bIsStop=false;
+    g_bIsStop=false;
 
-    binary.setDevice(this->pDevice);
+    g_binary.setDevice(this->g_pDevice);
 
-    if(bGraph)
+    if(g_bGraph)
     {
         emit progressValueMinimumMain(0);
         emit progressValueMaximumMain(N_MAX_GRAPH);
 
-        pData->dTotalEntropy=binary.getEntropy(pData->nOffset,pData->nSize);
-        pData->byteCounts=binary.getByteCounts(pData->nOffset,pData->nSize);
+        g_pData->dTotalEntropy=g_binary.getEntropy(g_pData->nOffset,g_pData->nSize);
+        g_pData->byteCounts=g_binary.getByteCounts(g_pData->nOffset,g_pData->nSize);
 
-        if(XBinary::isPacked(pData->dTotalEntropy))
+        if(XBinary::isPacked(g_pData->dTotalEntropy))
         {
-            pData->sStatus=tr("packed");
+            g_pData->sStatus=tr("packed");
         }
         else
         {
-            pData->sStatus=tr("not packed");
+            g_pData->sStatus=tr("not packed");
         }
 
-        pData->nMaxGraph=N_MAX_GRAPH;
+        g_pData->nMaxGraph=N_MAX_GRAPH;
 
-        qint64 nGraph=(pData->nSize)/pData->nMaxGraph;
+        qint64 nGraph=(g_pData->nSize)/g_pData->nMaxGraph;
 
         if(nGraph)
         {
@@ -80,43 +80,43 @@ void EntropyProcess::process()
     //            pData->dOffset[i]=pData->nOffset+i*nGraph;
     //            pData->dOffsetEntropy[i]=pData->dTotalEntropy;
     //        }
-            for(int i=0;(i<pData->nMaxGraph)&&(!bIsStop);i++)
+            for(int i=0;(i<g_pData->nMaxGraph)&&(!g_bIsStop);i++)
             {
-                pData->dOffset[i]=pData->nOffset+i*nGraph;
+                g_pData->dOffset[i]=g_pData->nOffset+i*nGraph;
 
-                pData->dOffsetEntropy[i]=binary.getEntropy(pData->nOffset+i*nGraph,qMin(nGraph*(pData->nMaxGraph/10),pData->nSize-(i*nGraph)));
+                g_pData->dOffsetEntropy[i]=g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_pData->nMaxGraph/10),g_pData->nSize-(i*nGraph)));
 
                 emit progressValueChangedMain(i);
             }
 
-            pData->dOffset[pData->nMaxGraph]=pData->nOffset+pData->nSize;
-            pData->dOffsetEntropy[pData->nMaxGraph]=pData->dOffsetEntropy[pData->nMaxGraph-1];
+            g_pData->dOffset[g_pData->nMaxGraph]=g_pData->nOffset+g_pData->nSize;
+            g_pData->dOffsetEntropy[g_pData->nMaxGraph]=g_pData->dOffsetEntropy[g_pData->nMaxGraph-1];
         }
     }
 
-    if(bRegions)
+    if(g_bRegions)
     {
-        pData->listMemoryRecords.clear();
+        g_pData->listMemoryRecords.clear();
 
-        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(pData->fileType,this->pDevice);
+        XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(g_pData->fileType,this->g_pDevice);
 
-        pData->mode=XLineEditHEX::MODE_32;
+        g_pData->mode=XLineEditHEX::MODE_32;
 
         if(memoryMap.mode==XBinary::MODE_16)
         {
-            pData->mode=XLineEditHEX::MODE_16;
+            g_pData->mode=XLineEditHEX::MODE_16;
         }
         else if((memoryMap.mode==XBinary::MODE_16SEG)||(memoryMap.mode==XBinary::MODE_32))
         {
-            pData->mode=XLineEditHEX::MODE_32;
+            g_pData->mode=XLineEditHEX::MODE_32;
         }
         else if(memoryMap.mode==XBinary::MODE_64)
         {
-            pData->mode=XLineEditHEX::MODE_64;
+            g_pData->mode=XLineEditHEX::MODE_64;
         }
         else if(memoryMap.mode==XBinary::MODE_UNKNOWN)
         {
-            pData->mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
+            g_pData->mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
         }
 
         int nNumberOfRecords=memoryMap.listRecords.count();
@@ -129,13 +129,13 @@ void EntropyProcess::process()
             {
                 MEMORY_RECORD memoryRecord={};
 
-                if((memoryMap.listRecords.at(i).nOffset==0)&&(memoryMap.listRecords.at(i).nSize==pData->nSize))
+                if((memoryMap.listRecords.at(i).nOffset==0)&&(memoryMap.listRecords.at(i).nSize==g_pData->nSize))
                 {
-                    memoryRecord.dEntropy=pData->dTotalEntropy;
+                    memoryRecord.dEntropy=g_pData->dTotalEntropy;
                 }
                 else
                 {
-                    memoryRecord.dEntropy=binary.getEntropy(pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
+                    memoryRecord.dEntropy=g_binary.getEntropy(g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
                 }
 
                 memoryRecord.sName=memoryMap.listRecords.at(i).sName;
@@ -143,14 +143,14 @@ void EntropyProcess::process()
                 memoryRecord.nSize=memoryMap.listRecords.at(i).nSize;
                 memoryRecord.sStatus=XBinary::isPacked(memoryRecord.dEntropy)?(tr("packed")):(tr("not packed"));
 
-                pData->listMemoryRecords.append(memoryRecord);
+                g_pData->listMemoryRecords.append(memoryRecord);
 
                 j++;
             }
         }
     }
 
-    bIsStop=false;
+    g_bIsStop=false;
 
     emit completed(scanTimer.elapsed());
 }

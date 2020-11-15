@@ -74,12 +74,12 @@ public slots:
     void process();
 
 private:
-    QIODevice *pDevice;
-    DATA *pData;
-    bool bIsStop;
-    XBinary binary;
-    bool bGraph;
-    bool bRegions;
+    QIODevice *g_pDevice;
+    DATA *g_pData;
+    bool g_bIsStop;
+    XBinary g_binary;
+    bool g_bGraph;
+    bool g_bRegions;
 };
 
 #endif // ENTROPYPROCESS_H
