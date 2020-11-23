@@ -48,10 +48,10 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
 //    ui->widgetEntropy->setAutoReplot();
 
     QPen penBlue(Qt::blue);
-    pHistogram=new QwtPlotHistogram;
-    pHistogram->setPen(penBlue);
+    g_pHistogram=new QwtPlotHistogram;
+    g_pHistogram->setPen(penBlue);
 
-    pHistogram->attach(ui->widgetBytes);
+    g_pHistogram->attach(ui->widgetBytes);
 
     ui->widgetBytes->setAxisScale(2,0,256,32);
     ui->widgetBytes->updateAxes();
@@ -114,7 +114,7 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
 
 void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
 {
-    this->sSaveDirectory=sSaveDirectory;
+    this->g_sSaveDirectory=sSaveDirectory;
 }
 
 void XEntropyWidget::reload(bool bGraph, bool bRegions)
@@ -188,22 +188,22 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 samples[i]=QwtIntervalSample(g_entropyData.byteCounts.nCount[i],interval);
             }
 
-            pHistogram->setSamples(samples);
+            g_pHistogram->setSamples(samples);
             ui->widgetBytes->replot();
         }
 
         if(bRegions)
         {
-            int nNumberOfZones=listZones.count();
+            int nNumberOfZones=g_listZones.count();
 
             for(int i=0;i<nNumberOfZones;i++)
             {
-                listZones.at(i)->setVisible(false);
+                g_listZones.at(i)->setVisible(false);
             }
 
             ui->widgetEntropy->replot();
 
-            listZones.clear();
+            g_listZones.clear();
 
             ui->tableWidgetRegions->clear();
 
@@ -266,7 +266,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 color.setAlpha(20);
                 pZone->setBrush(color);
                 pZone->attach(ui->widgetEntropy);
-                listZones.append(pZone);
+                g_listZones.append(pZone);
             }
 
             ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
@@ -299,11 +299,11 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 
 void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 {
-    int nNumberOfZones=listZones.count();
+    int nNumberOfZones=g_listZones.count();
 
     for(int i=0;i<nNumberOfZones;i++)
     {
-        listZones.at(i)->setVisible(false);
+        g_listZones.at(i)->setVisible(false);
     }
 
     QList<QTableWidgetItem *> listSelectedItems=ui->tableWidgetRegions->selectedItems();
@@ -314,7 +314,7 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
     {
         if(listSelectedItems.at(i)->column()==0)
         {
-            listZones.at(listSelectedItems.at(i)->row())->setVisible(true);
+            g_listZones.at(listSelectedItems.at(i)->row())->setVisible(true);
         }
     }
 

@@ -72,9 +72,9 @@ private:
     qint64 g_nSize;
     EntropyProcess::DATA g_entropyData;
     QwtPlotCurve *g_pCurve;
-    QwtPlotHistogram *pHistogram;
-    QList<QwtPlotZoneItem *> listZones;
-    QString sSaveDirectory;
+    QwtPlotHistogram *g_pHistogram;
+    QList<QwtPlotZoneItem *> g_listZones;
+    QString g_sSaveDirectory;
 };
 
 #endif // XENTROPYWIDGET_H
