@@ -70,8 +70,8 @@ private:
     QWidget *g_pParent;
     qint64 g_nOffset;
     qint64 g_nSize;
-    EntropyProcess::DATA entropyData;
-    QwtPlotCurve *pCurve;
+    EntropyProcess::DATA g_entropyData;
+    QwtPlotCurve *g_pCurve;
     QwtPlotHistogram *pHistogram;
     QList<QwtPlotZoneItem *> listZones;
     QString sSaveDirectory;

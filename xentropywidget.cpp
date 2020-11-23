@@ -38,12 +38,12 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
 
     this->g_pParent=pParent;
 
-    entropyData={};
+    g_entropyData={};
 
     QPen penRed(Qt::red);
-    pCurve=new QwtPlotCurve;
-    pCurve->setPen(penRed);
-    pCurve->attach(ui->widgetEntropy);
+    g_pCurve=new QwtPlotCurve;
+    g_pCurve->setPen(penRed);
+    g_pCurve->attach(ui->widgetEntropy);
     ui->widgetEntropy->setAxisScale(0,0,8); // Fix
 //    ui->widgetEntropy->setAutoReplot();
 
@@ -76,8 +76,8 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
         this->g_nSize=(pDevice->size())-(this->g_nOffset);
     }
 
-    entropyData.nOffset=this->g_nOffset;
-    entropyData.nSize=this->g_nSize;
+    g_entropyData.nOffset=this->g_nOffset;
+    g_entropyData.nSize=this->g_nSize;
 
     if(bAuto)
     {
@@ -102,7 +102,7 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
             if(nNumberOfFileTypes)
             {
                 ui->comboBoxType->setCurrentIndex(nNumberOfFileTypes-1);
-                entropyData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
+                g_entropyData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
             }
 
             subDevice.close();
@@ -119,22 +119,22 @@ void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
 
 void XEntropyWidget::reload(bool bGraph, bool bRegions)
 {
-    DialogEntropyProcess dep(g_pParent,g_pDevice,&entropyData,bGraph,bRegions);
+    DialogEntropyProcess dep(g_pParent,g_pDevice,&g_entropyData,bGraph,bRegions);
 
     if(dep.exec()==QDialog::Accepted)
     {
         if(bGraph)
         {
-            ui->lineEditTotalEntropy->setText(XBinary::doubleToString(entropyData.dTotalEntropy,5));
+            ui->lineEditTotalEntropy->setText(XBinary::doubleToString(g_entropyData.dTotalEntropy,5));
 
             ui->progressBarTotalEntropy->setMaximum(8*100);
-            ui->progressBarTotalEntropy->setValue(entropyData.dTotalEntropy*100);
+            ui->progressBarTotalEntropy->setValue(g_entropyData.dTotalEntropy*100);
 
-            ui->lineEditOffset->setValue32_64(entropyData.nOffset);
-            ui->lineEditSize->setValue32_64(entropyData.nSize);
-            ui->lineEditStatus->setText(entropyData.sStatus);
+            ui->lineEditOffset->setValue32_64(g_entropyData.nOffset);
+            ui->lineEditSize->setValue32_64(g_entropyData.nSize);
+            ui->lineEditStatus->setText(g_entropyData.sStatus);
 
-            pCurve->setSamples(entropyData.dOffset,entropyData.dOffsetEntropy,entropyData.nMaxGraph+1);
+            g_pCurve->setSamples(g_entropyData.dOffset,g_entropyData.dOffsetEntropy,g_entropyData.nMaxGraph+1);
             ui->widgetEntropy->replot();
 
             ui->tableWidgetBytes->clear();
@@ -160,13 +160,13 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                 QTableWidgetItem *pItemCount=new QTableWidgetItem;
 
-                pItemCount->setData(Qt::DisplayRole,entropyData.byteCounts.nCount[i]);
+                pItemCount->setData(Qt::DisplayRole,g_entropyData.byteCounts.nCount[i]);
                 pItemCount->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetBytes->setItem(i,1,pItemCount);
 
                 XProcentWidgetItem *pItemProcent=new XProcentWidgetItem;
 
-                pItemProcent->setText(XBinary::doubleToString(((double)entropyData.byteCounts.nCount[i]*100)/entropyData.byteCounts.nSize,4));
+                pItemProcent->setText(XBinary::doubleToString(((double)g_entropyData.byteCounts.nCount[i]*100)/g_entropyData.byteCounts.nSize,4));
 
                 pItemProcent->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetBytes->setItem(i,2,pItemProcent);
@@ -185,7 +185,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 QwtInterval interval(double(i),i+1.0);
                 interval.setBorderFlags(QwtInterval::ExcludeMaximum);
 
-                samples[i]=QwtIntervalSample(entropyData.byteCounts.nCount[i],interval);
+                samples[i]=QwtIntervalSample(g_entropyData.byteCounts.nCount[i],interval);
             }
 
             pHistogram->setSamples(samples);
@@ -207,7 +207,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
             ui->tableWidgetRegions->clear();
 
-            int nNumberOfMemoryRecords=entropyData.listMemoryRecords.count();
+            int nNumberOfMemoryRecords=g_entropyData.listMemoryRecords.count();
 
             ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
             ui->tableWidgetRegions->setColumnCount(5);
@@ -226,39 +226,39 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
             {
                 QTableWidgetItem *pItemName=new QTableWidgetItem;
 
-                pItemName->setText(entropyData.listMemoryRecords.at(i).sName);
+                pItemName->setText(g_entropyData.listMemoryRecords.at(i).sName);
                 pItemName->setTextAlignment(Qt::AlignLeft);
-                pItemName->setData(Qt::UserRole+0,entropyData.listMemoryRecords.at(i).nOffset);
-                pItemName->setData(Qt::UserRole+1,entropyData.listMemoryRecords.at(i).nSize);
+                pItemName->setData(Qt::UserRole+0,g_entropyData.listMemoryRecords.at(i).nOffset);
+                pItemName->setData(Qt::UserRole+1,g_entropyData.listMemoryRecords.at(i).nSize);
 
                 ui->tableWidgetRegions->setItem(i,0,pItemName);
 
                 QTableWidgetItem *pItemOffset=new QTableWidgetItem;
 
-                pItemOffset->setText(XLineEditHEX::getFormatString(entropyData.mode,entropyData.listMemoryRecords.at(i).nOffset));
+                pItemOffset->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nOffset));
                 pItemOffset->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetRegions->setItem(i,1,pItemOffset);
 
                 QTableWidgetItem *pItemSize=new QTableWidgetItem;
 
-                pItemSize->setText(XLineEditHEX::getFormatString(entropyData.mode,entropyData.listMemoryRecords.at(i).nSize));
+                pItemSize->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nSize));
                 pItemSize->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetRegions->setItem(i,2,pItemSize);
 
                 QTableWidgetItem *pItemEntropy=new QTableWidgetItem;
 
-                pItemEntropy->setText(XBinary::doubleToString(entropyData.listMemoryRecords.at(i).dEntropy,5));
+                pItemEntropy->setText(XBinary::doubleToString(g_entropyData.listMemoryRecords.at(i).dEntropy,5));
                 pItemEntropy->setTextAlignment(Qt::AlignRight);
                 ui->tableWidgetRegions->setItem(i,3,pItemEntropy);
 
                 QTableWidgetItem *pItemStatus=new QTableWidgetItem;
 
-                pItemStatus->setText(entropyData.listMemoryRecords.at(i).sStatus);
+                pItemStatus->setText(g_entropyData.listMemoryRecords.at(i).sStatus);
                 pItemStatus->setTextAlignment(Qt::AlignLeft);
                 ui->tableWidgetRegions->setItem(i,4,pItemStatus);
 
                 QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
-                pZone->setInterval(g_nOffset+entropyData.listMemoryRecords.at(i).nOffset,g_nOffset+entropyData.listMemoryRecords.at(i).nOffset+entropyData.listMemoryRecords.at(i).nSize);
+                pZone->setInterval(g_nOffset+g_entropyData.listMemoryRecords.at(i).nOffset,g_nOffset+g_entropyData.listMemoryRecords.at(i).nOffset+g_entropyData.listMemoryRecords.at(i).nSize);
                 pZone->setVisible(false);
                 QColor color=Qt::darkBlue;
                 color.setAlpha(100);
@@ -275,7 +275,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
             ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
             ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Interactive);
 
-            qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,entropyData.mode);
+            qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,g_entropyData.mode);
 
             ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
             ui->tableWidgetRegions->setColumnWidth(2,nColumnSize);
@@ -292,7 +292,7 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 {
     Q_UNUSED(nIndex)
 
-    entropyData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    g_entropyData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
 
     reload(false,true);
 }
