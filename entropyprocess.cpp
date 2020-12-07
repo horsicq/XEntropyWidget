@@ -37,6 +37,125 @@ void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool 
     this->g_bRegions=bRegions;
 }
 
+EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
+{
+    EntropyProcess::DATA result={};
+
+    result.nSize=-1;
+    result.fileType=XBinary::getPrefFileType(pDevice);
+
+    EntropyProcess entropyProcess;
+    entropyProcess.setData(pDevice,&result,false,true);
+    entropyProcess.process();
+
+    return result;
+}
+
+EntropyProcess::DATA EntropyProcess::processRegionsFile(QString sFileName)
+{
+    EntropyProcess::DATA result={};
+
+    QFile file;
+
+    file.setFileName(sFileName);
+
+    if(file.open(QIODevice::ReadOnly))
+    {
+        result=processRegionsDevice(&file);
+
+        file.close();
+    }
+
+    return result;
+}
+
+QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData)
+{
+    QString sResult;
+
+    sResult+=QString("Total %1: %2\n").arg(pData->dTotalEntropy).arg(pData->sStatus);
+
+    int nNumberOfRecords=pData->listMemoryRecords.count();
+
+    for(int i=0;i<nNumberOfRecords;i++)
+    {
+        sResult+=QString("  %1|%2|%3|%4|%5: %6\n")
+                .arg(i)
+                .arg(pData->listMemoryRecords.at(i).sName)
+                .arg(pData->listMemoryRecords.at(i).nOffset)
+                .arg(pData->listMemoryRecords.at(i).nSize)
+                .arg(pData->listMemoryRecords.at(i).dEntropy)
+                .arg(pData->listMemoryRecords.at(i).sStatus);
+    }
+
+    return sResult;
+}
+
+QString EntropyProcess::dataToJsonString(EntropyProcess::DATA *pData)
+{
+    QString sResult;
+
+    QJsonObject jsonResult;
+
+    jsonResult.insert("total",pData->dTotalEntropy);
+    jsonResult.insert("status",pData->sStatus);
+
+    QJsonArray jsArray;
+
+    int nNumberOfRecords=pData->listMemoryRecords.count();
+
+    for(int i=0; i<nNumberOfRecords; i++)
+    {
+        QJsonObject jsRecord;
+
+        jsRecord.insert("name",pData->listMemoryRecords.at(i).sName);
+        jsRecord.insert("offset",pData->listMemoryRecords.at(i).nOffset);
+        jsRecord.insert("size",pData->listMemoryRecords.at(i).nSize);
+        jsRecord.insert("entropy",pData->listMemoryRecords.at(i).dEntropy);
+        jsRecord.insert("status",pData->listMemoryRecords.at(i).sStatus);
+
+        jsArray.append(jsRecord);
+    }
+
+    jsonResult.insert("records",jsArray);
+
+    QJsonDocument saveFormat(jsonResult);
+
+    sResult=saveFormat.toJson(QJsonDocument::Indented).data();
+
+    return sResult;
+}
+
+QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData)
+{
+    QString sResult;
+
+    QXmlStreamWriter xml(&sResult);
+
+    xml.setAutoFormatting(true);
+
+    xml.writeStartElement("fileentropy");
+    xml.writeAttribute("total",QString::number(pData->dTotalEntropy,'g',16));
+    xml.writeAttribute("status",pData->sStatus);
+
+    int nNumberOfRecords=pData->listMemoryRecords.count();
+
+    for(int i=0; i<nNumberOfRecords; i++)
+    {
+        xml.writeStartElement("record");
+        xml.writeAttribute("name",pData->listMemoryRecords.at(i).sName);
+        xml.writeAttribute("offset",QString::number(pData->listMemoryRecords.at(i).nOffset));
+        xml.writeAttribute("size",QString::number(pData->listMemoryRecords.at(i).nSize));
+        xml.writeAttribute("entropy",QString::number(pData->listMemoryRecords.at(i).dEntropy,'g',16));
+        xml.writeAttribute("status",pData->listMemoryRecords.at(i).sStatus);
+        xml.writeEndElement();
+    }
+
+    xml.writeEndElement();
+
+    return sResult;
+}
+
 void EntropyProcess::stop()
 {
     g_binary.setEntropyProcessEnable(false);
@@ -52,23 +171,23 @@ void EntropyProcess::process()
 
     g_binary.setDevice(this->g_pDevice);
 
+    g_pData->dTotalEntropy=g_binary.getEntropy(g_pData->nOffset,g_pData->nSize);
+
+    if(XBinary::isPacked(g_pData->dTotalEntropy))
+    {
+        g_pData->sStatus=tr("packed");
+    }
+    else
+    {
+        g_pData->sStatus=tr("not packed");
+    }
+
     if(g_bGraph)
     {
         emit progressValueMinimumMain(0);
         emit progressValueMaximumMain(N_MAX_GRAPH);
 
-        g_pData->dTotalEntropy=g_binary.getEntropy(g_pData->nOffset,g_pData->nSize);
         g_pData->byteCounts=g_binary.getByteCounts(g_pData->nOffset,g_pData->nSize);
-
-        if(XBinary::isPacked(g_pData->dTotalEntropy))
-        {
-            g_pData->sStatus=tr("packed");
-        }
-        else
-        {
-            g_pData->sStatus=tr("not packed");
-        }
-
         g_pData->nMaxGraph=N_MAX_GRAPH;
 
         qint64 nGraph=(g_pData->nSize)/g_pData->nMaxGraph;
@@ -100,6 +219,7 @@ void EntropyProcess::process()
 
         XBinary::_MEMORY_MAP memoryMap=XFormats::getMemoryMap(g_pData->fileType,this->g_pDevice);
 
+     #ifdef QT_GUI_LIB
         g_pData->mode=XLineEditHEX::MODE_32;
 
         if(memoryMap.mode==XBinary::MODE_16)
@@ -118,6 +238,7 @@ void EntropyProcess::process()
         {
             g_pData->mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
         }
+    #endif
 
         int nNumberOfRecords=memoryMap.listRecords.count();
 

@@ -6,13 +6,11 @@ DEPENDPATH += $$PWD
 HEADERS += \
     $$PWD/dialogentropyprocess.h \
     $$PWD/xentropywidget.h \
-    $$PWD/entropyprocess.h \
     $$PWD/dialogentropy.h
 
 SOURCES += \
     $$PWD/dialogentropyprocess.cpp \
     $$PWD/xentropywidget.cpp \
-    $$PWD/entropyprocess.cpp \
     $$PWD/dialogentropy.cpp
 
 FORMS += \
@@ -20,9 +18,9 @@ FORMS += \
     $$PWD/xentropywidget.ui \
     $$PWD/dialogentropy.ui
 
-!contains(XCONFIG, xformats) {
-    XCONFIG += xformats
-    include($$PWD/../Formats/xformats.pri)
+!contains(XCONFIG, entropyprocess) {
+    XCONFIG += entropyprocess
+    include($$PWD/entropyprocess.pri)
 }
 
 !contains(XCONFIG, xqwt) {

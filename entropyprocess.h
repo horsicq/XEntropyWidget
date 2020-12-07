@@ -21,8 +21,13 @@
 #ifndef ENTROPYPROCESS_H
 #define ENTROPYPROCESS_H
 
-#include <QObject>
+#include <QXmlStreamWriter>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#ifdef QT_GUI_LIB
 #include "xlineedithex.h"
+#endif
 #include "xformats.h"
 
 class EntropyProcess : public QObject
@@ -52,12 +57,21 @@ public:
         XBinary::BYTE_COUNTS byteCounts;
         qint32 nMaxGraph;
         XBinary::FT fileType;
+    #ifdef QT_GUI_LIB
         XLineEditHEX::MODE mode;
+    #endif
         QList<MEMORY_RECORD> listMemoryRecords;
     };
 
     explicit EntropyProcess(QObject *pParent=nullptr);
     void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions);
+
+    static DATA processRegionsDevice(QIODevice *pDevice);
+    static DATA processRegionsFile(QString sFileName);
+
+    static QString dataToPlainString(DATA *pData);
+    static QString dataToJsonString(DATA *pData);
+    static QString dataToXmlString(DATA *pData);
 
 signals:
     void errorMessage(QString sText);
