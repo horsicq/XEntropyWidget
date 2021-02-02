@@ -22,6 +22,7 @@
 #define DIALOGENTROPY_H
 
 #include <QDialog>
+#include "xshortcuts.h"
 
 namespace Ui {
 class DialogEntropy;
@@ -34,6 +35,7 @@ class DialogEntropy : public QDialog
 public:
     explicit DialogEntropy(QWidget *pParent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
     ~DialogEntropy();
+    void setShortcuts(XShortcuts *pShortcuts);
 
 private slots:
     void on_pushButtonClose_clicked();

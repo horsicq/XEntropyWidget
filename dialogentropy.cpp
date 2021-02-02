@@ -37,6 +37,11 @@ DialogEntropy::~DialogEntropy()
     delete ui;
 }
 
+void DialogEntropy::setShortcuts(XShortcuts *pShortcuts)
+{
+    // TODO
+}
+
 void DialogEntropy::on_pushButtonClose_clicked()
 {
     this->close();
