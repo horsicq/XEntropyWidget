@@ -26,6 +26,7 @@
 #include <QItemSelection>
 #include <QImageWriter>
 #include <QFileDialog>
+#include "xshortcuts.h"
 #include "dialogentropyprocess.h"
 #include "qwt_plot.h"
 #include "qwt_plot_marker.h"
@@ -54,6 +55,7 @@ public:
     // TODO setShortcurs
     explicit XEntropyWidget(QWidget *pParent=nullptr);
     ~XEntropyWidget();
+    void setShortcuts(XShortcuts *pShortcuts);
     void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto=false,QWidget *pParent=nullptr);
     void setSaveDirectory(QString sSaveDirectory);
     void reload(bool bGraph,bool bRegions);

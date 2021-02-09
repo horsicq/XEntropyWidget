@@ -64,6 +64,11 @@ XEntropyWidget::~XEntropyWidget()
     delete ui;
 }
 
+void XEntropyWidget::setShortcuts(XShortcuts *pShortcuts)
+{
+    // TODO
+}
+
 void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto,QWidget *pParent)
 {
     this->g_pDevice=pDevice;
