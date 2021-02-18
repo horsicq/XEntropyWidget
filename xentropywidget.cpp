@@ -69,7 +69,7 @@ void XEntropyWidget::setShortcuts(XShortcuts *pShortcuts)
     // TODO
 }
 
-void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool bAuto,QWidget *pParent)
+void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto, QWidget *pParent)
 {
     this->g_pDevice=pDevice;
     this->g_nOffset=nOffset;
@@ -92,7 +92,7 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,bool
         {
             QList<XBinary::FT> listFileTypes=XBinary::_getFileTypeListFromSet(XBinary::getFileTypes(&subDevice,true));
 
-            XFormats::setFileTypeComboBox(ui->comboBoxType,&listFileTypes,XBinary::FT_UNKNOWN);
+            XFormats::setFileTypeComboBox(ui->comboBoxType,&listFileTypes,fileType);
 
             g_entropyData.fileType=(XBinary::FT)(ui->comboBoxType->currentData().toInt());
 

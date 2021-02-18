@@ -222,22 +222,12 @@ void EntropyProcess::process()
      #ifdef QT_GUI_LIB
         g_pData->mode=XLineEditHEX::MODE_32;
 
-        if(memoryMap.mode==XBinary::MODE_16)
-        {
-            g_pData->mode=XLineEditHEX::MODE_16;
-        }
-        else if((memoryMap.mode==XBinary::MODE_16SEG)||(memoryMap.mode==XBinary::MODE_32))
-        {
-            g_pData->mode=XLineEditHEX::MODE_32;
-        }
-        else if(memoryMap.mode==XBinary::MODE_64)
-        {
-            g_pData->mode=XLineEditHEX::MODE_64;
-        }
-        else if(memoryMap.mode==XBinary::MODE_UNKNOWN)
-        {
-            g_pData->mode=XLineEditHEX::getModeFromSize(memoryMap.nRawSize);
-        }
+        XBinary::MODE _mode=XBinary::getWidthModeFromMemoryMap(&memoryMap);
+
+        if      (_mode==XBinary::MODE_8)    g_pData->mode=XLineEditHEX::MODE_8;
+        else if (_mode==XBinary::MODE_16)   g_pData->mode=XLineEditHEX::MODE_16;
+        else if (_mode==XBinary::MODE_32)   g_pData->mode=XLineEditHEX::MODE_32;
+        else if (_mode==XBinary::MODE_64)   g_pData->mode=XLineEditHEX::MODE_64;
     #endif
 
         int nNumberOfRecords=memoryMap.listRecords.count();
