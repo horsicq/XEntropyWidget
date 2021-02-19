@@ -24,6 +24,7 @@ EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
     g_bIsStop=false;
 
+    connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
     connect(&g_binary,SIGNAL(entropyProgressValueChanged(qint32)),this,SIGNAL(progressValueChangedOpt(qint32)));
     connect(&g_binary,SIGNAL(entropyProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimumOpt(qint32)));
     connect(&g_binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximumOpt(qint32)));
