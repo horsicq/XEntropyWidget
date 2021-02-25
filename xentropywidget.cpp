@@ -31,7 +31,7 @@ public:
 };
 
 XEntropyWidget::XEntropyWidget(QWidget *pParent) :
-    QWidget(pParent),
+    XShortcutsWidget(pParent),
     ui(new Ui::XEntropyWidget)
 {
     ui->setupUi(this);
@@ -57,16 +57,14 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
     ui->widgetBytes->updateAxes();
 
     ui->tabWidget->setCurrentIndex(0);
+
+    // Mb TODO
+    // register shortcuts
 }
 
 XEntropyWidget::~XEntropyWidget()
 {
     delete ui;
-}
-
-void XEntropyWidget::setShortcuts(XShortcuts *pShortcuts)
-{
-    // TODO
 }
 
 void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto, QWidget *pParent)
@@ -367,4 +365,9 @@ QString XEntropyWidget::getResultName()
     sResult="Image.png";
 
     return sResult;
+}
+
+void XEntropyWidget::registerShortcuts(bool bState)
+{
+    // TODO
 }

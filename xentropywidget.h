@@ -26,7 +26,7 @@
 #include <QItemSelection>
 #include <QImageWriter>
 #include <QFileDialog>
-#include "xshortcuts.h"
+#include "xshortcutswidget.h"
 #include "dialogentropyprocess.h"
 #include "qwt_plot.h"
 #include "qwt_plot_marker.h"
@@ -47,7 +47,7 @@ namespace Ui {
 class XEntropyWidget;
 }
 
-class XEntropyWidget : public QWidget
+class XEntropyWidget : public XShortcutsWidget
 {
     Q_OBJECT
 
@@ -55,7 +55,6 @@ public:
     // TODO setShortcurs
     explicit XEntropyWidget(QWidget *pParent=nullptr);
     ~XEntropyWidget();
-    void setShortcuts(XShortcuts *pShortcuts);
     void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,XBinary::FT fileType,bool bAuto,QWidget *pParent);
     void setSaveDirectory(QString sSaveDirectory);
     void reload(bool bGraph,bool bRegions);
@@ -66,6 +65,9 @@ private slots:
     void on_tableWidgetRegions_itemSelectionChanged();
     void on_pushButtonSaveEntropy_clicked();
     QString getResultName();
+
+protected:
+    virtual void registerShortcuts(bool bState);
 
 private:
     Ui::XEntropyWidget *ui;
