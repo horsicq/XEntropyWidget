@@ -21,7 +21,6 @@
 #ifndef XENTROPYWIDGET_H
 #define XENTROPYWIDGET_H
 
-#include <QWidget>
 #include <QStandardItemModel>
 #include <QItemSelection>
 #include <QImageWriter>
