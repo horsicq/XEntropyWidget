@@ -57,9 +57,6 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
     ui->widgetBytes->updateAxes();
 
     ui->tabWidget->setCurrentIndex(0);
-
-    // Mb TODO
-    // register shortcuts
 }
 
 XEntropyWidget::~XEntropyWidget()
