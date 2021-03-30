@@ -51,7 +51,6 @@ class XEntropyWidget : public XShortcutsWidget
     Q_OBJECT
 
 public:
-    // TODO setShortcurs
     explicit XEntropyWidget(QWidget *pParent=nullptr);
     ~XEntropyWidget();
     void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,XBinary::FT fileType,bool bAuto,QWidget *pParent);
