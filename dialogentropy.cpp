@@ -29,7 +29,16 @@ DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffse
 
     setWindowFlags(Qt::Window);
 
-    ui->widgetEntropy->setData(pDevice,nOffset,nSize,XBinary::FT_UNKNOWN,true,pParent);
+    XBinary::FT ft=XBinary::FT_UNKNOWN;
+
+    XBinary::OFFSETSIZE os=XBinary::convertOffsetAndSize(pDevice,nOffset,nSize);
+
+    if(os.nSize!=pDevice->size())
+    {
+        ft=XBinary::FT_BINARY;
+    }
+
+    ui->widgetEntropy->setData(pDevice,nOffset,nSize,ft,true,pParent);
 }
 
 DialogEntropy::~DialogEntropy()
