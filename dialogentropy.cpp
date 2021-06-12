@@ -48,6 +48,7 @@ DialogEntropy::~DialogEntropy()
 
 void DialogEntropy::setShortcuts(XShortcuts *pShortcuts)
 {
+    Q_UNUSED(pShortcuts)
     // TODO
 }
 

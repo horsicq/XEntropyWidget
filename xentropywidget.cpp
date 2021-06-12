@@ -380,5 +380,6 @@ QString XEntropyWidget::getResultName()
 
 void XEntropyWidget::registerShortcuts(bool bState)
 {
+    Q_UNUSED(bState)
     // TODO
 }
