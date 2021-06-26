@@ -53,7 +53,7 @@ class XEntropyWidget : public XShortcutsWidget
 public:
     explicit XEntropyWidget(QWidget *pParent=nullptr);
     ~XEntropyWidget();
-    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,XBinary::FT fileType,bool bAuto,QWidget *pParent);
+    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,XBinary::FT fileType,bool bAuto);
     void setSaveDirectory(QString sSaveDirectory);
     void reload(bool bGraph,bool bRegions);
 
@@ -70,7 +70,6 @@ protected:
 private:
     Ui::XEntropyWidget *ui;
     QIODevice *g_pDevice;
-    QWidget *g_pParent;
     qint64 g_nOffset;
     qint64 g_nSize;
     EntropyProcess::DATA g_entropyData;

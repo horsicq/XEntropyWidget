@@ -21,14 +21,22 @@
 #include "dialogentropy.h"
 #include "ui_dialogentropy.h"
 
-DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
+DialogEntropy::DialogEntropy(QWidget *pParent) :
     QDialog(pParent),
     ui(new Ui::DialogEntropy)
 {
     ui->setupUi(this);
 
     setWindowFlags(Qt::Window);
+}
 
+DialogEntropy::~DialogEntropy()
+{
+    delete ui;
+}
+
+void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize)
+{
     XBinary::FT ft=XBinary::FT_UNKNOWN;
 
     XBinary::OFFSETSIZE os=XBinary::convertOffsetAndSize(pDevice,nOffset,nSize);
@@ -38,12 +46,7 @@ DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffse
         ft=XBinary::FT_BINARY;
     }
 
-    ui->widgetEntropy->setData(pDevice,nOffset,nSize,ft,true,pParent);
-}
-
-DialogEntropy::~DialogEntropy()
-{
-    delete ui;
+    ui->widgetEntropy->setData(pDevice,nOffset,nSize,ft,true);
 }
 
 void DialogEntropy::setShortcuts(XShortcuts *pShortcuts)
