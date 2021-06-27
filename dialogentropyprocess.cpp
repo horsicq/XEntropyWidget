@@ -21,7 +21,7 @@
 #include "dialogentropyprocess.h"
 #include "ui_dialogentropyprocess.h"
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions) :
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions) :
     QDialog(pParent),
     ui(new Ui::DialogEntropyProcess)
 {

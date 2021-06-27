@@ -115,7 +115,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
     if(subDevice.open(QIODevice::ReadOnly))
     {
-        DialogEntropyProcess dep(this,&subDevice,&g_entropyData,bGraph,bRegions);
+        DialogEntropyProcess dep(XShortcutsWidget::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions);
 
         if(dep.exec()==QDialog::Accepted)
         {
