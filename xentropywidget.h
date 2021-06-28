@@ -61,8 +61,8 @@ private slots:
     void on_pushButtonReload_clicked();
     void on_comboBoxType_currentIndexChanged(int nIndex);
     void on_tableWidgetRegions_itemSelectionChanged();
-    void on_pushButtonSaveEntropy_clicked();
-    QString getResultName();
+    void on_pushButtonSaveEntropyTable_clicked();
+    void on_pushButtonSaveEntropyDiagram_clicked();
 
 protected:
     virtual void registerShortcuts(bool bState);

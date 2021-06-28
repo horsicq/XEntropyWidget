@@ -115,7 +115,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
     if(subDevice.open(QIODevice::ReadOnly))
     {
-        DialogEntropyProcess dep(XShortcutsWidget::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions);
+        DialogEntropyProcess dep(XOptions::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions);
 
         if(dep.exec()==QDialog::Accepted)
         {
@@ -320,7 +320,27 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
     ui->widgetEntropy->replot();
 }
 
-void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
+void XEntropyWidget::registerShortcuts(bool bState)
+{
+    Q_UNUSED(bState)
+    // TODO
+}
+
+void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
+{
+    QString sFileName=XBinary::getResultFileName(g_pDevice,"entropy.txt"); // TODO
+
+    sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files")).arg(tr("All files")));
+
+    if(!sFileName.isEmpty())
+    {
+        QAbstractItemModel *pModel=ui->tableWidgetRegions->model();
+
+        XOptions::saveTable(pModel,sFileName);
+    }
+}
+
+void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
 {
     const QList<QByteArray> listImageFormats=QImageWriter::supportedImageFormats();
 
@@ -353,7 +373,7 @@ void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
 
     QString sFilter=listFilter.join(";;");
 
-    QString sFileName=getResultName();
+    QString sFileName=XBinary::getResultFileName(g_pDevice,"entropy.png");
 
     sFileName=QFileDialog::getSaveFileName(this,tr("Save diagram"),sFileName,sFilter);
 
@@ -364,19 +384,4 @@ void XEntropyWidget::on_pushButtonSaveEntropy_clicked()
         //        renderer.setLayoutFlag(QwtPlotRenderer::KeepFrames,true);
         renderer.renderDocument(ui->widgetEntropy,sFileName,QSizeF(300,200),85);
     }
-}
-
-QString XEntropyWidget::getResultName()
-{
-    QString sResult;
-
-    sResult="Image.png";
-
-    return sResult;
-}
-
-void XEntropyWidget::registerShortcuts(bool bState)
-{
-    Q_UNUSED(bState)
-    // TODO
 }

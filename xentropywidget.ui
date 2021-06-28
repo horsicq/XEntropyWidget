@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>866</width>
-    <height>561</height>
+    <width>893</width>
+    <height>592</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -356,9 +356,16 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButtonSaveEntropy">
+          <widget class="QPushButton" name="pushButtonSaveEntropyTable">
            <property name="text">
             <string>Save</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButtonSaveEntropyDiagram">
+           <property name="text">
+            <string>Save diagram</string>
            </property>
           </widget>
          </item>
