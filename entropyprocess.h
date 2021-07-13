@@ -72,6 +72,8 @@ public:
     static QString dataToPlainString(DATA *pData);
     static QString dataToJsonString(DATA *pData);
     static QString dataToXmlString(DATA *pData);
+    static QString dataToCsvString(DATA *pData);
+    static QString dataToTsvString(DATA *pData);
 
 signals:
     void errorMessage(QString sText);

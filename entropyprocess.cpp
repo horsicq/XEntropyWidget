@@ -157,6 +157,46 @@ QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData)
     return sResult;
 }
 
+QString EntropyProcess::dataToCsvString(DATA *pData)
+{
+    QString sResult;
+
+    int nNumberOfRecords=pData->listMemoryRecords.count();
+
+    for(int i=0;i<nNumberOfRecords;i++)
+    {
+        sResult+=QString("%1;%2;%3;%4;%5;%6\n")
+                .arg(i)
+                .arg(pData->listMemoryRecords.at(i).sName)
+                .arg(pData->listMemoryRecords.at(i).nOffset)
+                .arg(pData->listMemoryRecords.at(i).nSize)
+                .arg(pData->listMemoryRecords.at(i).dEntropy)
+                .arg(pData->listMemoryRecords.at(i).sStatus);
+    }
+
+    return sResult;
+}
+
+QString EntropyProcess::dataToTsvString(DATA *pData)
+{
+    QString sResult;
+
+    int nNumberOfRecords=pData->listMemoryRecords.count();
+
+    for(int i=0;i<nNumberOfRecords;i++)
+    {
+        sResult+=QString("%1\t%2\t%3\t%4\t%5\t%6\n")
+                .arg(i)
+                .arg(pData->listMemoryRecords.at(i).sName)
+                .arg(pData->listMemoryRecords.at(i).nOffset)
+                .arg(pData->listMemoryRecords.at(i).nSize)
+                .arg(pData->listMemoryRecords.at(i).dEntropy)
+                .arg(pData->listMemoryRecords.at(i).sStatus);
+    }
+
+    return sResult;
+}
+
 void EntropyProcess::stop()
 {
     g_binary.setEntropyProcessEnable(false);
