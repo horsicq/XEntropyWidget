@@ -128,7 +128,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                 ui->lineEditOffset->setValue32_64(g_nOffset);
                 ui->lineEditSize->setValue32_64(g_nSize);
-                ui->lineEditStatus->setText(g_entropyData.sStatus);
+                ui->progressBarTotalEntropy->setFormat(g_entropyData.sStatus+"(%p%)");
 
                 g_pCurve->setSamples(g_entropyData.dOffset,g_entropyData.dOffsetEntropy,g_entropyData.nMaxGraph+1);
                 ui->widgetEntropy->replot();
@@ -334,7 +334,16 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
 
     if(!sFileName.isEmpty())
     {
-        QAbstractItemModel *pModel=ui->tableWidgetRegions->model();
+        QAbstractItemModel *pModel=nullptr;
+
+        if(ui->tabWidget->currentIndex()==0)
+        {
+            pModel=ui->tableWidgetRegions->model();
+        }
+        else
+        {
+            pModel=ui->tableWidgetBytes->model();
+        }
 
         XOptions::saveTable(pModel,sFileName);
     }
@@ -379,9 +388,20 @@ void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
 
     if(!sFileName.isEmpty())
     {
+        QwtPlot *pWidget=nullptr;
+
+        if(ui->tabWidget->currentIndex()==0)
+        {
+            pWidget=ui->widgetEntropy;
+        }
+        else
+        {
+            pWidget=ui->widgetBytes;
+        }
+
         QwtPlotRenderer renderer;
         renderer.setDiscardFlag(QwtPlotRenderer::DiscardBackground,false);
         //        renderer.setLayoutFlag(QwtPlotRenderer::KeepFrames,true);
-        renderer.renderDocument(ui->widgetEntropy,sFileName,QSizeF(300,200),85);
+        renderer.renderDocument(pWidget,sFileName,QSizeF(300,200),85);
     }
 }
