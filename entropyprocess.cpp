@@ -74,19 +74,19 @@ QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData)
 {
     QString sResult;
 
-    sResult+=QString("Total %1: %2\n").arg(pData->dTotalEntropy).arg(pData->sStatus);
+    sResult+=QString("Total %1: %2\n").arg(QString::number(pData->dTotalEntropy),pData->sStatus);
 
     int nNumberOfRecords=pData->listMemoryRecords.count();
 
     for(int i=0;i<nNumberOfRecords;i++)
     {
         sResult+=QString("  %1|%2|%3|%4|%5: %6\n")
-                .arg(i)
-                .arg(pData->listMemoryRecords.at(i).sName)
-                .arg(pData->listMemoryRecords.at(i).nOffset)
-                .arg(pData->listMemoryRecords.at(i).nSize)
-                .arg(pData->listMemoryRecords.at(i).dEntropy)
-                .arg(pData->listMemoryRecords.at(i).sStatus);
+                .arg(QString::number(i),
+                pData->listMemoryRecords.at(i).sName,
+                QString::number(pData->listMemoryRecords.at(i).nOffset),
+                QString::number(pData->listMemoryRecords.at(i).nSize),
+                QString::number(pData->listMemoryRecords.at(i).dEntropy),
+                pData->listMemoryRecords.at(i).sStatus);
     }
 
     return sResult;
