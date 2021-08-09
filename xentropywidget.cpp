@@ -330,7 +330,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
 {
     QString sFileName=XBinary::getResultFileName(g_pDevice,"entropy.txt"); // TODO
 
-    sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files")).arg(tr("All files")));
+    sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files"),tr("All files")));
 
     if(!sFileName.isEmpty())
     {
