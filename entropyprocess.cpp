@@ -166,12 +166,12 @@ QString EntropyProcess::dataToCsvString(DATA *pData)
     for(int i=0;i<nNumberOfRecords;i++)
     {
         sResult+=QString("%1;%2;%3;%4;%5;%6\n")
-                .arg(i)
-                .arg(pData->listMemoryRecords.at(i).sName)
-                .arg(pData->listMemoryRecords.at(i).nOffset)
-                .arg(pData->listMemoryRecords.at(i).nSize)
-                .arg(pData->listMemoryRecords.at(i).dEntropy)
-                .arg(pData->listMemoryRecords.at(i).sStatus);
+                .arg(QString::number(i),
+                     pData->listMemoryRecords.at(i).sName,
+                     QString::number(pData->listMemoryRecords.at(i).nOffset),
+                     QString::number(pData->listMemoryRecords.at(i).nSize),
+                     QString::number(pData->listMemoryRecords.at(i).dEntropy),
+                     pData->listMemoryRecords.at(i).sStatus);
     }
 
     return sResult;
@@ -186,12 +186,12 @@ QString EntropyProcess::dataToTsvString(DATA *pData)
     for(int i=0;i<nNumberOfRecords;i++)
     {
         sResult+=QString("%1\t%2\t%3\t%4\t%5\t%6\n")
-                .arg(i)
-                .arg(pData->listMemoryRecords.at(i).sName)
-                .arg(pData->listMemoryRecords.at(i).nOffset)
-                .arg(pData->listMemoryRecords.at(i).nSize)
-                .arg(pData->listMemoryRecords.at(i).dEntropy)
-                .arg(pData->listMemoryRecords.at(i).sStatus);
+                .arg(QString::number(i),
+                     pData->listMemoryRecords.at(i).sName,
+                     QString::number(pData->listMemoryRecords.at(i).nOffset),
+                     QString::number(pData->listMemoryRecords.at(i).nSize),
+                     QString::number(pData->listMemoryRecords.at(i).dEntropy),
+                     pData->listMemoryRecords.at(i).sStatus);
     }
 
     return sResult;
