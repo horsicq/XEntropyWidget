@@ -209,49 +209,50 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 ui->tableWidgetRegions->setColumnCount(5);
 
                 QStringList slHeader;
-                slHeader.append(tr("Name"));
                 slHeader.append(tr("Offset"));
                 slHeader.append(tr("Size"));
                 slHeader.append(tr("Entropy"));
                 slHeader.append(tr("Status"));
+                slHeader.append(tr("Name"));
 
                 ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
                 ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
 
                 for(int i=0;i<nNumberOfMemoryRecords;i++)
                 {
-                    QTableWidgetItem *pItemName=new QTableWidgetItem;
-
-                    pItemName->setText(g_entropyData.listMemoryRecords.at(i).sName);
-                    pItemName->setTextAlignment(Qt::AlignLeft);
-                    pItemName->setData(Qt::UserRole+0,g_entropyData.listMemoryRecords.at(i).nOffset);
-                    pItemName->setData(Qt::UserRole+1,g_entropyData.listMemoryRecords.at(i).nSize);
-
-                    ui->tableWidgetRegions->setItem(i,0,pItemName);
-
                     QTableWidgetItem *pItemOffset=new QTableWidgetItem;
+
+                    pItemOffset->setData(Qt::UserRole+0,g_entropyData.listMemoryRecords.at(i).nOffset);
+                    pItemOffset->setData(Qt::UserRole+1,g_entropyData.listMemoryRecords.at(i).nSize);
 
                     pItemOffset->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nOffset+g_nOffset));
                     pItemOffset->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i,1,pItemOffset);
+                    ui->tableWidgetRegions->setItem(i,0,pItemOffset);
 
                     QTableWidgetItem *pItemSize=new QTableWidgetItem;
 
                     pItemSize->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nSize));
                     pItemSize->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i,2,pItemSize);
+                    ui->tableWidgetRegions->setItem(i,1,pItemSize);
 
                     QTableWidgetItem *pItemEntropy=new QTableWidgetItem;
 
                     pItemEntropy->setText(XBinary::doubleToString(g_entropyData.listMemoryRecords.at(i).dEntropy,5));
                     pItemEntropy->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i,3,pItemEntropy);
+                    ui->tableWidgetRegions->setItem(i,2,pItemEntropy);
 
                     QTableWidgetItem *pItemStatus=new QTableWidgetItem;
 
                     pItemStatus->setText(g_entropyData.listMemoryRecords.at(i).sStatus);
                     pItemStatus->setTextAlignment(Qt::AlignLeft);
-                    ui->tableWidgetRegions->setItem(i,4,pItemStatus);
+                    ui->tableWidgetRegions->setItem(i,3,pItemStatus);
+
+                    QTableWidgetItem *pItemName=new QTableWidgetItem;
+
+                    pItemName->setText(g_entropyData.listMemoryRecords.at(i).sName);
+                    pItemName->setTextAlignment(Qt::AlignLeft);
+
+                    ui->tableWidgetRegions->setItem(i,4,pItemName);
 
                     QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
                     pZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset,g_entropyData.listMemoryRecords.at(i).nOffset+g_entropyData.listMemoryRecords.at(i).nSize);
@@ -265,16 +266,16 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     g_listZones.append(pZone);
                 }
 
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
+                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
                 ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
                 ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
                 ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Interactive);
+                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Stretch);
 
                 qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,g_entropyData.mode);
 
+                ui->tableWidgetRegions->setColumnWidth(0,nColumnSize);
                 ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
-                ui->tableWidgetRegions->setColumnWidth(2,nColumnSize);
             }
         }
 
