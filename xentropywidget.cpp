@@ -329,7 +329,7 @@ void XEntropyWidget::registerShortcuts(bool bState)
 
 void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
 {
-    QString sFileName=XBinary::getResultFileName(g_pDevice,"entropy.txt"); // TODO
+    QString sFileName=XBinary::getResultFileName(g_pDevice,QString("%1.txt").arg(tr("Entropy")));
 
     sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files"),tr("All files")));
 
@@ -383,7 +383,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
 
     QString sFilter=listFilter.join(";;");
 
-    QString sFileName=XBinary::getResultFileName(g_pDevice,"entropy.png");
+    QString sFileName=XBinary::getResultFileName(g_pDevice,QString("%1.png").arg(tr("Entropy")));
 
     sFileName=QFileDialog::getSaveFileName(this,tr("Save diagram"),sFileName,sFilter);
 
