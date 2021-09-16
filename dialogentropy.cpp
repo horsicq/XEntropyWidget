@@ -39,14 +39,14 @@ void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize)
 {
     XBinary::FT ft=XBinary::FT_UNKNOWN;
 
-    XBinary::OFFSETSIZE os=XBinary::convertOffsetAndSize(pDevice,nOffset,nSize);
+    XBinary::OFFSETSIZE osRegion=XBinary::convertOffsetAndSize(pDevice,nOffset,nSize);
 
-    if(os.nSize!=pDevice->size())
+    if(osRegion.nSize!=pDevice->size())
     {
         ft=XBinary::FT_BINARY;
     }
 
-    ui->widgetEntropy->setData(pDevice,nOffset,nSize,ft,true);
+    ui->widgetEntropy->setData(pDevice,osRegion.nOffset,osRegion.nSize,ft,true);
 }
 
 void DialogEntropy::setShortcuts(XShortcuts *pShortcuts)
