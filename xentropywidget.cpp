@@ -346,7 +346,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
             pModel=ui->tableWidgetBytes->model();
         }
 
-        XOptions::saveTable(pModel,sFileName);
+        XOptions::saveModel(pModel,sFileName);
     }
 }
 

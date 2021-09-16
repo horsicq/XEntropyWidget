@@ -51,8 +51,7 @@ void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize)
 
 void DialogEntropy::setShortcuts(XShortcuts *pShortcuts)
 {
-    Q_UNUSED(pShortcuts)
-    // TODO
+    ui->widgetEntropy->setShortcuts(pShortcuts);
 }
 
 void DialogEntropy::on_pushButtonClose_clicked()
