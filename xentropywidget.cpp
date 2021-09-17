@@ -325,6 +325,7 @@ void XEntropyWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
     // TODO
+    //XShortcutsWidget::registerShortcuts(bState);
 }
 
 void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
