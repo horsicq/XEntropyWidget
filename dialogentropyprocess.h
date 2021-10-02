@@ -35,6 +35,7 @@ class DialogEntropyProcess : public QDialog
     Q_OBJECT
 
 public:
+    // TODO setData
     explicit DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions);
     ~DialogEntropyProcess();
 
