@@ -21,10 +21,10 @@
 #ifndef XENTROPYWIDGET_H
 #define XENTROPYWIDGET_H
 
-#include <QStandardItemModel>
-#include <QItemSelection>
-#include <QImageWriter>
 #include <QFileDialog>
+#include <QImageWriter>
+#include <QItemSelection>
+#include <QStandardItemModel>
 #include "xshortcutswidget.h"
 #include "dialogentropyprocess.h"
 #include "qwt_plot.h"
