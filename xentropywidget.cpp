@@ -73,7 +73,7 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
         this->g_nSize=(pDevice->size())-(this->g_nOffset);
     }
 
-    g_entropyData.nOffset=0; // Cause we are using subdevice !!!
+    g_entropyData.nOffset=0; // We are using subdevice.
     g_entropyData.nSize=this->g_nSize;
 
     if(bAuto)
