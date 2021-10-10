@@ -122,7 +122,7 @@ QString EntropyProcess::dataToJsonString(EntropyProcess::DATA *pData)
 
     QJsonDocument saveFormat(jsonResult);
 
-    sResult=saveFormat.toJson(QJsonDocument::Indented).data();
+    sResult=saveFormat.toJson(QJsonDocument::Indented).constData();
 
     return sResult;
 }
@@ -141,7 +141,7 @@ QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData)
 
     int nNumberOfRecords=pData->listMemoryRecords.count();
 
-    for(int i=0; i<nNumberOfRecords; i++)
+    for(int i=0;i<nNumberOfRecords;i++)
     {
         xml.writeStartElement("record");
         xml.writeAttribute("name",pData->listMemoryRecords.at(i).sName);
