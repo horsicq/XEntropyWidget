@@ -70,7 +70,7 @@ void DialogEntropyProcess::on_pushButtonCancel_clicked()
 
 void DialogEntropyProcess::errorMessage(QString sText)
 {
-    QMessageBox::critical(this,tr("Error"),sText);
+    QMessageBox::critical(XOptions::getMainWidget(this),tr("Error"),sText);
 }
 
 void DialogEntropyProcess::onCompleted(qint64 nElapsed)

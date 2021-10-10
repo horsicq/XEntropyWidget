@@ -25,6 +25,7 @@
 #include <QMessageBox>
 #include <QThread>
 #include "entropyprocess.h"
+#include "xoptions.h"
 
 namespace Ui {
 class DialogEntropyProcess;
