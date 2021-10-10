@@ -170,7 +170,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                 QVector<QwtIntervalSample> samples(256);
 
-                for(uint i=0;i<256; i++)
+                for(uint i=0;i<256;i++)
                 {
                     QwtInterval interval(double(i),i+1.0);
                     interval.setBorderFlags(QwtInterval::ExcludeMaximum);
