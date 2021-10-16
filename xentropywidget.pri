@@ -32,3 +32,7 @@ FORMS += \
     XCONFIG += xlineedithex
     include($$PWD/../Controls/xlineedithex.pri)
 }
+
+DISTFILES += \
+    $$PWD/LICENSE \
+    $$PWD/README.md
