@@ -21,10 +21,10 @@
 #ifndef ENTROPYPROCESS_H
 #define ENTROPYPROCESS_H
 
-#include <QXmlStreamWriter>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
+#include <QXmlStreamWriter>
 #ifdef QT_GUI_LIB
 #include "xlineedithex.h"
 #endif
