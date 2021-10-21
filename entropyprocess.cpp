@@ -141,7 +141,7 @@ QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData)
 
     int nNumberOfRecords=pData->listMemoryRecords.count();
 
-    for(int i=0;i<nNumberOfRecords;i++)
+    for(qint32 i=0;i<nNumberOfRecords;i++)
     {
         xml.writeStartElement("record");
         xml.writeAttribute("name",pData->listMemoryRecords.at(i).sName);
