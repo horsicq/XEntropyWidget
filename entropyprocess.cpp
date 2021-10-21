@@ -183,7 +183,7 @@ QString EntropyProcess::dataToTsvString(DATA *pData)
 
     int nNumberOfRecords=pData->listMemoryRecords.count();
 
-    for(int i=0;i<nNumberOfRecords;i++)
+    for(qint32 i=0;i<nNumberOfRecords;i++)
     {
         sResult+=QString("%1\t%2\t%3\t%4\t%5\t%6\n")
                 .arg(QString::number(i),
