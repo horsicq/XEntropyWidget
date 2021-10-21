@@ -140,7 +140,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 ui->tableWidgetBytes->setHorizontalHeaderLabels(slHeader);
                 ui->tableWidgetBytes->horizontalHeader()->setVisible(true);
 
-                for(int i=0;i<256;i++)
+                for(qint32 i=0;i<256;i++)
                 {
                     QTableWidgetItem *pItemByte=new QTableWidgetItem;
 
