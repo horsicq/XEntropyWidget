@@ -235,7 +235,7 @@ void EntropyProcess::process()
 
         if(nGraph)
         {
-    //        for(int i=0;i<=pData->nMaxGraph;i++)
+    //        for(qint32 i=0;i<=pData->nMaxGraph;i++)
     //        {
     //            pData->dOffset[i]=pData->nOffset+i*nGraph;
     //            pData->dOffsetEntropy[i]=pData->dTotalEntropy;
@@ -271,9 +271,9 @@ void EntropyProcess::process()
         else if (_mode==XBinary::MODE_64)   g_pData->mode=XLineEditHEX::MODE_64;
     #endif
 
-        int nNumberOfRecords=memoryMap.listRecords.count();
+        qint32 nNumberOfRecords=memoryMap.listRecords.count();
 
-        for(int i=0,j=0;i<nNumberOfRecords;i++)
+        for(qint32 i=0,j=0;i<nNumberOfRecords;i++)
         {
             bool bIsVirtual=memoryMap.listRecords.at(i).bIsVirtual;
 
