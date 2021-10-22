@@ -240,7 +240,7 @@ void EntropyProcess::process()
     //            pData->dOffset[i]=pData->nOffset+i*nGraph;
     //            pData->dOffsetEntropy[i]=pData->dTotalEntropy;
     //        }
-            for(int i=0;(i<g_pData->nMaxGraph)&&(!g_bIsStop);i++)
+            for(qint32 i=0;(i<g_pData->nMaxGraph)&&(!g_bIsStop);i++)
             {
                 g_pData->dOffset[i]=g_pData->nOffset+i*nGraph;
 
