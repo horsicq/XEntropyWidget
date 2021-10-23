@@ -184,9 +184,9 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
             if(bRegions)
             {
-                int nNumberOfZones=g_listZones.count();
+                qint32 nNumberOfZones=g_listZones.count();
 
-                for(int i=0;i<nNumberOfZones;i++)
+                for(qint32 i=0;i<nNumberOfZones;i++)
                 {
                     g_listZones.at(i)->setVisible(false);
                 }
