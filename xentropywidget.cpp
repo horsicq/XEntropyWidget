@@ -293,9 +293,9 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 
 void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 {
-    int nNumberOfZones=g_listZones.count();
+    qint32 nNumberOfZones=g_listZones.count();
 
-    for(int i=0;i<nNumberOfZones;i++)
+    for(qint32 i=0;i<nNumberOfZones;i++)
     {
         g_listZones.at(i)->setVisible(false);
     }
