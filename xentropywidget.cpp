@@ -197,7 +197,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                 ui->tableWidgetRegions->clear();
 
-                int nNumberOfMemoryRecords=g_entropyData.listMemoryRecords.count();
+                qint32 nNumberOfMemoryRecords=g_entropyData.listMemoryRecords.count();
 
                 ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
                 ui->tableWidgetRegions->setColumnCount(5);
@@ -212,7 +212,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
                 ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
 
-                for(int i=0;i<nNumberOfMemoryRecords;i++)
+                for(qint32 i=0;i<nNumberOfMemoryRecords;i++)
                 {
                     QTableWidgetItem *pItemOffset=new QTableWidgetItem;
 
