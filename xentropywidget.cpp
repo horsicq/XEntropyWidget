@@ -302,9 +302,9 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 
     QList<QTableWidgetItem *> listSelectedItems=ui->tableWidgetRegions->selectedItems();
 
-    int nNumberOfItems=listSelectedItems.count();
+    qint32 nNumberOfItems=listSelectedItems.count();
 
-    for(int i=0;i<nNumberOfItems;i++)
+    for(qint32 i=0;i<nNumberOfItems;i++)
     {
         if(listSelectedItems.at(i)->column()==0)
         {
