@@ -76,7 +76,7 @@ QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData)
 
     sResult+=QString("Total %1: %2\n").arg(QString::number(pData->dTotalEntropy),pData->sStatus);
 
-    int nNumberOfRecords=pData->listMemoryRecords.count();
+    qint32 nNumberOfRecords=pData->listMemoryRecords.count();
 
     for(qint32 i=0;i<nNumberOfRecords;i++)
     {

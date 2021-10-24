@@ -7,4 +7,5 @@ set(XENTROPYWIDGET_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/dialogentropyprocess.ui
     ${CMAKE_CURRENT_LIST_DIR}/xentropywidget.ui
     ${CMAKE_CURRENT_LIST_DIR}/dialogentropy.ui
+    ${CMAKE_CURRENT_LIST_DIR}/entropyprocess.cpp
 )
