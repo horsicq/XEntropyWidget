@@ -103,7 +103,7 @@ QString EntropyProcess::dataToJsonString(EntropyProcess::DATA *pData)
 
     QJsonArray jsArray;
 
-    int nNumberOfRecords=pData->listMemoryRecords.count();
+    qint32 nNumberOfRecords=pData->listMemoryRecords.count();
 
     for(qint32 i=0;i<nNumberOfRecords;i++)
     {
