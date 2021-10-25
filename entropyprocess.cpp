@@ -161,7 +161,7 @@ QString EntropyProcess::dataToCsvString(DATA *pData)
 {
     QString sResult;
 
-    int nNumberOfRecords=pData->listMemoryRecords.count();
+    qint32 nNumberOfRecords=pData->listMemoryRecords.count();
 
     for(qint32 i=0;i<nNumberOfRecords;i++)
     {
