@@ -139,7 +139,7 @@ QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData)
     xml.writeAttribute("total",QString::number(pData->dTotalEntropy,'g',16));
     xml.writeAttribute("status",pData->sStatus);
 
-    int nNumberOfRecords=pData->listMemoryRecords.count();
+    qint32 nNumberOfRecords=pData->listMemoryRecords.count();
 
     for(qint32 i=0;i<nNumberOfRecords;i++)
     {
