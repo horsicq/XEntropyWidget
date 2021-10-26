@@ -351,13 +351,13 @@ void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
 
     QStringList listFilter;
 
-    int nNumberOfImageFormats=listImageFormats.count();
+    qint32 nNumberOfImageFormats=listImageFormats.count();
 
     if(nNumberOfImageFormats)
     {
         QString sImageFilter=tr("Images")+" (";
 
-        for(int i=0;i<nNumberOfImageFormats;i++)
+        for(qint32 i=0;i<nNumberOfImageFormats;i++)
         {
             if(i>0)
             {
