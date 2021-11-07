@@ -11,3 +11,6 @@ SOURCES += \
     XCONFIG += xformats
     include($$PWD/../Formats/xformats.pri)
 }
+
+DISTFILES += \
+    $$PWD/entropyprocess.cmake
