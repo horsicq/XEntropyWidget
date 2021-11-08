@@ -36,5 +36,4 @@ FORMS += \
 DISTFILES += \
     $$PWD/LICENSE \
     $$PWD/README.md \
-    $$PWD/entropyprocess.cmake \
     $$PWD/xentropywidget.cmake
