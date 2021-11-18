@@ -22,7 +22,7 @@
 #include "ui_dialogentropy.h"
 
 DialogEntropy::DialogEntropy(QWidget *pParent) :
-    QDialog(pParent),
+    XShortcutsDialog(pParent),
     ui(new Ui::DialogEntropy)
 {
     ui->setupUi(this);
@@ -49,9 +49,9 @@ void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize)
     ui->widgetEntropy->setData(pDevice,osEntropyRegion.nOffset,osEntropyRegion.nSize,ft,true);
 }
 
-void DialogEntropy::setShortcuts(XShortcuts *pShortcuts)
+void DialogEntropy::setGlobal(XShortcuts *pShortcuts,XOptions *pXOptions)
 {
-    ui->widgetEntropy->setShortcuts(pShortcuts);
+    ui->widgetEntropy->setGlobal(pShortcuts,pXOptions);
 }
 
 void DialogEntropy::on_pushButtonClose_clicked()
