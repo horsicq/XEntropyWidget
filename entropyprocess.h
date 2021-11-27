@@ -35,7 +35,7 @@ class EntropyProcess : public QObject
     Q_OBJECT
 
 public:
-    static const int N_MAX_GRAPH=100;
+    static const qint32 N_MAX_GRAPH=100;
 
     struct MEMORY_RECORD
     {
