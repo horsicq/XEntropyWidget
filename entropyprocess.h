@@ -77,6 +77,7 @@ public:
 
 signals:
     void errorMessage(QString sText);
+    void infoMessage(QString sText);
     void completed(qint64 nElapsed);
     void progressValueChangedMain(qint32 nValue);
     void progressValueMinimumMain(qint32 nValue);
