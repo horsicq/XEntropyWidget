@@ -323,26 +323,21 @@ void XEntropyWidget::registerShortcuts(bool bState)
 }
 
 void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
-{
-    QString sFileName=XBinary::getResultFileName(g_pDevice,QString("%1.txt").arg(tr("Entropy")));
+{    
+    QString sResultFileName=XBinary::getResultFileName(g_pDevice,QString("%1.txt").arg(tr("Strings")));
 
-    sFileName=QFileDialog::getSaveFileName(this,tr("Save"),sFileName,QString("%1 (*.txt);;%2 (*)").arg(tr("Text files"),tr("All files")));
+    QAbstractItemModel *pModel=nullptr;
 
-    if(!sFileName.isEmpty())
+    if(ui->tabWidget->currentIndex()==0)
     {
-        QAbstractItemModel *pModel=nullptr;
-
-        if(ui->tabWidget->currentIndex()==0)
-        {
-            pModel=ui->tableWidgetRegions->model();
-        }
-        else
-        {
-            pModel=ui->tableWidgetBytes->model();
-        }
-
-        XOptions::saveModel(pModel,sFileName);
+        pModel=ui->tableWidgetRegions->model();
     }
+    else
+    {
+        pModel=ui->tableWidgetBytes->model();
+    }
+
+    XShortcutsWidget::saveModel(pModel,sResultFileName);
 }
 
 void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()

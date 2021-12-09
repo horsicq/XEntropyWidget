@@ -57,10 +57,10 @@ public:
         XBinary::BYTE_COUNTS byteCounts;
         qint32 nMaxGraph;
         XBinary::FT fileType;
+        QList<MEMORY_RECORD> listMemoryRecords;
     #ifdef QT_GUI_LIB
         XLineEditHEX::MODE mode;
     #endif
-        QList<MEMORY_RECORD> listMemoryRecords;
     };
 
     explicit EntropyProcess(QObject *pParent=nullptr);
