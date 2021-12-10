@@ -68,7 +68,6 @@ public:
 
     static DATA processRegionsDevice(QIODevice *pDevice);
     static DATA processRegionsFile(QString sFileName);
-
     static QString dataToPlainString(DATA *pData);
     static QString dataToJsonString(DATA *pData);
     static QString dataToXmlString(DATA *pData);
