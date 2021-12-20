@@ -64,6 +64,7 @@ public:
     };
 
     explicit EntropyProcess(QObject *pParent=nullptr);
+
     void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions);
 
     static DATA processRegionsDevice(QIODevice *pDevice);
