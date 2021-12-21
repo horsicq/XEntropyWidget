@@ -66,7 +66,6 @@ public:
     explicit EntropyProcess(QObject *pParent=nullptr);
 
     void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions);
-
     static DATA processRegionsDevice(QIODevice *pDevice);
     static DATA processRegionsFile(QString sFileName);
     static QString dataToPlainString(DATA *pData);
