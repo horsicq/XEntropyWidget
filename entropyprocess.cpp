@@ -81,12 +81,12 @@ QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData)
     for(qint32 i=0;i<nNumberOfRecords;i++)
     {
         sResult+=QString("  %1|%2|%3|%4|%5: %6\n")
-                .arg(QString::number(i),
-                pData->listMemoryRecords.at(i).sName,
-                QString::number(pData->listMemoryRecords.at(i).nOffset),
-                QString::number(pData->listMemoryRecords.at(i).nSize),
-                QString::number(pData->listMemoryRecords.at(i).dEntropy),
-                pData->listMemoryRecords.at(i).sStatus);
+                    .arg(QString::number(i),
+                    pData->listMemoryRecords.at(i).sName,
+                    QString::number(pData->listMemoryRecords.at(i).nOffset),
+                    QString::number(pData->listMemoryRecords.at(i).nSize),
+                    QString::number(pData->listMemoryRecords.at(i).dEntropy),
+                    pData->listMemoryRecords.at(i).sStatus);
     }
 
     return sResult;
