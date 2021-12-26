@@ -1,3 +1,3 @@
 # XEntropyWidget
 
-Widget for entropy
+Widget for entropy calculation
