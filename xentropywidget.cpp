@@ -76,24 +76,24 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
     g_entropyData.nOffset=0; // We are using subdevice.
     g_entropyData.nSize=this->g_nSize;
 
+    if(fileType!=XBinary::FT_BINARY)
+    {
+        SubDevice subDevice(g_pDevice,g_nOffset,g_nSize);
+
+        if(subDevice.open(QIODevice::ReadOnly))
+        {
+            g_entropyData.fileType=XFormats::setFileTypeComboBox(fileType,&subDevice,ui->comboBoxType);
+
+            subDevice.close();
+        }
+    }
+    else
+    {
+        ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType),fileType);
+    }
+
     if(bAuto)
     {
-        if(fileType!=XBinary::FT_BINARY)
-        {
-            SubDevice subDevice(g_pDevice,g_nOffset,g_nSize);
-
-            if(subDevice.open(QIODevice::ReadOnly))
-            {
-                g_entropyData.fileType=XFormats::setFileTypeComboBox(fileType,g_pDevice,ui->comboBoxType);
-
-                subDevice.close();
-            }
-        }
-        else
-        {
-            ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType),fileType);
-        }
-
         reload(true,true);
     }
 }
