@@ -64,6 +64,8 @@ private slots:
     void on_tableWidgetRegions_itemSelectionChanged();
     void on_pushButtonSaveEntropyTable_clicked();
     void on_pushButtonSaveEntropyDiagram_clicked();
+    void on_spinBoxCount_valueChanged(int nValue);
+    void adjust();
 
 protected:
     virtual void registerShortcuts(bool bState);

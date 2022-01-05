@@ -30,12 +30,13 @@ EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
     connect(&g_binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximumOpt(qint32)));
 }
 
-void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions)
+void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax)
 {
     this->g_pDevice=pDevice;
     this->g_pData=pData;
     this->g_bGraph=bGraph;
     this->g_bRegions=bRegions;
+    this->g_nMax=nMax;
 }
 
 EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
@@ -46,7 +47,7 @@ EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
     result.fileType=XBinary::getPrefFileType(pDevice);
 
     EntropyProcess entropyProcess;
-    entropyProcess.setData(pDevice,&result,false,true);
+    entropyProcess.setData(pDevice,&result,false,true,100);
     entropyProcess.process();
 
     return result;
@@ -226,31 +227,46 @@ void EntropyProcess::process()
     if(g_bGraph)
     {
         emit progressValueMinimumMain(0);
-        emit progressValueMaximumMain(N_MAX_GRAPH);
+        emit progressValueMaximumMain(g_nMax);
 
         g_pData->byteCounts=g_binary.getByteCounts(g_pData->nOffset,g_pData->nSize);
-        g_pData->nMaxGraph=N_MAX_GRAPH;
 
-        qint64 nGraph=(g_pData->nSize)/g_pData->nMaxGraph;
+        qint64 nGraph=(g_pData->nSize)/g_nMax;
 
         if(nGraph)
         {
+            g_pData->listEntropies.clear();
     //        for(qint32 i=0;i<=pData->nMaxGraph;i++)
     //        {
     //            pData->dOffset[i]=pData->nOffset+i*nGraph;
     //            pData->dOffsetEntropy[i]=pData->dTotalEntropy;
     //        }
-            for(qint32 i=0;(i<g_pData->nMaxGraph)&&(!g_bIsStop);i++)
-            {
-                g_pData->dOffset[i]=g_pData->nOffset+i*nGraph;
+            RECORD record={};
 
-                g_pData->dOffsetEntropy[i]=g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_pData->nMaxGraph/10),g_pData->nSize-(i*nGraph)));
+            for(qint32 i=0;(i<g_nMax)&&(!g_bIsStop);i++)
+            {
+//                g_pData->dOffset[i]=g_pData->nOffset+i*nGraph;
+//                g_pData->dOffsetEntropy[i]=g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph)));
+//                g_pData->listOffsetEntropy.append(g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph))));
+
+                record.dOffset=g_pData->nOffset+i*nGraph;
+                record.dEntropy=g_binary.getEntropy(g_pData->nOffset+i*nGraph,nGraph);
+
+                g_pData->listEntropies.append(record);
 
                 emit progressValueChangedMain(i);
             }
 
-            g_pData->dOffset[g_pData->nMaxGraph]=g_pData->nOffset+g_pData->nSize;
-            g_pData->dOffsetEntropy[g_pData->nMaxGraph]=g_pData->dOffsetEntropy[g_pData->nMaxGraph-1];
+            record.dOffset=g_pData->nOffset+g_pData->nSize;
+
+            g_pData->listEntropies.append(record);
+
+//            g_pData->listOffsets.append(g_pData->nOffset+g_pData->nSize);
+
+//            g_pData->listOffsetEntropy.append(g_pData->listOffsetEntropy.last());
+
+//            g_pData->dOffset[g_pData->nMaxGraph]=;
+//            g_pData->dOffsetEntropy[g_pData->nMaxGraph]=g_pData->dOffsetEntropy[g_pData->nMaxGraph-1];
         }
     }
 

@@ -37,7 +37,7 @@ class DialogEntropyProcess : public QDialog
 
 public:
     // TODO setData
-    explicit DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions);
+    explicit DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
     ~DialogEntropyProcess();
 
 private slots:

@@ -21,7 +21,7 @@
 #include "dialogentropyprocess.h"
 #include "ui_dialogentropyprocess.h"
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions) :
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions,qint32 nMax) :
     QDialog(pParent),
     ui(new Ui::DialogEntropyProcess)
 {
@@ -42,7 +42,7 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, 
     connect(g_pEntropyProcess, SIGNAL(progressValueMinimumOpt(qint32)), this, SLOT(progressValueMinimumOpt(qint32)));
     connect(g_pEntropyProcess, SIGNAL(progressValueMaximumOpt(qint32)), this, SLOT(progressValueMaximumOpt(qint32)));
 
-    g_pEntropyProcess->setData(pDevice,pData,bGraph,bRegions);
+    g_pEntropyProcess->setData(pDevice,pData,bGraph,bRegions,nMax);
     g_pThread->start();
 
     g_bIsStop=false;

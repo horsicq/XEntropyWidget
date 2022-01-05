@@ -38,12 +38,17 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
 
     g_entropyData={};
 
+    g_pDevice=nullptr;
+    g_nOffset=0;
+    g_nSize=0;
+
+    g_pCurve=nullptr;
+    g_pHistogram=nullptr;
+
     QPen penRed(Qt::red);
     g_pCurve=new QwtPlotCurve;
     g_pCurve->setPen(penRed);
     g_pCurve->attach(ui->widgetEntropy);
-    ui->widgetEntropy->setAxisScale(0,0,8); // Fix
-//    ui->widgetEntropy->setAutoReplot();
 
     QPen penBlue(Qt::blue);
     g_pHistogram=new QwtPlotHistogram;
@@ -51,10 +56,15 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
 
     g_pHistogram->attach(ui->widgetBytes);
 
+    ui->widgetEntropy->setAxisScale(0,0,8); // Fix
+//    ui->widgetEntropy->setAutoReplot();
+
     ui->widgetBytes->setAxisScale(2,0,256,32);
     ui->widgetBytes->updateAxes();
 
     ui->tabWidget->setCurrentIndex(0);
+
+    ui->spinBoxCount->setValue(100);
 }
 
 XEntropyWidget::~XEntropyWidget()
@@ -92,6 +102,21 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
         ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType),fileType);
     }
 
+    qint64 nCount=g_nSize/0x2000;
+
+    nCount=qMin(nCount,(qint64)100);
+
+    if(nCount)
+    {
+        ui->spinBoxCount->setValue(nCount);
+    }
+    else
+    {
+        ui->spinBoxCount->setValue(1);
+    }
+
+    adjust();
+
     if(bAuto)
     {
         reload(true,true);
@@ -109,7 +134,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
     if(subDevice.open(QIODevice::ReadOnly))
     {
-        DialogEntropyProcess dep(XOptions::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions);
+        DialogEntropyProcess dep(XOptions::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions,ui->spinBoxCount->value());
 
         if(dep.exec()==QDialog::Accepted)
         {
@@ -124,7 +149,22 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 ui->lineEditSize->setValue32_64(g_nSize);
                 ui->progressBarTotalEntropy->setFormat(g_entropyData.sStatus+"(%p%)");
 
-                g_pCurve->setSamples(g_entropyData.dOffset,g_entropyData.dOffsetEntropy,g_entropyData.nMaxGraph+1);
+                qint32 nNumberOfEntropies=g_entropyData.listEntropies.count();
+
+                double *pOffsets=new double[nNumberOfEntropies];
+                double *pEntropies=new double[nNumberOfEntropies];
+
+                for(qint32 i=0;i<nNumberOfEntropies;i++)
+                {
+                    pOffsets[i]=g_entropyData.listEntropies.at(i).dOffset;
+                    pEntropies[i]=g_entropyData.listEntropies.at(i).dEntropy;
+                }
+
+                g_pCurve->setSamples(pOffsets,pEntropies,nNumberOfEntropies);
+
+                delete [] pOffsets;
+                delete [] pEntropies;
+
                 ui->widgetEntropy->replot();
 
                 ui->tableWidgetBytes->clear();
@@ -394,5 +434,26 @@ void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
         renderer.setDiscardFlag(QwtPlotRenderer::DiscardBackground,false);
         //        renderer.setLayoutFlag(QwtPlotRenderer::KeepFrames,true);
         renderer.renderDocument(pWidget,sFileName,QSizeF(300,200),85);
+    }
+}
+
+void XEntropyWidget::on_spinBoxCount_valueChanged(int nValue)
+{
+    Q_UNUSED(nValue)
+
+    adjust();
+}
+
+void XEntropyWidget::adjust()
+{
+    qint32 nValue=ui->spinBoxCount->value();
+
+    if(nValue)
+    {
+        ui->lineEditPartSize->setValue32_64(g_nSize/nValue);
+    }
+    else
+    {
+        ui->lineEditPartSize->setValue((quint32)0);
     }
 }

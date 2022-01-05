@@ -35,7 +35,7 @@ class EntropyProcess : public QObject
     Q_OBJECT
 
 public:
-    static const qint32 N_MAX_GRAPH=100; // TODO set/get functions
+//    static const qint32 N_MAX_GRAPH=1000; // TODO set/get functions
 
     struct MEMORY_RECORD
     {
@@ -46,16 +46,20 @@ public:
         QString sStatus;
     };
 
+    struct RECORD
+    {
+        double dOffset;
+        double dEntropy;
+    };
+
     struct DATA
     {
         qint64 nOffset;
         qint64 nSize;
         double dTotalEntropy;
         QString sStatus;
-        double dOffset[N_MAX_GRAPH+1];
-        double dOffsetEntropy[N_MAX_GRAPH+1];
+        QList<RECORD> listEntropies;
         XBinary::BYTE_COUNTS byteCounts;
-        qint32 nMaxGraph;
         XBinary::FT fileType;
         QList<MEMORY_RECORD> listMemoryRecords;
     #ifdef QT_GUI_LIB
@@ -65,7 +69,7 @@ public:
 
     explicit EntropyProcess(QObject *pParent=nullptr);
 
-    void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions);
+    void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
     static DATA processRegionsDevice(QIODevice *pDevice);
     static DATA processRegionsFile(QString sFileName);
     static QString dataToPlainString(DATA *pData);
@@ -96,6 +100,7 @@ private:
     XBinary g_binary;
     bool g_bGraph;
     bool g_bRegions;
+    qint32 g_nMax;
 };
 
 #endif // ENTROPYPROCESS_H
