@@ -36,6 +36,7 @@
 #include "qwt_plot_magnifier.h"
 #include "qwt_plot_marker.h"
 #include "qwt_plot_panner.h"
+#include "qwt_plot_picker.h"
 #include "qwt_plot_renderer.h"
 #include "qwt_plot_renderer.h"
 #include "qwt_plot_zoneitem.h"
@@ -80,6 +81,7 @@ private:
     QwtPlotHistogram *g_pHistogram;
     QList<QwtPlotZoneItem *> g_listZones;
     QString g_sSaveDirectory;
+    QwtPlotPicker* g_pPicker;
 };
 
 #endif // XENTROPYWIDGET_H

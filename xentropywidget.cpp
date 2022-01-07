@@ -57,10 +57,19 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
     g_pHistogram->attach(ui->widgetBytes);
 
     ui->widgetEntropy->setAxisScale(0,0,8); // Fix
+//    ui->widgetEntropy->setAxisScale(2,0,100);
 //    ui->widgetEntropy->setAutoReplot();
 
     ui->widgetBytes->setAxisScale(2,0,256,32);
     ui->widgetBytes->updateAxes();
+
+    g_pPicker=new QwtPlotPicker(2,0,
+            QwtPlotPicker::CrossRubberBand,QwtPicker::AlwaysOn,
+            ui->widgetEntropy->canvas());
+//        g_pPicker->setStateMachine( new QwtPickerDragPointMachine() );
+    g_pPicker->setRubberBandPen(QColor(Qt::green));
+    g_pPicker->setRubberBand(QwtPicker::CrossRubberBand);
+    g_pPicker->setTrackerPen(QColor(Qt::red));
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -102,7 +111,7 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
         ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType),fileType);
     }
 
-    qint64 nCount=g_nSize/0x2000;
+    qint64 nCount=g_nSize/0x200;
 
     nCount=qMin(nCount,(qint64)100);
 
