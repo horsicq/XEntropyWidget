@@ -139,190 +139,193 @@ void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
 
 void XEntropyWidget::reload(bool bGraph, bool bRegions)
 {
-    SubDevice subDevice(g_pDevice,g_nOffset,g_nSize);
-
-    if(subDevice.open(QIODevice::ReadOnly))
+    if(g_pDevice)
     {
-        DialogEntropyProcess dep(XOptions::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions,ui->spinBoxCount->value());
+        SubDevice subDevice(g_pDevice,g_nOffset,g_nSize);
 
-        if(dep.exec()==QDialog::Accepted)
+        if(subDevice.open(QIODevice::ReadOnly))
         {
-            if(bGraph)
+            DialogEntropyProcess dep(XOptions::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions,ui->spinBoxCount->value());
+
+            if(dep.exec()==QDialog::Accepted)
             {
-                ui->lineEditTotalEntropy->setText(XBinary::doubleToString(g_entropyData.dTotalEntropy,5));
-
-                ui->progressBarTotalEntropy->setMaximum(8*100);
-                ui->progressBarTotalEntropy->setValue(g_entropyData.dTotalEntropy*100);
-
-                ui->lineEditOffset->setValue32_64(g_nOffset);
-                ui->lineEditSize->setValue32_64(g_nSize);
-                ui->progressBarTotalEntropy->setFormat(g_entropyData.sStatus+"(%p%)");
-
-                qint32 nNumberOfEntropies=g_entropyData.listEntropies.count();
-
-                double *pOffsets=new double[nNumberOfEntropies];
-                double *pEntropies=new double[nNumberOfEntropies];
-
-                for(qint32 i=0;i<nNumberOfEntropies;i++)
+                if(bGraph)
                 {
-                    pOffsets[i]=g_entropyData.listEntropies.at(i).dOffset;
-                    pEntropies[i]=g_entropyData.listEntropies.at(i).dEntropy;
+                    ui->lineEditTotalEntropy->setText(XBinary::doubleToString(g_entropyData.dTotalEntropy,5));
+
+                    ui->progressBarTotalEntropy->setMaximum(8*100);
+                    ui->progressBarTotalEntropy->setValue(g_entropyData.dTotalEntropy*100);
+
+                    ui->lineEditOffset->setValue32_64(g_nOffset);
+                    ui->lineEditSize->setValue32_64(g_nSize);
+                    ui->progressBarTotalEntropy->setFormat(g_entropyData.sStatus+"(%p%)");
+
+                    qint32 nNumberOfEntropies=g_entropyData.listEntropies.count();
+
+                    double *pOffsets=new double[nNumberOfEntropies];
+                    double *pEntropies=new double[nNumberOfEntropies];
+
+                    for(qint32 i=0;i<nNumberOfEntropies;i++)
+                    {
+                        pOffsets[i]=g_entropyData.listEntropies.at(i).dOffset;
+                        pEntropies[i]=g_entropyData.listEntropies.at(i).dEntropy;
+                    }
+
+                    g_pCurve->setSamples(pOffsets,pEntropies,nNumberOfEntropies);
+
+                    delete [] pOffsets;
+                    delete [] pEntropies;
+
+                    ui->widgetEntropy->replot();
+
+                    ui->tableWidgetBytes->clear();
+
+                    ui->tableWidgetBytes->setRowCount(256);
+                    ui->tableWidgetBytes->setColumnCount(3);
+
+                    QStringList slHeader;
+                    slHeader.append(tr("Byte"));
+                    slHeader.append(tr("Count"));
+                    slHeader.append(QString("%"));
+
+                    ui->tableWidgetBytes->setHorizontalHeaderLabels(slHeader);
+                    ui->tableWidgetBytes->horizontalHeader()->setVisible(true);
+
+                    for(qint32 i=0;i<256;i++)
+                    {
+                        QTableWidgetItem *pItemByte=new QTableWidgetItem;
+
+                        pItemByte->setText(QString("0x%1").arg(i,2,16,QChar('0')));
+                        pItemByte->setTextAlignment(Qt::AlignRight);
+                        ui->tableWidgetBytes->setItem(i,0,pItemByte);
+
+                        QTableWidgetItem *pItemCount=new QTableWidgetItem;
+
+                        pItemCount->setData(Qt::DisplayRole,g_entropyData.byteCounts.nCount[i]);
+                        pItemCount->setTextAlignment(Qt::AlignRight);
+                        ui->tableWidgetBytes->setItem(i,1,pItemCount);
+
+                        XProcentWidgetItem *pItemProcent=new XProcentWidgetItem;
+
+                        pItemProcent->setText(XBinary::doubleToString(((double)g_entropyData.byteCounts.nCount[i]*100)/g_entropyData.byteCounts.nSize,4));
+
+                        pItemProcent->setTextAlignment(Qt::AlignRight);
+                        ui->tableWidgetBytes->setItem(i,2,pItemProcent);
+                    }
+
+                    ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
+                    ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
+                    ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
+
+                    // TODO Size 0,2 columns
+
+                    QVector<QwtIntervalSample> samples(256);
+
+                    for(quint32 i=0;i<256;i++)
+                    {
+                        QwtInterval interval(double(i),i+1.0);
+                        interval.setBorderFlags(QwtInterval::ExcludeMaximum);
+
+                        samples[i]=QwtIntervalSample(g_entropyData.byteCounts.nCount[i],interval);
+                    }
+
+                    g_pHistogram->setSamples(samples);
+                    ui->widgetBytes->replot();
                 }
 
-                g_pCurve->setSamples(pOffsets,pEntropies,nNumberOfEntropies);
-
-                delete [] pOffsets;
-                delete [] pEntropies;
-
-                ui->widgetEntropy->replot();
-
-                ui->tableWidgetBytes->clear();
-
-                ui->tableWidgetBytes->setRowCount(256);
-                ui->tableWidgetBytes->setColumnCount(3);
-
-                QStringList slHeader;
-                slHeader.append(tr("Byte"));
-                slHeader.append(tr("Count"));
-                slHeader.append(QString("%"));
-
-                ui->tableWidgetBytes->setHorizontalHeaderLabels(slHeader);
-                ui->tableWidgetBytes->horizontalHeader()->setVisible(true);
-
-                for(qint32 i=0;i<256;i++)
+                if(bRegions)
                 {
-                    QTableWidgetItem *pItemByte=new QTableWidgetItem;
+                    qint32 nNumberOfZones=g_listZones.count();
 
-                    pItemByte->setText(QString("0x%1").arg(i,2,16,QChar('0')));
-                    pItemByte->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetBytes->setItem(i,0,pItemByte);
+                    for(qint32 i=0;i<nNumberOfZones;i++)
+                    {
+                        g_listZones.at(i)->setVisible(false);
+                    }
 
-                    QTableWidgetItem *pItemCount=new QTableWidgetItem;
+                    ui->widgetEntropy->replot();
 
-                    pItemCount->setData(Qt::DisplayRole,g_entropyData.byteCounts.nCount[i]);
-                    pItemCount->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetBytes->setItem(i,1,pItemCount);
+                    g_listZones.clear();
 
-                    XProcentWidgetItem *pItemProcent=new XProcentWidgetItem;
+                    ui->tableWidgetRegions->clear();
 
-                    pItemProcent->setText(XBinary::doubleToString(((double)g_entropyData.byteCounts.nCount[i]*100)/g_entropyData.byteCounts.nSize,4));
+                    qint32 nNumberOfMemoryRecords=g_entropyData.listMemoryRecords.count();
 
-                    pItemProcent->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetBytes->setItem(i,2,pItemProcent);
+                    ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
+                    ui->tableWidgetRegions->setColumnCount(5);
+
+                    QStringList slHeader;
+                    slHeader.append(tr("Offset"));
+                    slHeader.append(tr("Size"));
+                    slHeader.append(tr("Entropy"));
+                    slHeader.append(tr("Status"));
+                    slHeader.append(tr("Name"));
+
+                    ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
+                    ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
+
+                    for(qint32 i=0;i<nNumberOfMemoryRecords;i++)
+                    {
+                        QTableWidgetItem *pItemOffset=new QTableWidgetItem;
+
+                        pItemOffset->setData(Qt::UserRole+0,g_entropyData.listMemoryRecords.at(i).nOffset);
+                        pItemOffset->setData(Qt::UserRole+1,g_entropyData.listMemoryRecords.at(i).nSize);
+
+                        pItemOffset->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nOffset+g_nOffset));
+                        pItemOffset->setTextAlignment(Qt::AlignRight);
+                        ui->tableWidgetRegions->setItem(i,0,pItemOffset);
+
+                        QTableWidgetItem *pItemSize=new QTableWidgetItem;
+
+                        pItemSize->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nSize));
+                        pItemSize->setTextAlignment(Qt::AlignRight);
+                        ui->tableWidgetRegions->setItem(i,1,pItemSize);
+
+                        QTableWidgetItem *pItemEntropy=new QTableWidgetItem;
+
+                        pItemEntropy->setText(XBinary::doubleToString(g_entropyData.listMemoryRecords.at(i).dEntropy,5));
+                        pItemEntropy->setTextAlignment(Qt::AlignRight);
+                        ui->tableWidgetRegions->setItem(i,2,pItemEntropy);
+
+                        QTableWidgetItem *pItemStatus=new QTableWidgetItem;
+
+                        pItemStatus->setText(g_entropyData.listMemoryRecords.at(i).sStatus);
+                        pItemStatus->setTextAlignment(Qt::AlignLeft);
+                        ui->tableWidgetRegions->setItem(i,3,pItemStatus);
+
+                        QTableWidgetItem *pItemName=new QTableWidgetItem;
+
+                        pItemName->setText(g_entropyData.listMemoryRecords.at(i).sName);
+                        pItemName->setTextAlignment(Qt::AlignLeft);
+
+                        ui->tableWidgetRegions->setItem(i,4,pItemName);
+
+                        QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
+                        pZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset,g_entropyData.listMemoryRecords.at(i).nOffset+g_entropyData.listMemoryRecords.at(i).nSize);
+                        pZone->setVisible(false);
+                        QColor color=Qt::darkBlue;
+                        color.setAlpha(100);
+                        pZone->setPen(color);
+                        color.setAlpha(20);
+                        pZone->setBrush(color);
+                        pZone->attach(ui->widgetEntropy);
+                        g_listZones.append(pZone);
+                    }
+
+                    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
+                    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
+                    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
+                    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
+                    ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Stretch);
+
+                    qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,g_entropyData.mode);
+
+                    ui->tableWidgetRegions->setColumnWidth(0,nColumnSize);
+                    ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
                 }
-
-                ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
-                ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
-                ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
-
-                // TODO Size 0,2 columns
-
-                QVector<QwtIntervalSample> samples(256);
-
-                for(quint32 i=0;i<256;i++)
-                {
-                    QwtInterval interval(double(i),i+1.0);
-                    interval.setBorderFlags(QwtInterval::ExcludeMaximum);
-
-                    samples[i]=QwtIntervalSample(g_entropyData.byteCounts.nCount[i],interval);
-                }
-
-                g_pHistogram->setSamples(samples);
-                ui->widgetBytes->replot();
             }
 
-            if(bRegions)
-            {
-                qint32 nNumberOfZones=g_listZones.count();
-
-                for(qint32 i=0;i<nNumberOfZones;i++)
-                {
-                    g_listZones.at(i)->setVisible(false);
-                }
-
-                ui->widgetEntropy->replot();
-
-                g_listZones.clear();
-
-                ui->tableWidgetRegions->clear();
-
-                qint32 nNumberOfMemoryRecords=g_entropyData.listMemoryRecords.count();
-
-                ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
-                ui->tableWidgetRegions->setColumnCount(5);
-
-                QStringList slHeader;
-                slHeader.append(tr("Offset"));
-                slHeader.append(tr("Size"));
-                slHeader.append(tr("Entropy"));
-                slHeader.append(tr("Status"));
-                slHeader.append(tr("Name"));
-
-                ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
-                ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
-
-                for(qint32 i=0;i<nNumberOfMemoryRecords;i++)
-                {
-                    QTableWidgetItem *pItemOffset=new QTableWidgetItem;
-
-                    pItemOffset->setData(Qt::UserRole+0,g_entropyData.listMemoryRecords.at(i).nOffset);
-                    pItemOffset->setData(Qt::UserRole+1,g_entropyData.listMemoryRecords.at(i).nSize);
-
-                    pItemOffset->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nOffset+g_nOffset));
-                    pItemOffset->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i,0,pItemOffset);
-
-                    QTableWidgetItem *pItemSize=new QTableWidgetItem;
-
-                    pItemSize->setText(XLineEditHEX::getFormatString(g_entropyData.mode,g_entropyData.listMemoryRecords.at(i).nSize));
-                    pItemSize->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i,1,pItemSize);
-
-                    QTableWidgetItem *pItemEntropy=new QTableWidgetItem;
-
-                    pItemEntropy->setText(XBinary::doubleToString(g_entropyData.listMemoryRecords.at(i).dEntropy,5));
-                    pItemEntropy->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i,2,pItemEntropy);
-
-                    QTableWidgetItem *pItemStatus=new QTableWidgetItem;
-
-                    pItemStatus->setText(g_entropyData.listMemoryRecords.at(i).sStatus);
-                    pItemStatus->setTextAlignment(Qt::AlignLeft);
-                    ui->tableWidgetRegions->setItem(i,3,pItemStatus);
-
-                    QTableWidgetItem *pItemName=new QTableWidgetItem;
-
-                    pItemName->setText(g_entropyData.listMemoryRecords.at(i).sName);
-                    pItemName->setTextAlignment(Qt::AlignLeft);
-
-                    ui->tableWidgetRegions->setItem(i,4,pItemName);
-
-                    QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
-                    pZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset,g_entropyData.listMemoryRecords.at(i).nOffset+g_entropyData.listMemoryRecords.at(i).nSize);
-                    pZone->setVisible(false);
-                    QColor color=Qt::darkBlue;
-                    color.setAlpha(100);
-                    pZone->setPen(color);
-                    color.setAlpha(20);
-                    pZone->setBrush(color);
-                    pZone->attach(ui->widgetEntropy);
-                    g_listZones.append(pZone);
-                }
-
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3,QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4,QHeaderView::Stretch);
-
-                qint32 nColumnSize=XLineEditHEX::getWidthFromMode(this,g_entropyData.mode);
-
-                ui->tableWidgetRegions->setColumnWidth(0,nColumnSize);
-                ui->tableWidgetRegions->setColumnWidth(1,nColumnSize);
-            }
+            subDevice.close();
         }
-
-        subDevice.close();
     }
 }
 
