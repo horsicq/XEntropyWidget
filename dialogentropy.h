@@ -27,7 +27,7 @@
 namespace Ui {
 class DialogEntropy;
 }
-// TODO XShortcutsDialog
+
 class DialogEntropy : public XShortcutsDialog
 {
     Q_OBJECT
