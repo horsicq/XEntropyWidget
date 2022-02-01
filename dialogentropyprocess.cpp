@@ -21,12 +21,35 @@
 #include "dialogentropyprocess.h"
 #include "ui_dialogentropyprocess.h"
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions,qint32 nMax) :
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent) :
     QDialog(pParent),
     ui(new Ui::DialogEntropyProcess)
 {
     ui->setupUi(this);
+    g_bIsStop=false;
+}
 
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions,qint32 nMax) :
+    DialogEntropyProcess(pParent)
+{
+    setData(pDevice,pData,bGraph,bRegions,nMax);
+}
+
+DialogEntropyProcess::~DialogEntropyProcess()
+{
+    g_pEntropyProcess->stop();
+
+    g_pThread->quit();
+    g_pThread->wait();
+
+    delete ui;
+
+    delete g_pThread;
+    delete g_pEntropyProcess;
+}
+
+void DialogEntropyProcess::setData(QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions, qint32 nMax)
+{
     g_pEntropyProcess=new EntropyProcess;
     g_pThread=new QThread;
 
@@ -44,21 +67,6 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, 
 
     g_pEntropyProcess->setData(pDevice,pData,bGraph,bRegions,nMax);
     g_pThread->start();
-
-    g_bIsStop=false;
-}
-
-DialogEntropyProcess::~DialogEntropyProcess()
-{
-    g_pEntropyProcess->stop();
-
-    g_pThread->quit();
-    g_pThread->wait();
-
-    delete ui;
-
-    delete g_pThread;
-    delete g_pEntropyProcess;
 }
 
 void DialogEntropyProcess::on_pushButtonCancel_clicked()

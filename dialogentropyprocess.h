@@ -36,9 +36,11 @@ class DialogEntropyProcess : public QDialog
     Q_OBJECT
 
 public:
-    // TODO setData
+    explicit DialogEntropyProcess(QWidget *pParent);
     explicit DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
     ~DialogEntropyProcess();
+
+    void setData(QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
 
 private slots:
     void on_pushButtonCancel_clicked();
