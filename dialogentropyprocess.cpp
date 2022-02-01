@@ -55,7 +55,7 @@ void DialogEntropyProcess::setData(QIODevice *pDevice, EntropyProcess::DATA *pDa
 
     g_pEntropyProcess->moveToThread(g_pThread);
 
-    connect(g_pThread, SIGNAL(started()), g_pEntropyProcess, SLOT(process()));
+    connect(g_pThread,SIGNAL(started()),g_pEntropyProcess,SLOT(process()));
     connect(g_pEntropyProcess, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
     connect(g_pEntropyProcess, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
     connect(g_pEntropyProcess, SIGNAL(progressValueChangedMain(qint32)), this, SLOT(progressValueChangedMain(qint32)));
