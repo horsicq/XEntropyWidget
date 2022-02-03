@@ -63,7 +63,7 @@ void DialogEntropyProcess::setData(QIODevice *pDevice, EntropyProcess::DATA *pDa
     connect(g_pEntropyProcess,SIGNAL(progressValueMaximumMain(qint32)),this,SLOT(progressValueMaximumMain(qint32)));
     connect(g_pEntropyProcess,SIGNAL(progressValueChangedOpt(qint32)),this,SLOT(progressValueChangedOpt(qint32)));
     connect(g_pEntropyProcess,SIGNAL(progressValueMinimumOpt(qint32)),this,SLOT(progressValueMinimumOpt(qint32)));
-    connect(g_pEntropyProcess, SIGNAL(progressValueMaximumOpt(qint32)), this, SLOT(progressValueMaximumOpt(qint32)));
+    connect(g_pEntropyProcess,SIGNAL(progressValueMaximumOpt(qint32)),this,SLOT(progressValueMaximumOpt(qint32)));
 
     g_pEntropyProcess->setData(pDevice,pData,bGraph,bRegions,nMax);
     g_pThread->start();
