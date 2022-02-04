@@ -217,7 +217,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
                     ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Interactive);
 
-                    // TODO Size 0,2 columns
+                    // TODO Size 0,2 columns !!!
 
                     QVector<QwtIntervalSample> samples(256);
 
