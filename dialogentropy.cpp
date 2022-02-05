@@ -35,7 +35,7 @@ DialogEntropy::~DialogEntropy()
     delete ui;
 }
 
-void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize)
+void DialogEntropy::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize)
 {
     XBinary::FT ft=XBinary::FT_UNKNOWN;
 
