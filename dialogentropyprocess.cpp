@@ -48,7 +48,7 @@ DialogEntropyProcess::~DialogEntropyProcess()
     delete g_pEntropyProcess;
 }
 
-void DialogEntropyProcess::setData(QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions, qint32 nMax)
+void DialogEntropyProcess::setData(QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax)
 {
     g_pEntropyProcess=new EntropyProcess;
     g_pThread=new QThread;
