@@ -66,7 +66,7 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
     g_pPicker=new QwtPlotPicker(2,0,
             QwtPlotPicker::CrossRubberBand,QwtPicker::AlwaysOn,
             ui->widgetEntropy->canvas());
-//        g_pPicker->setStateMachine( new QwtPickerDragPointMachine() );
+//        g_pPicker->setStateMachine(new QwtPickerDragPointMachine());
     g_pPicker->setRubberBandPen(QColor(Qt::green));
     g_pPicker->setRubberBand(QwtPicker::CrossRubberBand);
     g_pPicker->setTrackerPen(QColor(Qt::red));
