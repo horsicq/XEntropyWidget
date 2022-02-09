@@ -29,7 +29,7 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent) :
     g_bIsStop=false;
 }
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions,qint32 nMax) :
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax) :
     DialogEntropyProcess(pParent)
 {
     setData(pDevice,pData,bGraph,bRegions,nMax);
