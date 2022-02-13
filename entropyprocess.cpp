@@ -30,7 +30,7 @@ EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
     connect(&g_binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximumOpt(qint32)));
 }
 
-void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax)
+void EntropyProcess::setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax)
 {
     this->g_pDevice=pDevice;
     this->g_pData=pData;
