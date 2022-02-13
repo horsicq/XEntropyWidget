@@ -81,7 +81,7 @@ XEntropyWidget::~XEntropyWidget()
     delete ui;
 }
 
-void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto)
+void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,XBinary::FT fileType,bool bAuto)
 {
     g_pDevice=pDevice;
     g_nOffset=nOffset;
