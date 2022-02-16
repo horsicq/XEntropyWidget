@@ -137,7 +137,7 @@ void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
     this->g_sSaveDirectory=sSaveDirectory;
 }
 
-void XEntropyWidget::reload(bool bGraph, bool bRegions)
+void XEntropyWidget::reload(bool bGraph,bool bRegions)
 {
     if(g_pDevice)
     {
