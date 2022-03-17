@@ -44,6 +44,10 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
 
     g_pCurve=nullptr;
     g_pHistogram=nullptr;
+    g_pGrid=nullptr;
+
+    g_pGrid=new QwtPlotGrid;
+    g_pGrid->enableXMin(true);
 
     QPen penRed(Qt::red);
     g_pCurve=new QwtPlotCurve;
@@ -468,4 +472,18 @@ void XEntropyWidget::adjust()
     {
         ui->lineEditPartSize->setValue((quint32)0);
     }
+}
+
+void XEntropyWidget::on_checkBoxGridRegions_toggled(bool bChecked)
+{
+    if(bChecked)
+    {
+        g_pGrid->attach(ui->widgetEntropy);
+    }
+    else
+    {
+        g_pGrid->detach();
+    }
+
+    ui->widgetEntropy->replot();
 }

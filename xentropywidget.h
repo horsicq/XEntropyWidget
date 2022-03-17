@@ -32,6 +32,7 @@
 #include "qwt_plot.h"
 #include "qwt_plot_canvas.h"
 #include "qwt_plot_curve.h"
+#include "qwt_plot_grid.h"
 #include "qwt_plot_histogram.h"
 #include "qwt_plot_magnifier.h"
 #include "qwt_plot_marker.h"
@@ -67,6 +68,7 @@ private slots:
     void on_pushButtonSaveEntropyDiagram_clicked();
     void on_spinBoxCount_valueChanged(int nValue);
     void adjust();
+    void on_checkBoxGridRegions_toggled(bool bChecked);
 
 protected:
     virtual void registerShortcuts(bool bState);
@@ -79,6 +81,7 @@ private:
     EntropyProcess::DATA g_entropyData;
     QwtPlotCurve *g_pCurve;
     QwtPlotHistogram *g_pHistogram;
+    QwtPlotGrid *g_pGrid;
     QList<QwtPlotZoneItem *> g_listZones;
     QString g_sSaveDirectory;
     QwtPlotPicker* g_pPicker;
