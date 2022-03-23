@@ -27,6 +27,8 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent) :
 {
     ui->setupUi(this);
     g_bIsStop=false;
+    g_pEntropyProcess=nullptr;
+    g_pThread=nullptr;
 }
 
 DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax) :
