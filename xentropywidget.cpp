@@ -374,7 +374,7 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
 void XEntropyWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
-    // TODO
+    // TODO !!!
     //XShortcutsWidget::registerShortcuts(bState);
 }
 
