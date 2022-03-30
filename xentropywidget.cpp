@@ -42,9 +42,9 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
     g_nOffset=0;
     g_nSize=0;
 
-    g_pCurve=nullptr;
-    g_pHistogram=nullptr;
-    g_pGrid=nullptr;
+    g_pCurve=nullptr; // TODO remove
+    g_pHistogram=nullptr; // TODO remove
+    g_pGrid=nullptr; // TODO remove
 
     g_pGrid=new QwtPlotGrid;
     g_pGrid->enableXMin(true);
@@ -96,7 +96,7 @@ void XEntropyWidget::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,XBin
         this->g_nSize=(pDevice->size())-(this->g_nOffset);
     }
 
-    g_entropyData.nOffset=0; // We are using subdevice.
+    g_entropyData.nOffset=0; // We are using subdevice. Offset is always 0.
     g_entropyData.nSize=this->g_nSize;
 
     if(fileType!=XBinary::FT_BINARY)
