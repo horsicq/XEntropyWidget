@@ -22,6 +22,7 @@
 
 EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
+    g_pDevice=nullptr;
     g_bIsStop=false;
 
     connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
