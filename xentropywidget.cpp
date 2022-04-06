@@ -42,7 +42,6 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) :
     g_nOffset=0;
     g_nSize=0;
 
-    g_pHistogram=nullptr; // TODO remove
     g_pGrid=nullptr; // TODO remove
 
     g_pGrid=new QwtPlotGrid;
