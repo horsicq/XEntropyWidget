@@ -24,6 +24,7 @@ EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
     g_pDevice=nullptr;
     g_bIsStop=false;
+    g_pData=nullptr;
 
     connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
     connect(&g_binary,SIGNAL(entropyProgressValueChanged(qint32)),this,SIGNAL(progressValueChangedOpt(qint32)));
