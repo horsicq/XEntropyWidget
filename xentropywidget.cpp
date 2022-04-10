@@ -21,7 +21,7 @@
 #include "xentropywidget.h"
 #include "ui_xentropywidget.h"
 
-class XProcentWidgetItem : public QTableWidgetItem
+class XProcentWidgetItem : public QTableWidgetItem // TODO move to Controls
 {
 public:
     bool operator <(const QTableWidgetItem &other) const
