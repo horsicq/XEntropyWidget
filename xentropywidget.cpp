@@ -225,10 +225,10 @@ void XEntropyWidget::reload(bool bGraph,bool bRegions)
 
                     for(quint32 i=0;i<256;i++)
                     {
-                        QwtInterval interval(double(i),i+1.0);
-                        interval.setBorderFlags(QwtInterval::ExcludeMaximum);
+                        QwtInterval qwtInterval(double(i),i+1.0);
+                        qwtInterval.setBorderFlags(QwtInterval::ExcludeMaximum);
 
-                        samples[i]=QwtIntervalSample(g_entropyData.byteCounts.nCount[i],interval);
+                        samples[i]=QwtIntervalSample(g_entropyData.byteCounts.nCount[i],qwtInterval);
                     }
 
                     g_pHistogram->setSamples(samples);
