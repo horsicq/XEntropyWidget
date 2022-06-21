@@ -149,7 +149,9 @@ void XEntropyWidget::reload(bool bGraph,bool bRegions)
         {
             DialogEntropyProcess dep(XOptions::getMainWidget(this),&subDevice,&g_entropyData,bGraph,bRegions,ui->spinBoxCount->value());
 
-            if(dep.exec()==QDialog::Accepted)
+            // TODO Check execution time
+
+            if(dep.exec()==QDialog::Accepted) // TODO use status
             {
                 if(bGraph)
                 {
