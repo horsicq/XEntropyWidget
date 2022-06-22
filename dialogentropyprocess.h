@@ -31,7 +31,7 @@ namespace Ui {
 class DialogEntropyProcess;
 }
 
-class DialogEntropyProcess : public QDialog
+class DialogEntropyProcess : public QDialog // TODO XDialogProcess
 {
     Q_OBJECT
 
