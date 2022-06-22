@@ -67,7 +67,7 @@ public:
 
     explicit EntropyProcess(QObject *pParent=nullptr);
 
-    void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
+    void setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pProcessData);
     static DATA processRegionsDevice(QIODevice *pDevice);
     static DATA processRegionsFile(QString sFileName);
     static QString dataToPlainString(DATA *pData);
@@ -80,25 +80,19 @@ signals:
     void errorMessage(QString sText);
     void infoMessage(QString sText);
     void completed(qint64 nElapsed);
-    void progressValueChangedMain(qint32 nValue);
-    void progressValueMinimumMain(qint32 nValue);
-    void progressValueMaximumMain(qint32 nValue);
-    void progressValueChangedOpt(qint32 nValue);
-    void progressValueMinimumOpt(qint32 nValue);
-    void progressValueMaximumOpt(qint32 nValue);
 
 public slots:
-    void stop();
     void process();
 
 private:
     QIODevice *g_pDevice;
     DATA *g_pData;
-    bool g_bIsStop;
     XBinary g_binary;
     bool g_bGraph;
     bool g_bRegions;
     qint32 g_nMax;
+    XBinary::PDSTRUCT *g_pPsStruct;
+    XBinary::PDSTRUCT processDataEmpty;
 };
 
 #endif // ENTROPYPROCESS_H

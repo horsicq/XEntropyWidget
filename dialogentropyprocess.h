@@ -21,17 +21,14 @@
 #ifndef DIALOGENTROPYPROCESS_H
 #define DIALOGENTROPYPROCESS_H
 
-#include <QDialog>
-#include <QMessageBox>
-#include <QThread>
 #include "entropyprocess.h"
-#include "xoptions.h"
+#include "xdialogprocess.h"
 
 namespace Ui {
 class DialogEntropyProcess;
 }
 
-class DialogEntropyProcess : public QDialog // TODO XDialogProcess
+class DialogEntropyProcess : public XDialogProcess
 {
     Q_OBJECT
 
@@ -42,22 +39,16 @@ public:
 
     void setData(QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
 
+protected:
+    virtual void _timerSlot();
+
 private slots:
     void on_pushButtonCancel_clicked();
-    void errorMessage(QString sText);
-    void onCompleted(qint64 nElapsed);
-    void progressValueChangedMain(qint32 nValue);
-    void progressValueMaximumMain(qint32 nValue);
-    void progressValueMinimumMain(qint32 nValue);
-    void progressValueChangedOpt(qint32 nValue);
-    void progressValueMaximumOpt(qint32 nValue);
-    void progressValueMinimumOpt(qint32 nValue);
 
 private:
     Ui::DialogEntropyProcess *ui;
     EntropyProcess *g_pEntropyProcess;
     QThread *g_pThread;
-    bool g_bIsStop;
 };
 
 #endif // DIALOGENTROPYPROCESS_H

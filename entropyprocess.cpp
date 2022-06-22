@@ -23,23 +23,29 @@
 EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
     g_pDevice=nullptr;
-    g_bIsStop=false;
     g_pData=nullptr;
     g_bGraph=false;
+    g_bRegions=false;
+    g_nMax=0;
+    g_pPsStruct=nullptr;
+    processDataEmpty={};
 
     connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
-    connect(&g_binary,SIGNAL(entropyProgressValueChanged(qint32)),this,SIGNAL(progressValueChangedOpt(qint32)));
-    connect(&g_binary,SIGNAL(entropyProgressMinimumChanged(qint32)),this,SIGNAL(progressValueMinimumOpt(qint32)));
-    connect(&g_binary,SIGNAL(entropyProgressMaximumChanged(qint32)),this,SIGNAL(progressValueMaximumOpt(qint32)));
 }
 
-void EntropyProcess::setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax)
+void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pProcessData)
 {
     this->g_pDevice=pDevice;
     this->g_pData=pData;
     this->g_bGraph=bGraph;
     this->g_bRegions=bRegions;
     this->g_nMax=nMax;
+    this->g_pPsStruct=pProcessData;
+
+    if(!(this->g_pPsStruct))
+    {
+        this->g_pPsStruct=&processDataEmpty;
+    }
 }
 
 EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
@@ -50,7 +56,7 @@ EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
     result.fileType=XBinary::getPrefFileType(pDevice);
 
     EntropyProcess entropyProcess;
-    entropyProcess.setData(pDevice,&result,false,true,100);
+    entropyProcess.setData(pDevice,&result,false,true,100,nullptr);
     entropyProcess.process();
 
     return result;
@@ -201,22 +207,16 @@ QString EntropyProcess::dataToTsvString(DATA *pData)
     return sResult;
 }
 
-void EntropyProcess::stop()
-{
-    g_binary.setEntropyProcessEnable(false);
-    g_bIsStop=true;
-}
-
 void EntropyProcess::process()
 {
     QElapsedTimer scanTimer;
     scanTimer.start();
 
-    g_bIsStop=false;
+    g_pPsStruct->pdRecordOpt.bIsValid=true;
 
     g_binary.setDevice(this->g_pDevice);
 
-    g_pData->dTotalEntropy=g_binary.getEntropy(g_pData->nOffset,g_pData->nSize);
+    g_pData->dTotalEntropy=g_binary.getEntropy(g_pData->nOffset,g_pData->nSize,g_pPsStruct);
 
     if(XBinary::isPacked(g_pData->dTotalEntropy))
     {
@@ -229,10 +229,9 @@ void EntropyProcess::process()
 
     if(g_bGraph)
     {
-        emit progressValueMinimumMain(0);
-        emit progressValueMaximumMain(g_nMax);
+        g_pPsStruct->pdRecordOpt.nTotal=g_nMax;
 
-        g_pData->byteCounts=g_binary.getByteCounts(g_pData->nOffset,g_pData->nSize);
+        g_pData->byteCounts=g_binary.getByteCounts(g_pData->nOffset,g_pData->nSize,g_pPsStruct);
 
         qint64 nGraph=(g_pData->nSize)/g_nMax;
 
@@ -246,18 +245,18 @@ void EntropyProcess::process()
     //        }
             RECORD record={};
 
-            for(qint32 i=0;(i<g_nMax)&&(!g_bIsStop);i++)
+            for(qint32 i=0;(i<g_nMax)&&(!(g_pPsStruct->bIsStop));i++)
             {
 //                g_pData->dOffset[i]=g_pData->nOffset+i*nGraph;
 //                g_pData->dOffsetEntropy[i]=g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph)));
 //                g_pData->listOffsetEntropy.append(g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph))));
 
                 record.dOffset=g_pData->nOffset+i*nGraph;
-                record.dEntropy=g_binary.getEntropy(g_pData->nOffset+i*nGraph,nGraph);
+                record.dEntropy=g_binary.getEntropy(g_pData->nOffset+i*nGraph,nGraph,g_pPsStruct);
 
                 g_pData->listEntropies.append(record);
 
-                emit progressValueChangedMain(i);
+                g_pPsStruct->pdRecordOpt.nCurrent=i;
             }
 
             record.dOffset=g_pData->nOffset+g_pData->nSize;
@@ -293,7 +292,7 @@ void EntropyProcess::process()
 
         qint32 nNumberOfRecords=memoryMap.listRecords.count();
 
-        for(qint32 i=0,j=0;i<nNumberOfRecords;i++)
+        for(qint32 i=0,j=0;(i<nNumberOfRecords)&&(!(g_pPsStruct->bIsStop));i++)
         {
             bool bIsVirtual=memoryMap.listRecords.at(i).bIsVirtual;
 
@@ -307,7 +306,7 @@ void EntropyProcess::process()
                 }
                 else
                 {
-                    memoryRecord.dEntropy=g_binary.getEntropy(g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize);
+                    memoryRecord.dEntropy=g_binary.getEntropy(g_pData->nOffset+memoryMap.listRecords.at(i).nOffset,memoryMap.listRecords.at(i).nSize,g_pPsStruct);
                 }
 
                 memoryRecord.sName=memoryMap.listRecords.at(i).sName;
@@ -322,7 +321,12 @@ void EntropyProcess::process()
         }
     }
 
-    g_bIsStop=false;
+    if(!(g_pPsStruct->bIsStop))
+    {
+        g_pPsStruct->pdRecordOpt.bSuccess=true;
+    }
+
+    g_pPsStruct->pdRecordOpt.bFinished=true;
 
     emit completed(scanTimer.elapsed());
 }
