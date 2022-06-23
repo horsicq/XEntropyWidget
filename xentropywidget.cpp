@@ -151,13 +151,6 @@ void XEntropyWidget::reload(bool bGraph,bool bRegions)
 
             dep.showDialogDelay(1000);
 
-//            if(!dep.waitDelay(1000))
-//            {
-//                QCoreApplication::postEvent(&dep,new QCloseEvent());
-//            }
-
-//            dep.exec();
-
             if(dep.isSuccess())
             {
                 if(bGraph)
