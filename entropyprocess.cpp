@@ -33,7 +33,7 @@ EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
     connect(&g_binary,SIGNAL(errorMessage(QString)),this,SIGNAL(errorMessage(QString)));
 }
 
-void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pProcessData)
+void EntropyProcess::setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax,XBinary::PDSTRUCT *pProcessData)
 {
     this->g_pDevice=pDevice;
     this->g_pData=pData;
