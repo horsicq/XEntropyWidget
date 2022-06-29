@@ -24,10 +24,6 @@
 #include "entropyprocess.h"
 #include "xdialogprocess.h"
 
-namespace Ui {
-class DialogEntropyProcess;
-}
-
 class DialogEntropyProcess : public XDialogProcess
 {
     Q_OBJECT
@@ -39,14 +35,7 @@ public:
 
     void setData(QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
 
-protected:
-    virtual void _timerSlot();
-
-private slots:
-    void on_pushButtonCancel_clicked();
-
 private:
-    Ui::DialogEntropyProcess *ui;
     EntropyProcess *g_pEntropyProcess;
     QThread *g_pThread;
 };

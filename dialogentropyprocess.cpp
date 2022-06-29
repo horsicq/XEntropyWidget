@@ -19,20 +19,12 @@
  * SOFTWARE.
  */
 #include "dialogentropyprocess.h"
-#include "ui_dialogentropyprocess.h"
 
 DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent) :
-    XDialogProcess(pParent),
-    ui(new Ui::DialogEntropyProcess)
+    XDialogProcess(pParent)
 {
-    ui->setupUi(this);
     g_pEntropyProcess=nullptr;
     g_pThread=nullptr;
-
-    ui->progressBarMain->setMinimum(0);
-    ui->progressBarMain->setMaximum(1000);
-    ui->progressBarOpt->setMinimum(0);
-    ui->progressBarOpt->setMaximum(1000);
 }
 
 DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax) :
@@ -47,8 +39,6 @@ DialogEntropyProcess::~DialogEntropyProcess()
 
     g_pThread->quit();
     g_pThread->wait();
-
-    delete ui;
 
     delete g_pThread;
     delete g_pEntropyProcess;
@@ -67,22 +57,4 @@ void DialogEntropyProcess::setData(QIODevice *pDevice,EntropyProcess::DATA *pDat
 
     g_pEntropyProcess->setData(pDevice,pData,bGraph,bRegions,nMax,getPdStruct());
     g_pThread->start();
-}
-
-void DialogEntropyProcess::_timerSlot()
-{
-    if(getPdStruct()->pdRecord.nTotal)
-    {
-        ui->progressBarMain->setValue((getPdStruct()->pdRecord.nCurrent*1000)/(getPdStruct()->pdRecord.nTotal));
-    }
-
-    if(getPdStruct()->pdRecordOpt.nTotal)
-    {
-        ui->progressBarOpt->setValue((getPdStruct()->pdRecordOpt.nCurrent*1000)/(getPdStruct()->pdRecordOpt.nTotal));
-    }
-}
-
-void DialogEntropyProcess::on_pushButtonCancel_clicked()
-{
-    stop();
 }
