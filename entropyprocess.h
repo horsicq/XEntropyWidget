@@ -67,7 +67,7 @@ public:
 
     explicit EntropyProcess(QObject *pParent=nullptr);
 
-    void setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pProcessData);
+    void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax,XBinary::PDSTRUCT *pProcessData);
     static DATA processRegionsDevice(QIODevice *pDevice);
     static DATA processRegionsFile(QString sFileName);
     static QString dataToPlainString(DATA *pData);
@@ -87,11 +87,10 @@ public slots:
 private:
     QIODevice *g_pDevice;
     DATA *g_pData;
-    XBinary g_binary;
     bool g_bGraph;
     bool g_bRegions;
     qint32 g_nMax;
-    XBinary::PDSTRUCT *g_pPsStruct;
+    XBinary::PDSTRUCT *g_pPdStruct;
     XBinary::PDSTRUCT processDataEmpty;
 };
 

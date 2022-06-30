@@ -36,6 +36,7 @@ DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,E
 DialogEntropyProcess::~DialogEntropyProcess()
 {
     stop();
+    waitForFinished();
 
     g_pThread->quit();
     g_pThread->wait();
