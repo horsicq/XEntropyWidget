@@ -420,7 +420,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
     }
 
     listFilter.append(QString("PDF %1 (*.pdf)").arg(tr("Documents")));
-    listFilter.append(QString("Postscript %1 (*.ps)").arg(tr("Documents")));
+//    listFilter.append(QString("Postscript %1 (*.ps)").arg(tr("Documents")));
 
     QString sFilter=listFilter.join(";;");
 
