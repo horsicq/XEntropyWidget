@@ -43,7 +43,7 @@ void DialogEntropy::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize)
 
     if(osEntropyRegion.nSize!=pDevice->size())
     {
-        ft=XBinary::FT_BINARY;
+        ft=XBinary::FT_REGION;
     }
 
     ui->widgetEntropy->setData(pDevice,osEntropyRegion.nOffset,osEntropyRegion.nSize,ft,true);
