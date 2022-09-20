@@ -34,6 +34,7 @@ class DialogEntropy : public XShortcutsDialog
 
 public:
     explicit DialogEntropy(QWidget *pParent);
+    DialogEntropy(QWidget *pParent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
     ~DialogEntropy();
 
     void setData(QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);

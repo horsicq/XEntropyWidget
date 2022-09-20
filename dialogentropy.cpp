@@ -30,6 +30,12 @@ DialogEntropy::DialogEntropy(QWidget *pParent) :
     setWindowFlags(Qt::Window);
 }
 
+DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) :
+    DialogEntropy(pParent)
+{
+    setData(pDevice,nOffset,nSize);
+}
+
 DialogEntropy::~DialogEntropy()
 {
     delete ui;
