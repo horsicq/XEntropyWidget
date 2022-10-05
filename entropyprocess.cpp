@@ -28,21 +28,21 @@ EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
     g_bRegions=false;
     g_nMax=0;
     g_pPdStruct=nullptr;
-    processDataEmpty={};
+    pdStructEmpty={};
 }
 
-void EntropyProcess::setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax,XBinary::PDSTRUCT *pProcessData)
+void EntropyProcess::setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax,XBinary::PDSTRUCT *pPdStruct)
 {
     this->g_pDevice=pDevice;
     this->g_pData=pData;
     this->g_bGraph=bGraph;
     this->g_bRegions=bRegions;
     this->g_nMax=nMax;
-    this->g_pPdStruct=pProcessData;
+    this->g_pPdStruct=pPdStruct;
 
     if(!(this->g_pPdStruct))
     {
-        this->g_pPdStruct=&processDataEmpty;
+        this->g_pPdStruct=&pdStructEmpty;
     }
 }
 
