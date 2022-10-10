@@ -91,7 +91,7 @@ private:
     bool g_bRegions;
     qint32 g_nMax;
     XBinary::PDSTRUCT *g_pPdStruct;
-    XBinary::PDSTRUCT pdStructEmpty;
+    XBinary::PDSTRUCT g_pdStructEmpty;
 };
 
 #endif // ENTROPYPROCESS_H
