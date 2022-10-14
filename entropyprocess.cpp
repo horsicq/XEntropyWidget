@@ -210,7 +210,7 @@ void EntropyProcess::process()
     QElapsedTimer scanTimer;
     scanTimer.start();
 
-    g_pPdStruct->pdRecordOpt.bIsValid=true;
+    qint32 _nFreeIndex=XBinary::getFreeIndex(g_pPdStruct);
 
     XBinary binary(this->g_pDevice);
 
@@ -229,7 +229,7 @@ void EntropyProcess::process()
 
     if(g_bGraph)
     {
-        g_pPdStruct->pdRecordOpt.nTotal=g_nMax;
+        XBinary::setPdStructInit(g_pPdStruct,_nFreeIndex,g_nMax);
 
         g_pData->byteCounts=binary.getByteCounts(g_pData->nOffset,g_pData->nSize,g_pPdStruct);
 
@@ -256,7 +256,7 @@ void EntropyProcess::process()
 
                 g_pData->listEntropies.append(record);
 
-                g_pPdStruct->pdRecordOpt.nCurrent=i;
+                XBinary::setPdStructCurrent(g_pPdStruct,_nFreeIndex,i);
             }
 
             record.dOffset=g_pData->nOffset+g_pData->nSize;
@@ -321,12 +321,7 @@ void EntropyProcess::process()
         }
     }
 
-    if(!(g_pPdStruct->bIsStop))
-    {
-        g_pPdStruct->pdRecordOpt.bSuccess=true;
-    }
-
-    g_pPdStruct->pdRecordOpt.bFinished=true;
+    XBinary::setPdStructFinished(g_pPdStruct,_nFreeIndex);
 
     emit completed(scanTimer.elapsed());
 }
