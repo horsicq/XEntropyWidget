@@ -78,7 +78,6 @@ public:
 
 signals:
     void errorMessage(QString sText);
-    void infoMessage(QString sText);
     void completed(qint64 nElapsed);
 
 public slots:
