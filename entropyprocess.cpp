@@ -54,7 +54,7 @@ EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
     result.fileType=XBinary::getPrefFileType(pDevice);
 
     EntropyProcess entropyProcess;
-    entropyProcess.setData(pDevice,&result,false,true,100,nullptr);
+    entropyProcess.setData(pDevice,&result,false,true,100,nullptr); // TODO Consts
     entropyProcess.process();
 
     return result;
