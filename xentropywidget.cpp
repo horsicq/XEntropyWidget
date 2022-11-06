@@ -299,16 +299,16 @@ void XEntropyWidget::reload(bool bGraph,bool bRegions)
 
                     ui->tableWidgetRegions->setItem(i,4,pItemName);
 
-                    QwtPlotZoneItem *pZone=new QwtPlotZoneItem;
-                    pZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset,g_entropyData.listMemoryRecords.at(i).nOffset+g_entropyData.listMemoryRecords.at(i).nSize);
-                    pZone->setVisible(false);
+                    QwtPlotZoneItem *pItemZone=new QwtPlotZoneItem;
+                    pItemZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset,g_entropyData.listMemoryRecords.at(i).nOffset+g_entropyData.listMemoryRecords.at(i).nSize);
+                    pItemZone->setVisible(false);
                     QColor color=Qt::darkBlue;
                     color.setAlpha(100);
-                    pZone->setPen(color);
+                    pItemZone->setPen(color);
                     color.setAlpha(20);
-                    pZone->setBrush(color);
-                    pZone->attach(ui->widgetEntropy);
-                    g_listZones.append(pZone);
+                    pItemZone->setBrush(color);
+                    pItemZone->attach(ui->widgetEntropy);
+                    g_listZones.append(pItemZone);
                 }
 
                 ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
