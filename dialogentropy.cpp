@@ -19,48 +19,39 @@
  * SOFTWARE.
  */
 #include "dialogentropy.h"
+
 #include "ui_dialogentropy.h"
 
-DialogEntropy::DialogEntropy(QWidget *pParent) :
-    XShortcutsDialog(pParent),
-    ui(new Ui::DialogEntropy)
-{
+DialogEntropy::DialogEntropy(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogEntropy) {
     ui->setupUi(this);
 
     setWindowFlags(Qt::Window);
 }
 
-DialogEntropy::DialogEntropy(QWidget *pParent,QIODevice *pDevice,qint64 nOffset,qint64 nSize) :
-    DialogEntropy(pParent)
-{
-    setData(pDevice,nOffset,nSize);
+DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) : DialogEntropy(pParent) {
+    setData(pDevice, nOffset, nSize);
 }
 
-DialogEntropy::~DialogEntropy()
-{
+DialogEntropy::~DialogEntropy() {
     delete ui;
 }
 
-void DialogEntropy::setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize)
-{
-    XBinary::FT ft=XBinary::FT_UNKNOWN;
+void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize) {
+    XBinary::FT ft = XBinary::FT_UNKNOWN;
 
-    XBinary::OFFSETSIZE osEntropyRegion=XBinary::convertOffsetAndSize(pDevice,nOffset,nSize);
+    XBinary::OFFSETSIZE osEntropyRegion = XBinary::convertOffsetAndSize(pDevice, nOffset, nSize);
 
-    if(osEntropyRegion.nSize!=pDevice->size())
-    {
-        ft=XBinary::FT_REGION;
+    if (osEntropyRegion.nSize != pDevice->size()) {
+        ft = XBinary::FT_REGION;
     }
 
-    ui->widgetEntropy->setData(pDevice,osEntropyRegion.nOffset,osEntropyRegion.nSize,ft,true);
+    ui->widgetEntropy->setData(pDevice, osEntropyRegion.nOffset, osEntropyRegion.nSize, ft, true);
 }
 
-void DialogEntropy::setGlobal(XShortcuts *pShortcuts,XOptions *pXOptions)
-{
-    ui->widgetEntropy->setGlobal(pShortcuts,pXOptions);
+void DialogEntropy::setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions) {
+    ui->widgetEntropy->setGlobal(pShortcuts, pXOptions);
 }
 
-void DialogEntropy::on_pushButtonClose_clicked()
-{
+void DialogEntropy::on_pushButtonClose_clicked() {
     this->close();
 }

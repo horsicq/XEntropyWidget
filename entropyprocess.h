@@ -30,13 +30,11 @@
 #endif
 #include "xformats.h"
 
-class EntropyProcess : public QObject
-{
+class EntropyProcess : public QObject {
     Q_OBJECT
 
 public:
-    struct MEMORY_RECORD
-    {
+    struct MEMORY_RECORD {
         QString sName;
         qint64 nOffset;
         qint64 nSize;
@@ -44,14 +42,12 @@ public:
         QString sStatus;
     };
 
-    struct RECORD
-    {
+    struct RECORD {
         double dOffset;
         double dEntropy;
     };
 
-    struct DATA
-    {
+    struct DATA {
         qint64 nOffset;
         qint64 nSize;
         double dTotalEntropy;
@@ -60,14 +56,14 @@ public:
         XBinary::BYTE_COUNTS byteCounts;
         XBinary::FT fileType;
         QList<MEMORY_RECORD> listMemoryRecords;
-    #ifdef QT_GUI_LIB
+#ifdef QT_GUI_LIB
         XLineEditHEX::MODE mode;
-    #endif
+#endif
     };
 
-    explicit EntropyProcess(QObject *pParent=nullptr);
+    explicit EntropyProcess(QObject *pParent = nullptr);
 
-    void setData(QIODevice *pDevice,DATA *pData,bool bGraph,bool bRegions,qint32 nMax,XBinary::PDSTRUCT *pPdStruct);
+    void setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pPdStruct);
     static DATA processRegionsDevice(QIODevice *pDevice);
     static DATA processRegionsFile(QString sFileName);
     static QString dataToPlainString(DATA *pData);
@@ -93,4 +89,4 @@ private:
     XBinary::PDSTRUCT g_pdStructEmpty;
 };
 
-#endif // ENTROPYPROCESS_H
+#endif  // ENTROPYPROCESS_H

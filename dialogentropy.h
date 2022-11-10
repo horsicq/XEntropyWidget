@@ -27,17 +27,16 @@ namespace Ui {
 class DialogEntropy;
 }
 
-class DialogEntropy : public XShortcutsDialog
-{
+class DialogEntropy : public XShortcutsDialog {
     Q_OBJECT
 
 public:
     explicit DialogEntropy(QWidget *pParent);
-    DialogEntropy(QWidget *pParent,QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
+    DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset = 0, qint64 nSize = -1);
     ~DialogEntropy();
 
-    void setData(QIODevice *pDevice,qint64 nOffset=0,qint64 nSize=-1);
-    void setGlobal(XShortcuts *pShortcuts,XOptions *pXOptions);
+    void setData(QIODevice *pDevice, qint64 nOffset = 0, qint64 nSize = -1);
+    void setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions);
 
 private slots:
     void on_pushButtonClose_clicked();
@@ -46,4 +45,4 @@ private:
     Ui::DialogEntropy *ui;
 };
 
-#endif // DIALOGENTROPY_H
+#endif  // DIALOGENTROPY_H

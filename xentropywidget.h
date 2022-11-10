@@ -25,8 +25,8 @@
 #include <QImageWriter>
 #include <QItemSelection>
 #include <QStandardItemModel>
+
 #include "dialogentropyprocess.h"
-#include "xshortcutswidget.h"
 #include "qwt_legend.h"
 #include "qwt_math.h"
 #include "qwt_plot.h"
@@ -39,26 +39,25 @@
 #include "qwt_plot_panner.h"
 #include "qwt_plot_picker.h"
 #include "qwt_plot_renderer.h"
-#include "qwt_plot_renderer.h"
 #include "qwt_plot_zoneitem.h"
 #include "qwt_series_data.h"
 #include "qwt_text.h"
+#include "xshortcutswidget.h"
 
 namespace Ui {
 class XEntropyWidget;
 }
 
-class XEntropyWidget : public XShortcutsWidget
-{
+class XEntropyWidget : public XShortcutsWidget {
     Q_OBJECT
 
 public:
-    explicit XEntropyWidget(QWidget *pParent=nullptr);
+    explicit XEntropyWidget(QWidget *pParent = nullptr);
     ~XEntropyWidget();
 
-    void setData(QIODevice *pDevice,qint64 nOffset,qint64 nSize,XBinary::FT fileType,bool bAuto);
+    void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto);
     void setSaveDirectory(QString sSaveDirectory);
-    void reload(bool bGraph,bool bRegions);
+    void reload(bool bGraph, bool bRegions);
 
 private slots:
     void on_pushButtonReload_clicked();
@@ -84,7 +83,7 @@ private:
     QwtPlotGrid *g_pGrid;
     QList<QwtPlotZoneItem *> g_listZones;
     QString g_sSaveDirectory;
-    QwtPlotPicker* g_pPicker;
+    QwtPlotPicker *g_pPicker;
 };
 
-#endif // XENTROPYWIDGET_H
+#endif  // XENTROPYWIDGET_H

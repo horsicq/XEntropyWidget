@@ -24,20 +24,19 @@
 #include "entropyprocess.h"
 #include "xdialogprocess.h"
 
-class DialogEntropyProcess : public XDialogProcess
-{
+class DialogEntropyProcess : public XDialogProcess {
     Q_OBJECT
 
 public:
     explicit DialogEntropyProcess(QWidget *pParent);
-    explicit DialogEntropyProcess(QWidget *pParent,QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
+    explicit DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions, qint32 nMax);
     ~DialogEntropyProcess();
 
-    void setData(QIODevice *pDevice,EntropyProcess::DATA *pData,bool bGraph,bool bRegions,qint32 nMax);
+    void setData(QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions, qint32 nMax);
 
 private:
     EntropyProcess *g_pEntropyProcess;
     QThread *g_pThread;
 };
 
-#endif // DIALOGENTROPYPROCESS_H
+#endif  // DIALOGENTROPYPROCESS_H
