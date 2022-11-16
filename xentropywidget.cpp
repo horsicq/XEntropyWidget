@@ -25,12 +25,14 @@
 class XProcentWidgetItem : public QTableWidgetItem  // TODO move to Controls !!!
 {
 public:
-    bool operator<(const QTableWidgetItem &other) const {
+    bool operator<(const QTableWidgetItem &other) const
+    {
         return text().toDouble() < other.text().toDouble();
     }
 };
 
-XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XEntropyWidget) {
+XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XEntropyWidget)
+{
     ui->setupUi(this);
 
     g_entropyData = {};
@@ -71,11 +73,13 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     ui->spinBoxCount->setValue(100);
 }
 
-XEntropyWidget::~XEntropyWidget() {
+XEntropyWidget::~XEntropyWidget()
+{
     delete ui;
 }
 
-void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto) {
+void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto)
+{
     g_pDevice = pDevice;
     g_nOffset = nOffset;
     g_nSize = nSize;
@@ -118,11 +122,13 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
     }
 }
 
-void XEntropyWidget::setSaveDirectory(QString sSaveDirectory) {
+void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
+{
     this->g_sSaveDirectory = sSaveDirectory;
 }
 
-void XEntropyWidget::reload(bool bGraph, bool bRegions) {
+void XEntropyWidget::reload(bool bGraph, bool bRegions)
+{
     if (g_pDevice) {
         DialogEntropyProcess dep(XOptions::getMainWidget(this), g_pDevice, &g_entropyData, bGraph, bRegions, ui->spinBoxCount->value());
 
@@ -300,11 +306,13 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions) {
     }
 }
 
-void XEntropyWidget::on_pushButtonReload_clicked() {
+void XEntropyWidget::on_pushButtonReload_clicked()
+{
     reload(true, true);
 }
 
-void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex) {
+void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
+{
     Q_UNUSED(nIndex)
 
     g_entropyData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
@@ -312,7 +320,8 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex) {
     reload(false, true);
 }
 
-void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged() {
+void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
+{
     qint32 nNumberOfZones = g_listZones.count();
 
     for (qint32 i = 0; i < nNumberOfZones; i++) {
@@ -332,13 +341,15 @@ void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged() {
     ui->widgetEntropy->replot();
 }
 
-void XEntropyWidget::registerShortcuts(bool bState) {
+void XEntropyWidget::registerShortcuts(bool bState)
+{
     Q_UNUSED(bState)
     // TODO !!!
     // XShortcutsWidget::registerShortcuts(bState);
 }
 
-void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked() {
+void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
+{
     QString sResultFileName = XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Strings")));
 
     QAbstractItemModel *pModel = nullptr;
@@ -352,7 +363,8 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked() {
     XShortcutsWidget::saveModel(pModel, sResultFileName);
 }
 
-void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked() {
+void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
+{
     const QList<QByteArray> listImageFormats = QImageWriter::supportedImageFormats();
 
     QStringList listFilter;
@@ -401,13 +413,15 @@ void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked() {
     }
 }
 
-void XEntropyWidget::on_spinBoxCount_valueChanged(int nValue) {
+void XEntropyWidget::on_spinBoxCount_valueChanged(int nValue)
+{
     Q_UNUSED(nValue)
 
     adjust();
 }
 
-void XEntropyWidget::adjust() {
+void XEntropyWidget::adjust()
+{
     qint32 nValue = ui->spinBoxCount->value();
 
     if (nValue) {
@@ -417,7 +431,8 @@ void XEntropyWidget::adjust() {
     }
 }
 
-void XEntropyWidget::on_checkBoxGridRegions_toggled(bool bChecked) {
+void XEntropyWidget::on_checkBoxGridRegions_toggled(bool bChecked)
+{
     if (bChecked) {
         g_pGrid->attach(ui->widgetEntropy);
     } else {

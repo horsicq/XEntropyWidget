@@ -20,17 +20,20 @@
  */
 #include "dialogentropyprocess.h"
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent) : XDialogProcess(pParent) {
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent) : XDialogProcess(pParent)
+{
     g_pEntropyProcess = nullptr;
     g_pThread = nullptr;
 }
 
 DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent, QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions, qint32 nMax)
-    : DialogEntropyProcess(pParent) {
+    : DialogEntropyProcess(pParent)
+{
     setData(pDevice, pData, bGraph, bRegions, nMax);
 }
 
-DialogEntropyProcess::~DialogEntropyProcess() {
+DialogEntropyProcess::~DialogEntropyProcess()
+{
     stop();
     waitForFinished();
 
@@ -41,7 +44,8 @@ DialogEntropyProcess::~DialogEntropyProcess() {
     delete g_pEntropyProcess;
 }
 
-void DialogEntropyProcess::setData(QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions, qint32 nMax) {
+void DialogEntropyProcess::setData(QIODevice *pDevice, EntropyProcess::DATA *pData, bool bGraph, bool bRegions, qint32 nMax)
+{
     g_pEntropyProcess = new EntropyProcess;
     g_pThread = new QThread;
 

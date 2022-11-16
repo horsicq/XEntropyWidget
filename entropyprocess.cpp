@@ -20,7 +20,8 @@
  */
 #include "entropyprocess.h"
 
-EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent) {
+EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
+{
     g_pDevice = nullptr;
     g_pData = nullptr;
     g_bGraph = false;
@@ -30,7 +31,8 @@ EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent) {
     g_pdStructEmpty = {};
 }
 
-void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pPdStruct) {
+void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pPdStruct)
+{
     this->g_pDevice = pDevice;
     this->g_pData = pData;
     this->g_bGraph = bGraph;
@@ -43,7 +45,8 @@ void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool 
     }
 }
 
-EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice) {
+EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
+{
     EntropyProcess::DATA result = {};
 
     result.nSize = -1;
@@ -56,7 +59,8 @@ EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice) {
     return result;
 }
 
-EntropyProcess::DATA EntropyProcess::processRegionsFile(QString sFileName) {
+EntropyProcess::DATA EntropyProcess::processRegionsFile(QString sFileName)
+{
     EntropyProcess::DATA result = {};
 
     QFile file;
@@ -72,7 +76,8 @@ EntropyProcess::DATA EntropyProcess::processRegionsFile(QString sFileName) {
     return result;
 }
 
-QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData) {
+QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData)
+{
     QString sResult;
 
     sResult += QString("Total %1: %2\n").arg(QString::number(pData->dTotalEntropy), pData->sStatus);
@@ -89,7 +94,8 @@ QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData) {
     return sResult;
 }
 
-QString EntropyProcess::dataToJsonString(EntropyProcess::DATA *pData) {
+QString EntropyProcess::dataToJsonString(EntropyProcess::DATA *pData)
+{
     QString sResult;
 
     QJsonObject jsonResult;
@@ -122,7 +128,8 @@ QString EntropyProcess::dataToJsonString(EntropyProcess::DATA *pData) {
     return sResult;
 }
 
-QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData) {
+QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData)
+{
     QString sResult;
 
     QXmlStreamWriter xml(&sResult);
@@ -150,7 +157,8 @@ QString EntropyProcess::dataToXmlString(EntropyProcess::DATA *pData) {
     return sResult;
 }
 
-QString EntropyProcess::dataToCsvString(DATA *pData) {
+QString EntropyProcess::dataToCsvString(DATA *pData)
+{
     QString sResult;
 
     qint32 nNumberOfRecords = pData->listMemoryRecords.count();
@@ -165,7 +173,8 @@ QString EntropyProcess::dataToCsvString(DATA *pData) {
     return sResult;
 }
 
-QString EntropyProcess::dataToTsvString(DATA *pData) {
+QString EntropyProcess::dataToTsvString(DATA *pData)
+{
     QString sResult;
 
     qint32 nNumberOfRecords = pData->listMemoryRecords.count();
@@ -180,7 +189,8 @@ QString EntropyProcess::dataToTsvString(DATA *pData) {
     return sResult;
 }
 
-void EntropyProcess::process() {
+void EntropyProcess::process()
+{
     QElapsedTimer scanTimer;
     scanTimer.start();
 
