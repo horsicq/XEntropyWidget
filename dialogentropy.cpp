@@ -22,14 +22,16 @@
 
 #include "ui_dialogentropy.h"
 
-DialogEntropy::DialogEntropy(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogEntropy)
+DialogEntropy::DialogEntropy(QWidget *pParent)
+    : XShortcutsDialog(pParent), ui(new Ui::DialogEntropy)
 {
     ui->setupUi(this);
 
     setWindowFlags(Qt::Window);
 }
 
-DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize) : DialogEntropy(pParent)
+DialogEntropy::DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset, qint64 nSize)
+    : DialogEntropy(pParent)
 {
     setData(pDevice, nOffset, nSize);
 }

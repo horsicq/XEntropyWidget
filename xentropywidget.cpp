@@ -31,7 +31,8 @@ public:
     }
 };
 
-XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XEntropyWidget)
+XEntropyWidget::XEntropyWidget(QWidget *pParent)
+    : XShortcutsWidget(pParent), ui(new Ui::XEntropyWidget)
 {
     ui->setupUi(this);
 

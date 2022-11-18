@@ -20,7 +20,8 @@
  */
 #include "dialogentropyprocess.h"
 
-DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent) : XDialogProcess(pParent)
+DialogEntropyProcess::DialogEntropyProcess(QWidget *pParent)
+    : XDialogProcess(pParent)
 {
     g_pEntropyProcess = nullptr;
     g_pThread = nullptr;
