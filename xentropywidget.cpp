@@ -31,8 +31,7 @@ public:
     }
 };
 
-XEntropyWidget::XEntropyWidget(QWidget *pParent)
-    : XShortcutsWidget(pParent), ui(new Ui::XEntropyWidget)
+XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui(new Ui::XEntropyWidget)
 {
     ui->setupUi(this);
 
@@ -280,8 +279,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     ui->tableWidgetRegions->setItem(i, 4, pItemName);
 
                     QwtPlotZoneItem *pItemZone = new QwtPlotZoneItem;
-                    pItemZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset,
-                                           g_entropyData.listMemoryRecords.at(i).nOffset + g_entropyData.listMemoryRecords.at(i).nSize);
+                    pItemZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset, g_entropyData.listMemoryRecords.at(i).nOffset + g_entropyData.listMemoryRecords.at(i).nSize);
                     pItemZone->setVisible(false);
                     QColor color = Qt::darkBlue;
                     color.setAlpha(100);

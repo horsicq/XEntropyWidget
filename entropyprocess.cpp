@@ -20,8 +20,7 @@
  */
 #include "entropyprocess.h"
 
-EntropyProcess::EntropyProcess(QObject *pParent)
-    : QObject(pParent)
+EntropyProcess::EntropyProcess(QObject *pParent) : QObject(pParent)
 {
     g_pDevice = nullptr;
     g_pData = nullptr;
@@ -86,10 +85,9 @@ QString EntropyProcess::dataToPlainString(EntropyProcess::DATA *pData)
     qint32 nNumberOfRecords = pData->listMemoryRecords.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        sResult +=
-            QString("  %1|%2|%3|%4|%5: %6\n")
-                .arg(QString::number(i), pData->listMemoryRecords.at(i).sName, QString::number(pData->listMemoryRecords.at(i).nOffset),
-                     QString::number(pData->listMemoryRecords.at(i).nSize), QString::number(pData->listMemoryRecords.at(i).dEntropy), pData->listMemoryRecords.at(i).sStatus);
+        sResult += QString("  %1|%2|%3|%4|%5: %6\n")
+                       .arg(QString::number(i), pData->listMemoryRecords.at(i).sName, QString::number(pData->listMemoryRecords.at(i).nOffset), QString::number(pData->listMemoryRecords.at(i).nSize),
+                            QString::number(pData->listMemoryRecords.at(i).dEntropy), pData->listMemoryRecords.at(i).sStatus);
     }
 
     return sResult;
@@ -165,10 +163,9 @@ QString EntropyProcess::dataToCsvString(DATA *pData)
     qint32 nNumberOfRecords = pData->listMemoryRecords.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        sResult +=
-            QString("%1;%2;%3;%4;%5;%6\n")
-                .arg(QString::number(i), pData->listMemoryRecords.at(i).sName, QString::number(pData->listMemoryRecords.at(i).nOffset),
-                     QString::number(pData->listMemoryRecords.at(i).nSize), QString::number(pData->listMemoryRecords.at(i).dEntropy), pData->listMemoryRecords.at(i).sStatus);
+        sResult += QString("%1;%2;%3;%4;%5;%6\n")
+                       .arg(QString::number(i), pData->listMemoryRecords.at(i).sName, QString::number(pData->listMemoryRecords.at(i).nOffset), QString::number(pData->listMemoryRecords.at(i).nSize),
+                            QString::number(pData->listMemoryRecords.at(i).dEntropy), pData->listMemoryRecords.at(i).sStatus);
     }
 
     return sResult;
@@ -181,10 +178,9 @@ QString EntropyProcess::dataToTsvString(DATA *pData)
     qint32 nNumberOfRecords = pData->listMemoryRecords.count();
 
     for (qint32 i = 0; i < nNumberOfRecords; i++) {
-        sResult +=
-            QString("%1\t%2\t%3\t%4\t%5\t%6\n")
-                .arg(QString::number(i), pData->listMemoryRecords.at(i).sName, QString::number(pData->listMemoryRecords.at(i).nOffset),
-                     QString::number(pData->listMemoryRecords.at(i).nSize), QString::number(pData->listMemoryRecords.at(i).dEntropy), pData->listMemoryRecords.at(i).sStatus);
+        sResult += QString("%1\t%2\t%3\t%4\t%5\t%6\n")
+                       .arg(QString::number(i), pData->listMemoryRecords.at(i).sName, QString::number(pData->listMemoryRecords.at(i).nOffset), QString::number(pData->listMemoryRecords.at(i).nSize),
+                            QString::number(pData->listMemoryRecords.at(i).dEntropy), pData->listMemoryRecords.at(i).sStatus);
     }
 
     return sResult;
