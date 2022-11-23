@@ -129,6 +129,7 @@ void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
 
 void XEntropyWidget::reload(bool bGraph, bool bRegions)
 {
+    // TODO TableWidget -> TableView
     if (g_pDevice) {
         DialogEntropyProcess dep(XOptions::getMainWidget(this), g_pDevice, &g_entropyData, bGraph, bRegions, ui->spinBoxCount->value());
 
