@@ -62,12 +62,12 @@ public:
 private slots:
     void on_pushButtonReload_clicked();
     void on_comboBoxType_currentIndexChanged(int nIndex);
-    void on_tableWidgetRegions_itemSelectionChanged();
     void on_pushButtonSaveEntropyTable_clicked();
     void on_pushButtonSaveEntropyDiagram_clicked();
     void on_spinBoxCount_valueChanged(int nValue);
     void adjust();
     void on_checkBoxGridRegions_toggled(bool bChecked);
+    void on_tableViewSelection(const QItemSelection &isSelected, const QItemSelection &isDeselected);
 
 protected:
     virtual void registerShortcuts(bool bState);

@@ -227,60 +227,56 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                 g_listZones.clear();
 
-                ui->tableWidgetRegions->clear();
+                QAbstractItemModel *pOldModel = ui->tableViewRegions->model();
 
                 qint32 nNumberOfMemoryRecords = g_entropyData.listMemoryRecords.count();
 
-                ui->tableWidgetRegions->setRowCount(nNumberOfMemoryRecords);
-                ui->tableWidgetRegions->setColumnCount(5);
+                QStandardItemModel *pModel = new QStandardItemModel(nNumberOfMemoryRecords, 4);
 
-                QStringList slHeader;
-                slHeader.append(tr("Offset"));
-                slHeader.append(tr("Size"));
-                slHeader.append(tr("Entropy"));
-                slHeader.append(tr("Status"));
-                slHeader.append(tr("Name"));
-
-                ui->tableWidgetRegions->setHorizontalHeaderLabels(slHeader);
-                ui->tableWidgetRegions->horizontalHeader()->setVisible(true);
+                pModel->setHeaderData(0, Qt::Horizontal, tr("Offset"));
+                pModel->setHeaderData(1, Qt::Horizontal, tr("Size"));
+                pModel->setHeaderData(2, Qt::Horizontal, tr("Entropy"));
+                pModel->setHeaderData(3, Qt::Horizontal, tr("Status"));
+                pModel->setHeaderData(4, Qt::Horizontal, tr("Name"));
 
                 for (qint32 i = 0; i < nNumberOfMemoryRecords; i++) {
-                    QTableWidgetItem *pItemOffset = new QTableWidgetItem;
+                    QStandardItem *pItemOffset = new QStandardItem;
 
-                    pItemOffset->setData(Qt::UserRole + 0, g_entropyData.listMemoryRecords.at(i).nOffset);
-                    pItemOffset->setData(Qt::UserRole + 1, g_entropyData.listMemoryRecords.at(i).nSize);
+                    pItemOffset->setData(g_entropyData.listMemoryRecords.at(i).nOffset, Qt::UserRole + 0);
+                    pItemOffset->setData(g_entropyData.listMemoryRecords.at(i).nSize, Qt::UserRole + 1);
 
                     pItemOffset->setText(XLineEditHEX::getFormatString(g_entropyData.mode, g_entropyData.listMemoryRecords.at(i).nOffset + g_nOffset));
                     pItemOffset->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i, 0, pItemOffset);
+                    pModel->setItem(i, 0, pItemOffset);
 
-                    QTableWidgetItem *pItemSize = new QTableWidgetItem;
+                    QStandardItem *pItemSize = new QStandardItem;
 
                     pItemSize->setText(XLineEditHEX::getFormatString(g_entropyData.mode, g_entropyData.listMemoryRecords.at(i).nSize));
                     pItemSize->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i, 1, pItemSize);
+                    pModel->setItem(i, 1, pItemSize);
 
-                    QTableWidgetItem *pItemEntropy = new QTableWidgetItem;
+                    QStandardItem *pItemEntropy = new QStandardItem;
 
                     pItemEntropy->setText(XBinary::doubleToString(g_entropyData.listMemoryRecords.at(i).dEntropy, 5));
                     pItemEntropy->setTextAlignment(Qt::AlignRight);
-                    ui->tableWidgetRegions->setItem(i, 2, pItemEntropy);
+                    pModel->setItem(i, 2, pItemEntropy);
 
-                    QTableWidgetItem *pItemStatus = new QTableWidgetItem;
+                    QStandardItem *pItemStatus = new QStandardItem;
 
                     pItemStatus->setText(g_entropyData.listMemoryRecords.at(i).sStatus);
                     pItemStatus->setTextAlignment(Qt::AlignLeft);
-                    ui->tableWidgetRegions->setItem(i, 3, pItemStatus);
+                    pModel->setItem(i, 3, pItemStatus);
 
-                    QTableWidgetItem *pItemName = new QTableWidgetItem;
+                    QStandardItem *pItemName = new QStandardItem;
 
                     pItemName->setText(g_entropyData.listMemoryRecords.at(i).sName);
                     pItemName->setTextAlignment(Qt::AlignLeft);
 
-                    ui->tableWidgetRegions->setItem(i, 4, pItemName);
+                    pModel->setItem(i, 4, pItemName);
 
                     QwtPlotZoneItem *pItemZone = new QwtPlotZoneItem;
-                    pItemZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset, g_entropyData.listMemoryRecords.at(i).nOffset + g_entropyData.listMemoryRecords.at(i).nSize);
+                    pItemZone->setInterval(g_entropyData.listMemoryRecords.at(i).nOffset,
+                                           g_entropyData.listMemoryRecords.at(i).nOffset + g_entropyData.listMemoryRecords.at(i).nSize);
                     pItemZone->setVisible(false);
                     QColor color = Qt::darkBlue;
                     color.setAlpha(100);
@@ -291,16 +287,22 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     g_listZones.append(pItemZone);
                 }
 
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Interactive);
-                ui->tableWidgetRegions->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
+                ui->tableViewRegions->setModel(pModel);
+
+                deleteOldAbstractModel(&pOldModel);
+
+                ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+                ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
+                ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Interactive);
+                ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Interactive);
+                ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
 
                 qint32 nColumnSize = XLineEditHEX::getWidthFromMode(this, g_entropyData.mode);
 
-                ui->tableWidgetRegions->setColumnWidth(0, nColumnSize);
-                ui->tableWidgetRegions->setColumnWidth(1, nColumnSize);
+                ui->tableViewRegions->setColumnWidth(0, nColumnSize);
+                ui->tableViewRegions->setColumnWidth(1, nColumnSize);
+
+                connect(ui->tableViewRegions->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
             }
         }
     }
@@ -320,27 +322,6 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
     reload(false, true);
 }
 
-void XEntropyWidget::on_tableWidgetRegions_itemSelectionChanged()
-{
-    qint32 nNumberOfZones = g_listZones.count();
-
-    for (qint32 i = 0; i < nNumberOfZones; i++) {
-        g_listZones.at(i)->setVisible(false);
-    }
-
-    QList<QTableWidgetItem *> listSelectedItems = ui->tableWidgetRegions->selectedItems();
-
-    qint32 nNumberOfItems = listSelectedItems.count();
-
-    for (qint32 i = 0; i < nNumberOfItems; i++) {
-        if (listSelectedItems.at(i)->column() == 0) {
-            g_listZones.at(listSelectedItems.at(i)->row())->setVisible(true);
-        }
-    }
-
-    ui->widgetEntropy->replot();
-}
-
 void XEntropyWidget::registerShortcuts(bool bState)
 {
     Q_UNUSED(bState)
@@ -355,7 +336,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
     QAbstractItemModel *pModel = nullptr;
 
     if (ui->tabWidget->currentIndex() == 0) {
-        pModel = ui->tableWidgetRegions->model();
+        pModel = ui->tableViewRegions->model();
     } else {
         pModel = ui->tableWidgetBytes->model();
     }
@@ -437,6 +418,34 @@ void XEntropyWidget::on_checkBoxGridRegions_toggled(bool bChecked)
         g_pGrid->attach(ui->widgetEntropy);
     } else {
         g_pGrid->detach();
+    }
+
+    ui->widgetEntropy->replot();
+}
+
+void XEntropyWidget::on_tableViewSelection(const QItemSelection &isSelected, const QItemSelection &isDeselected)
+{
+    Q_UNUSED(isSelected)
+    Q_UNUSED(isDeselected)
+
+    qint32 nNumberOfZones = g_listZones.count();
+
+    for (qint32 i = 0; i < nNumberOfZones; i++) {
+        g_listZones.at(i)->setVisible(false);
+    }
+
+    QItemSelectionModel *pSelectionModel = ui->tableViewRegions->selectionModel();
+
+    if (pSelectionModel) {
+        QModelIndexList listIndexes = pSelectionModel->selectedIndexes();
+
+        qint32 nNumberOfRecords = listIndexes.count();
+
+        for (qint32 i = 0;i < nNumberOfRecords; i++) {
+            if (listIndexes.at(i).column() == 0) {
+                g_listZones.at(listIndexes.at(i).row())->setVisible(true);
+            }
+        }
     }
 
     ui->widgetEntropy->replot();
