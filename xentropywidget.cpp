@@ -302,7 +302,8 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 ui->tableViewRegions->setColumnWidth(0, nColumnSize);
                 ui->tableViewRegions->setColumnWidth(1, nColumnSize);
 
-                connect(ui->tableViewRegions->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
+                connect(ui->tableViewRegions->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this,
+                        SLOT(on_tableViewSelection(QItemSelection, QItemSelection)));
             }
         }
     }
@@ -441,7 +442,7 @@ void XEntropyWidget::on_tableViewSelection(const QItemSelection &isSelected, con
 
         qint32 nNumberOfRecords = listIndexes.count();
 
-        for (qint32 i = 0;i < nNumberOfRecords; i++) {
+        for (qint32 i = 0; i < nNumberOfRecords; i++) {
             if (listIndexes.at(i).column() == 0) {
                 g_listZones.at(listIndexes.at(i).row())->setVisible(true);
             }
