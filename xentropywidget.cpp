@@ -231,7 +231,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                 qint32 nNumberOfMemoryRecords = g_entropyData.listMemoryRecords.count();
 
-                QStandardItemModel *pModel = new QStandardItemModel(nNumberOfMemoryRecords, 4);
+                QStandardItemModel *pModel = new QStandardItemModel(nNumberOfMemoryRecords, 5);
 
                 pModel->setHeaderData(0, Qt::Horizontal, tr("Offset"));
                 pModel->setHeaderData(1, Qt::Horizontal, tr("Size"));
