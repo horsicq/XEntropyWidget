@@ -342,7 +342,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
         pModel = ui->tableWidgetBytes->model();
     }
 
-    XShortcutsWidget::saveModel(pModel, sResultFileName);
+    XShortcutsWidget::saveTableModel(pModel, sResultFileName);
 }
 
 void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
