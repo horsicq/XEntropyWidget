@@ -246,31 +246,26 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     pItemOffset->setData(g_entropyData.listMemoryRecords.at(i).nSize, Qt::UserRole + 1);
 
                     pItemOffset->setText(XLineEditHEX::getFormatString(g_entropyData.mode, g_entropyData.listMemoryRecords.at(i).nOffset + g_nOffset));
-                    pItemOffset->setTextAlignment(Qt::AlignRight);
                     pModel->setItem(i, 0, pItemOffset);
 
                     QStandardItem *pItemSize = new QStandardItem;
 
                     pItemSize->setText(XLineEditHEX::getFormatString(g_entropyData.mode, g_entropyData.listMemoryRecords.at(i).nSize));
-                    pItemSize->setTextAlignment(Qt::AlignRight);
                     pModel->setItem(i, 1, pItemSize);
 
                     QStandardItem *pItemEntropy = new QStandardItem;
 
                     pItemEntropy->setText(XBinary::doubleToString(g_entropyData.listMemoryRecords.at(i).dEntropy, 5));
-                    pItemEntropy->setTextAlignment(Qt::AlignRight);
                     pModel->setItem(i, 2, pItemEntropy);
 
                     QStandardItem *pItemStatus = new QStandardItem;
 
                     pItemStatus->setText(g_entropyData.listMemoryRecords.at(i).sStatus);
-                    pItemStatus->setTextAlignment(Qt::AlignLeft);
                     pModel->setItem(i, 3, pItemStatus);
 
                     QStandardItem *pItemName = new QStandardItem;
 
                     pItemName->setText(g_entropyData.listMemoryRecords.at(i).sName);
-                    pItemName->setTextAlignment(Qt::AlignLeft);
 
                     pModel->setItem(i, 4, pItemName);
 
@@ -286,6 +281,12 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     pItemZone->attach(ui->widgetEntropy);
                     g_listZones.append(pItemZone);
                 }
+
+                XOptions::setModelTextAlignment(pModel, 0, Qt::AlignRight | Qt::AlignVCenter);
+                XOptions::setModelTextAlignment(pModel, 1, Qt::AlignRight | Qt::AlignVCenter);
+                XOptions::setModelTextAlignment(pModel, 2, Qt::AlignRight | Qt::AlignVCenter);
+                XOptions::setModelTextAlignment(pModel, 3, Qt::AlignLeft | Qt::AlignVCenter);
+                XOptions::setModelTextAlignment(pModel, 4, Qt::AlignLeft | Qt::AlignVCenter);
 
                 ui->tableViewRegions->setModel(pModel);
 
