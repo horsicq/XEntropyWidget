@@ -180,20 +180,20 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     QTableWidgetItem *pItemByte = new QTableWidgetItem;
 
                     pItemByte->setText(QString("0x%1").arg(i, 2, 16, QChar('0')));
-                    pItemByte->setTextAlignment(Qt::AlignRight);
+                    pItemByte->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
                     ui->tableWidgetBytes->setItem(i, 0, pItemByte);
 
                     QTableWidgetItem *pItemCount = new QTableWidgetItem;
 
                     pItemCount->setData(Qt::DisplayRole, g_entropyData.byteCounts.nCount[i]);
-                    pItemCount->setTextAlignment(Qt::AlignRight);
+                    pItemCount->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
                     ui->tableWidgetBytes->setItem(i, 1, pItemCount);
 
                     XProcentWidgetItem *pItemProcent = new XProcentWidgetItem;
 
                     pItemProcent->setText(XBinary::doubleToString(((double)g_entropyData.byteCounts.nCount[i] * 100) / g_entropyData.byteCounts.nSize, 4));
 
-                    pItemProcent->setTextAlignment(Qt::AlignRight);
+                    pItemProcent->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
                     ui->tableWidgetBytes->setItem(i, 2, pItemProcent);
                 }
 
