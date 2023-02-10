@@ -452,3 +452,30 @@ void XEntropyWidget::on_tableViewSelection(const QItemSelection &isSelected, con
 
     ui->widgetEntropy->replot();
 }
+
+void XEntropyWidget::on_tableViewRegions_customContextMenuRequested(const QPoint &pos)
+{
+    qint32 nRow = ui->tableViewRegions->currentIndex().row();
+
+    if (nRow != -1) {
+        QMenu contextMenu(this);
+
+        contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableViewRegions));
+
+        contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
+    }
+}
+
+void XEntropyWidget::on_tableWidgetBytes_customContextMenuRequested(const QPoint &pos)
+{
+    qint32 nRow = ui->tableWidgetBytes->currentIndex().row();
+
+    if (nRow != -1) {
+        QMenu contextMenu(this);
+
+        contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableWidgetBytes));
+
+        contextMenu.exec(ui->tableWidgetBytes->viewport()->mapToGlobal(pos));
+    }
+}
+
