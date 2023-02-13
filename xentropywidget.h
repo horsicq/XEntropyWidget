@@ -68,9 +68,7 @@ private slots:
     void adjust();
     void on_checkBoxGridRegions_toggled(bool bChecked);
     void on_tableViewSelection(const QItemSelection &isSelected, const QItemSelection &isDeselected);
-
     void on_tableViewRegions_customContextMenuRequested(const QPoint &pos);
-
     void on_tableWidgetBytes_customContextMenuRequested(const QPoint &pos);
 
 protected:
