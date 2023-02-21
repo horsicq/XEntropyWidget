@@ -425,10 +425,10 @@ void XEntropyWidget::on_checkBoxGridRegions_toggled(bool bChecked)
     ui->widgetEntropy->replot();
 }
 
-void XEntropyWidget::on_tableViewSelection(const QItemSelection &isSelected, const QItemSelection &isDeselected)
+void XEntropyWidget::on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected)
 {
-    Q_UNUSED(isSelected)
-    Q_UNUSED(isDeselected)
+    Q_UNUSED(itemSelected)
+    Q_UNUSED(itemDeselected)
 
     qint32 nNumberOfZones = g_listZones.count();
 
