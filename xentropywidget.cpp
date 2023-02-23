@@ -478,4 +478,3 @@ void XEntropyWidget::on_tableWidgetBytes_customContextMenuRequested(const QPoint
         contextMenu.exec(ui->tableWidgetBytes->viewport()->mapToGlobal(pos));
     }
 }
-
