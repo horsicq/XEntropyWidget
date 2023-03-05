@@ -105,7 +105,7 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
         ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType), fileType);
     }
 
-    qint64 nCount = g_nSize / 0x200; // TODO const
+    qint64 nCount = g_nSize / 0x200;  // TODO const
 
     nCount = qMin(nCount, (qint64)100);
 
