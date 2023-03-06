@@ -133,7 +133,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
     if (g_pDevice) {
         DialogEntropyProcess dep(XOptions::getMainWidget(this), g_pDevice, &g_entropyData, bGraph, bRegions, ui->spinBoxCount->value());
 
-        dep.showDialogDelay(1000);  // TODO Const
+        dep.showDialogDelay();
 
         if (dep.isSuccess()) {
             if (bGraph) {
