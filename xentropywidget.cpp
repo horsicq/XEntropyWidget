@@ -348,33 +348,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
 
 void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
 {
-    const QList<QByteArray> listImageFormats = QImageWriter::supportedImageFormats();
-
-    QStringList listFilter;
-
-    qint32 nNumberOfImageFormats = listImageFormats.count();
-
-    if (nNumberOfImageFormats) {
-        QString sImageFilter = tr("Images") + " (";
-
-        for (qint32 i = 0; i < nNumberOfImageFormats; i++) {
-            if (i > 0) {
-                sImageFilter += " ";
-            }
-
-            sImageFilter += "*.";
-            sImageFilter += listImageFormats.at(i);
-        }
-
-        sImageFilter += ")";
-
-        listFilter.append(sImageFilter);
-    }
-
-    listFilter.append(QString("PDF %1 (*.pdf)").arg(tr("Documents")));
-    //    listFilter.append(QString("Postscript %1 (*.ps)").arg(tr("Documents")));
-
-    QString sFilter = listFilter.join(";;");
+    QString sFilter = XOptions::getImageFilter();
 
     QString sFileName = XBinary::getResultFileName(g_pDevice, QString("%1.png").arg(tr("Entropy")));
 

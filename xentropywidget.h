@@ -22,7 +22,6 @@
 #define XENTROPYWIDGET_H
 
 #include <QFileDialog>
-#include <QImageWriter>
 #include <QItemSelection>
 #include <QStandardItemModel>
 
