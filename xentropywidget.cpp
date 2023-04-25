@@ -168,12 +168,12 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 ui->tableWidgetBytes->setRowCount(256);
                 ui->tableWidgetBytes->setColumnCount(3);
 
-                QStringList slHeader;
-                slHeader.append(tr("Byte"));
-                slHeader.append(tr("Count"));
-                slHeader.append(QString("%"));
+                QStringList listHeaders;
+                listHeaders.append(tr("Byte"));
+                listHeaders.append(tr("Count"));
+                listHeaders.append(QString("%"));
 
-                ui->tableWidgetBytes->setHorizontalHeaderLabels(slHeader);
+                ui->tableWidgetBytes->setHorizontalHeaderLabels(listHeaders);
                 ui->tableWidgetBytes->horizontalHeader()->setVisible(true);
 
                 for (qint32 i = 0; i < 256; i++) {
