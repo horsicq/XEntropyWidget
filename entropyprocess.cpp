@@ -59,12 +59,11 @@ EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
     return result;
 }
 
-EntropyProcess::DATA EntropyProcess::processRegionsFile(QString sFileName)
+EntropyProcess::DATA EntropyProcess::processRegionsFile(const QString &sFileName)
 {
     EntropyProcess::DATA result = {};
 
     QFile file;
-
     file.setFileName(sFileName);
 
     if (file.open(QIODevice::ReadOnly)) {

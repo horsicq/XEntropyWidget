@@ -65,7 +65,7 @@ public:
 
     void setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pPdStruct);
     static DATA processRegionsDevice(QIODevice *pDevice);
-    static DATA processRegionsFile(QString sFileName);
+    static DATA processRegionsFile(const QString &sFileName);
     static QString dataToPlainString(DATA *pData);
     static QString dataToJsonString(DATA *pData);
     static QString dataToXmlString(DATA *pData);
