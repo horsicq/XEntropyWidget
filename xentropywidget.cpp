@@ -122,7 +122,7 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
     }
 }
 
-void XEntropyWidget::setSaveDirectory(QString sSaveDirectory)
+void XEntropyWidget::setSaveDirectory(const QString &sSaveDirectory)
 {
     this->g_sSaveDirectory = sSaveDirectory;
 }

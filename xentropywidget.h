@@ -55,7 +55,7 @@ public:
     ~XEntropyWidget();
 
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto);
-    void setSaveDirectory(QString sSaveDirectory);
+    void setSaveDirectory(const QString &sSaveDirectory);
     void reload(bool bGraph, bool bRegions);
 
 private slots:
