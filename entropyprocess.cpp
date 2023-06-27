@@ -260,14 +260,10 @@ void EntropyProcess::process()
         XBinary::MODE _mode = XBinary::getWidthModeFromMemoryMap(&memoryMap);
 
         // TODO move to Widget
-        if (_mode == XBinary::MODE_8)
-            g_pData->mode = XLineEditHEX::MODE_8;
-        else if (_mode == XBinary::MODE_16)
-            g_pData->mode = XLineEditHEX::MODE_16;
-        else if (_mode == XBinary::MODE_32)
-            g_pData->mode = XLineEditHEX::MODE_32;
-        else if (_mode == XBinary::MODE_64)
-            g_pData->mode = XLineEditHEX::MODE_64;
+        if (_mode == XBinary::MODE_8) g_pData->mode = XLineEditHEX::MODE_8;
+        else if (_mode == XBinary::MODE_16) g_pData->mode = XLineEditHEX::MODE_16;
+        else if (_mode == XBinary::MODE_32) g_pData->mode = XLineEditHEX::MODE_32;
+        else if (_mode == XBinary::MODE_64) g_pData->mode = XLineEditHEX::MODE_64;
 #endif
 
         qint32 nNumberOfRecords = memoryMap.listRecords.count();
