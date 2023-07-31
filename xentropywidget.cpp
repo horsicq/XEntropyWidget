@@ -349,7 +349,6 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
 void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
 {
     QString sFilter = XOptions::getImageFilter();
-
     QString sFileName = XBinary::getResultFileName(g_pDevice, QString("%1.png").arg(tr("Entropy")));
 
     sFileName = QFileDialog::getSaveFileName(this, tr("Save diagram"), sFileName, sFilter);

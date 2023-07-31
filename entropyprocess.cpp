@@ -68,7 +68,6 @@ EntropyProcess::DATA EntropyProcess::processRegionsFile(const QString &sFileName
 
     if (file.open(QIODevice::ReadOnly)) {
         result = processRegionsDevice(&file);
-
         file.close();
     }
 
