@@ -254,15 +254,15 @@ void EntropyProcess::process()
         XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, this->g_pDevice);
 
 #ifdef QT_GUI_LIB
-        g_pData->mode = HEXValidator::MODE_HEX_32;
+        g_pData->mode = XLineEditValidator::MODE_HEX_32;
 
         XBinary::MODE _mode = XBinary::getWidthModeFromMemoryMap(&memoryMap);
 
         // TODO move to Widget
-        if (_mode == XBinary::MODE_8) g_pData->mode = HEXValidator::MODE_HEX_8;
-        else if (_mode == XBinary::MODE_16) g_pData->mode = HEXValidator::MODE_HEX_16;
-        else if (_mode == XBinary::MODE_32) g_pData->mode = HEXValidator::MODE_HEX_32;
-        else if (_mode == XBinary::MODE_64) g_pData->mode = HEXValidator::MODE_HEX_64;
+        if (_mode == XBinary::MODE_8) g_pData->mode = XLineEditValidator::MODE_HEX_8;
+        else if (_mode == XBinary::MODE_16) g_pData->mode = XLineEditValidator::MODE_HEX_16;
+        else if (_mode == XBinary::MODE_32) g_pData->mode = XLineEditValidator::MODE_HEX_32;
+        else if (_mode == XBinary::MODE_64) g_pData->mode = XLineEditValidator::MODE_HEX_64;
 #endif
 
         qint32 nNumberOfRecords = memoryMap.listRecords.count();

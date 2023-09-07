@@ -57,7 +57,7 @@ public:
         XBinary::FT fileType;
         QList<MEMORY_RECORD> listMemoryRecords;
 #ifdef QT_GUI_LIB
-        HEXValidator::MODE mode;
+        XLineEditValidator::MODE mode;
 #endif
     };
 
