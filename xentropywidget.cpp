@@ -383,7 +383,7 @@ void XEntropyWidget::adjust()
     if (nValue) {
         ui->lineEditPartSize->setValue32_64(g_nSize / nValue);
     } else {
-        ui->lineEditPartSize->setValue((quint32)0);
+        ui->lineEditPartSize->setValue_uint32((quint32)0);
     }
 }
 
