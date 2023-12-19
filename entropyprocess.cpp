@@ -51,6 +51,7 @@ EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
 
     result.nSize = -1;
     result.fileType = XBinary::getPrefFileType(pDevice);
+    result.mapMode = XBinary::MAPMODE_UNKNOWN;
 
     EntropyProcess entropyProcess;
     entropyProcess.setData(pDevice, &result, false, true, 100, nullptr);  // TODO Consts
@@ -251,7 +252,7 @@ void EntropyProcess::process()
     if (g_bRegions) {
         g_pData->listMemoryRecords.clear();
 
-        XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, XBinary::MAPMODE_UNKNOWN, this->g_pDevice);
+        XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, g_pData->mapMode, this->g_pDevice);
 
 #ifdef QT_GUI_LIB
         g_pData->mode = XLineEditValidator::MODE_HEX_32;

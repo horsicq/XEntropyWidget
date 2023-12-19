@@ -98,6 +98,7 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
 
         if (subDevice.open(QIODevice::ReadOnly)) {
             g_entropyData.fileType = XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
+            g_entropyData.mapMode = XFormats::setMapModeComboBox(fileType, &subDevice, false, -1, ui->comboBoxMapMode);
 
             subDevice.close();
         }
@@ -131,6 +132,9 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 {
     // TODO TableWidget -> TableView
     if (g_pDevice) {
+        g_entropyData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
+        g_entropyData.mapMode = (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toInt());
+
         DialogEntropyProcess dep(XOptions::getMainWidget(this), g_pDevice, &g_entropyData, bGraph, bRegions, ui->spinBoxCount->value());
 
         dep.showDialogDelay();
@@ -319,8 +323,6 @@ void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 {
     Q_UNUSED(nIndex)
 
-    g_entropyData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
-
     reload(false, true);
 }
 
@@ -450,4 +452,11 @@ void XEntropyWidget::on_tableWidgetBytes_customContextMenuRequested(const QPoint
 
         contextMenu.exec(ui->tableWidgetBytes->viewport()->mapToGlobal(pos));
     }
+}
+
+void XEntropyWidget::on_comboBoxMapMode_currentIndexChanged(int nIndex)
+{
+    Q_UNUSED(nIndex)
+
+    reload(false, true);
 }

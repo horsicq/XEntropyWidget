@@ -55,6 +55,7 @@ public:
         QList<RECORD> listEntropies;
         XBinary::BYTE_COUNTS byteCounts;
         XBinary::FT fileType;
+        XBinary::MAPMODE mapMode;
         QList<MEMORY_RECORD> listMemoryRecords;
 #ifdef QT_GUI_LIB
         XLineEditValidator::MODE mode;

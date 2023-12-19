@@ -69,6 +69,7 @@ private slots:
     void on_tableViewSelection(const QItemSelection &itemSelected, const QItemSelection &itemDeselected);
     void on_tableViewRegions_customContextMenuRequested(const QPoint &pos);
     void on_tableWidgetBytes_customContextMenuRequested(const QPoint &pos);
+    void on_comboBoxMapMode_currentIndexChanged(int nIndex);
 
 protected:
     virtual void registerShortcuts(bool bState);
