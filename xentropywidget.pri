@@ -14,7 +14,6 @@ SOURCES += \
     $$PWD/dialogentropy.cpp
 
 FORMS += \
-    $$PWD/dialogentropyprocess.ui \
     $$PWD/xentropywidget.ui \
     $$PWD/dialogentropy.ui
 
