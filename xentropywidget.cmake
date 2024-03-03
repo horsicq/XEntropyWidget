@@ -11,8 +11,11 @@ set(XENTROPYWIDGET_SOURCES
     ${XLINEEDITHEX_SOURCES}
     ${XDIALOGPROCESS_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/dialogentropy.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/dialogentropy.h
     ${CMAKE_CURRENT_LIST_DIR}/dialogentropy.ui
     ${CMAKE_CURRENT_LIST_DIR}/dialogentropyprocess.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/dialogentropyprocess.h
     ${CMAKE_CURRENT_LIST_DIR}/xentropywidget.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/xentropywidget.h
     ${CMAKE_CURRENT_LIST_DIR}/xentropywidget.ui
 )
