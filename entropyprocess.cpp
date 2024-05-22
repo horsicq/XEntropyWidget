@@ -199,7 +199,7 @@ void EntropyProcess::process()
 
     connect(&binary, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
-    g_pData->dTotalEntropy = binary.getEntropy(g_pData->nOffset, g_pData->nSize, g_pPdStruct);
+    g_pData->dTotalEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset, g_pData->nSize, g_pPdStruct);
 
     if (XBinary::isPacked(g_pData->dTotalEntropy)) {
         g_pData->sStatus = tr("packed");
@@ -229,7 +229,7 @@ void EntropyProcess::process()
                 //                g_pData->listOffsetEntropy.append(g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph))));
 
                 record.dOffset = g_pData->nOffset + i * nGraph;
-                record.dEntropy = binary.getEntropy(g_pData->nOffset + i * nGraph, nGraph, g_pPdStruct);
+                record.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset + i * nGraph, nGraph, g_pPdStruct);
 
                 g_pData->listEntropies.append(record);
 
@@ -277,7 +277,7 @@ void EntropyProcess::process()
                 if ((memoryMap.listRecords.at(i).nOffset == 0) && (memoryMap.listRecords.at(i).nSize == g_pData->nSize)) {
                     memoryRecord.dEntropy = g_pData->dTotalEntropy;
                 } else {
-                    memoryRecord.dEntropy = binary.getEntropy(g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, g_pPdStruct);
+                    memoryRecord.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, g_pPdStruct);
                 }
 
                 memoryRecord.sName = memoryMap.listRecords.at(i).sName;
