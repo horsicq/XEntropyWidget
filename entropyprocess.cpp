@@ -277,7 +277,8 @@ void EntropyProcess::process()
                 if ((memoryMap.listRecords.at(i).nOffset == 0) && (memoryMap.listRecords.at(i).nSize == g_pData->nSize)) {
                     memoryRecord.dEntropy = g_pData->dTotalEntropy;
                 } else {
-                    memoryRecord.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset, memoryMap.listRecords.at(i).nSize, g_pPdStruct);
+                    memoryRecord.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset,
+                                                                   memoryMap.listRecords.at(i).nSize, g_pPdStruct);
                 }
 
                 memoryRecord.sName = memoryMap.listRecords.at(i).sName;
