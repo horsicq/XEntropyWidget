@@ -98,7 +98,7 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
 
         if (subDevice.open(QIODevice::ReadOnly)) {
             g_entropyData.fileType = XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
-            g_entropyData.mapMode = XFormats::setMapModeComboBox(fileType, &subDevice, false, -1, ui->comboBoxMapMode);
+            g_entropyData.mapMode = XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
 
             subDevice.close();
         }
@@ -322,6 +322,9 @@ void XEntropyWidget::on_pushButtonReload_clicked()
 void XEntropyWidget::on_comboBoxType_currentIndexChanged(int nIndex)
 {
     Q_UNUSED(nIndex)
+
+    XBinary::FT fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
+    XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
 
     reload(false, true);
 }
