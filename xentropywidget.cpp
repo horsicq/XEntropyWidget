@@ -35,6 +35,8 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 {
     ui->setupUi(this);
 
+    XOptions::addToolButtonIcon(ui->toolButtonReload,"://icons/Refresh.16.16.png");
+
     g_entropyData = {};
 
     g_pDevice = nullptr;
@@ -314,7 +316,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
     }
 }
 
-void XEntropyWidget::on_pushButtonReload_clicked()
+void XEntropyWidget::on_toolButtonReload_clicked()
 {
     reload(true, true);
 }
@@ -336,7 +338,7 @@ void XEntropyWidget::registerShortcuts(bool bState)
     // XShortcutsWidget::registerShortcuts(bState);
 }
 
-void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
+void XEntropyWidget::on_toolButtonSaveEntropyTable_clicked()
 {
     QString sResultFileName = XBinary::getResultFileName(g_pDevice, QString("%1.txt").arg(tr("Strings")));
 
@@ -351,7 +353,7 @@ void XEntropyWidget::on_pushButtonSaveEntropyTable_clicked()
     XShortcutsWidget::saveTableModel(pModel, sResultFileName);
 }
 
-void XEntropyWidget::on_pushButtonSaveEntropyDiagram_clicked()
+void XEntropyWidget::on_toolButtonSaveEntropyDiagram_clicked()
 {
     QString sFilter = XOptions::getImageFilter();
     QString sFileName = XBinary::getResultFileName(g_pDevice, QString("%1.png").arg(tr("Entropy")));

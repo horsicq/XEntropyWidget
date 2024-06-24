@@ -59,10 +59,10 @@ public:
     void reload(bool bGraph, bool bRegions);
 
 private slots:
-    void on_pushButtonReload_clicked();
+    void on_toolButtonReload_clicked();
     void on_comboBoxType_currentIndexChanged(int nIndex);
-    void on_pushButtonSaveEntropyTable_clicked();
-    void on_pushButtonSaveEntropyDiagram_clicked();
+    void on_toolButtonSaveEntropyTable_clicked();
+    void on_toolButtonSaveEntropyDiagram_clicked();
     void on_spinBoxCount_valueChanged(int nValue);
     void adjust();
     void on_checkBoxGridRegions_toggled(bool bChecked);
