@@ -316,6 +316,10 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
     }
 }
 
+void XEntropyWidget::adjustView()
+{
+}
+
 void XEntropyWidget::on_toolButtonReload_clicked()
 {
     reload(true, true);

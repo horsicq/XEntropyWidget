@@ -57,6 +57,7 @@ public:
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto);
     void setSaveDirectory(const QString &sSaveDirectory);
     void reload(bool bGraph, bool bRegions);
+    virtual void adjustView();
 
 private slots:
     void on_toolButtonReload_clicked();
