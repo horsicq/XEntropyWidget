@@ -35,7 +35,9 @@ public:
     DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset = 0, qint64 nSize = -1);
     ~DialogEntropy();
 
-    virtual void adjustView() {}
+    virtual void adjustView()
+    {
+    }
 
     void setData(QIODevice *pDevice, qint64 nOffset = 0, qint64 nSize = -1);
     void setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions);
@@ -44,7 +46,10 @@ private slots:
     void on_pushButtonClose_clicked();
 
 protected:
-    virtual void registerShortcuts(bool bState) { Q_UNUSED(bState) }
+    virtual void registerShortcuts(bool bState)
+    {
+        Q_UNUSED(bState)
+    }
 
 private:
     Ui::DialogEntropy *ui;
