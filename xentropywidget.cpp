@@ -138,7 +138,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
         g_entropyData.mapMode = (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toInt());
 
         DialogEntropyProcess dep(XOptions::getMainWidget(this), g_pDevice, &g_entropyData, bGraph, bRegions, ui->spinBoxCount->value());
-
+        dep.setGlobal(getShortcuts(), getGlobalOptions());
         dep.showDialogDelay();
 
         if (dep.isSuccess()) {
