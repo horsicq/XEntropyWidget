@@ -22,7 +22,7 @@
 
 #include "ui_dialogentropy.h"
 
-DialogEntropy::DialogEntropy(QWidget *pParent) : XShortcutsDialog(pParent), ui(new Ui::DialogEntropy)
+DialogEntropy::DialogEntropy(QWidget *pParent) : XShortcutsDialog(pParent, true), ui(new Ui::DialogEntropy)
 {
     ui->setupUi(this);
 }
