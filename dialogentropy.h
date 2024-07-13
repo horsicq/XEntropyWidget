@@ -35,9 +35,7 @@ public:
     DialogEntropy(QWidget *pParent, QIODevice *pDevice, qint64 nOffset = 0, qint64 nSize = -1);
     ~DialogEntropy();
 
-    virtual void adjustView()
-    {
-    }
+    virtual void adjustView();
 
     void setData(QIODevice *pDevice, qint64 nOffset = 0, qint64 nSize = -1);
     void setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions);
