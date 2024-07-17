@@ -64,3 +64,8 @@ void DialogEntropy::on_pushButtonClose_clicked()
 {
     this->close();
 }
+
+void DialogEntropy::registerShortcuts(bool bState)
+{
+    Q_UNUSED(bState)
+}
