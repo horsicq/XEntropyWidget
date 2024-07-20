@@ -39,7 +39,6 @@ DialogEntropy::~DialogEntropy()
 
 void DialogEntropy::adjustView()
 {
-
 }
 
 void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize)
