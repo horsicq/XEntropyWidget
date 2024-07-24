@@ -201,7 +201,7 @@ void EntropyProcess::process()
 
     g_pData->dTotalEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset, g_pData->nSize, g_pPdStruct);
 
-    if (XBinary::isPacked(g_pData->dTotalEntropy)) {
+    if (binary.isPacked(g_pData->dTotalEntropy)) {
         g_pData->sStatus = tr("packed");
     } else {
         g_pData->sStatus = tr("not packed");
@@ -284,7 +284,7 @@ void EntropyProcess::process()
                 memoryRecord.sName = memoryMap.listRecords.at(i).sName;
                 memoryRecord.nOffset = memoryMap.listRecords.at(i).nOffset;
                 memoryRecord.nSize = memoryMap.listRecords.at(i).nSize;
-                memoryRecord.sStatus = XBinary::isPacked(memoryRecord.dEntropy) ? (tr("packed")) : (tr("not packed"));
+                memoryRecord.sStatus = binary.isPacked(memoryRecord.dEntropy) ? (tr("packed")) : (tr("not packed"));
 
                 g_pData->listMemoryRecords.append(memoryRecord);
 
