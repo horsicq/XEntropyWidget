@@ -57,6 +57,7 @@ void DialogEntropy::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize)
 void DialogEntropy::setGlobal(XShortcuts *pShortcuts, XOptions *pXOptions)
 {
     ui->widgetEntropy->setGlobal(pShortcuts, pXOptions);
+    XShortcutsDialog::setGlobal(pShortcuts, pXOptions);
 }
 
 void DialogEntropy::on_pushButtonClose_clicked()
