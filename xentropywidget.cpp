@@ -22,7 +22,7 @@
 
 #include "ui_xentropywidget.h"
 
-class XProcentWidgetItem : public QTableWidgetItem  // TODO move to Controls !!!
+class XPercentageWidgetItem : public QTableWidgetItem  // TODO move to Controls !!!
 {
 public:
     bool operator<(const QTableWidgetItem &other) const
@@ -195,7 +195,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     pItemCount->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
                     ui->tableWidgetBytes->setItem(i, 1, pItemCount);
 
-                    XProcentWidgetItem *pItemProcent = new XProcentWidgetItem;
+                    XPercentageWidgetItem *pItemProcent = new XPercentageWidgetItem;
 
                     pItemProcent->setText(XBinary::doubleToString(((double)g_entropyData.byteCounts.nCount[i] * 100) / g_entropyData.byteCounts.nSize, 4));
 
