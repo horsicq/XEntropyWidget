@@ -195,12 +195,12 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                     pItemCount->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
                     ui->tableWidgetBytes->setItem(i, 1, pItemCount);
 
-                    XPercentageWidgetItem *pItemProcent = new XPercentageWidgetItem;
+                    XPercentageWidgetItem *pItemPercentage = new XPercentageWidgetItem;
 
-                    pItemProcent->setText(XBinary::doubleToString(((double)g_entropyData.byteCounts.nCount[i] * 100) / g_entropyData.byteCounts.nSize, 4));
+                    pItemPercentage->setText(XBinary::doubleToString(((double)g_entropyData.byteCounts.nCount[i] * 100) / g_entropyData.byteCounts.nSize, 4));
 
-                    pItemProcent->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
-                    ui->tableWidgetBytes->setItem(i, 2, pItemProcent);
+                    pItemPercentage->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+                    ui->tableWidgetBytes->setItem(i, 2, pItemPercentage);
                 }
 
                 ui->tableWidgetBytes->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
