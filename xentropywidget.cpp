@@ -35,9 +35,26 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 {
     ui->setupUi(this);
 
-    XOptions::addToolButtonIcon(ui->toolButtonReload, "://icons/Refresh.16.16.png");
-    XOptions::addToolButtonIcon(ui->toolButtonSaveEntropyTable, "://icons/Save.16.16.png");
-    XOptions::addToolButtonIcon(ui->toolButtonSaveEntropyDiagram, "://icons/Image.16.16.png");
+    XOptions::adjustToolButton(ui->toolButtonReload, XOptions::ICONTYPE_RELOAD);
+    XOptions::adjustToolButton(ui->toolButtonSaveEntropyTable, XOptions::ICONTYPE_SAVE);
+    XOptions::adjustToolButton(ui->toolButtonSaveEntropyDiagram, XOptions::ICONTYPE_SAVE);
+
+    ui->comboBoxType->setToolTip(tr("Type"));
+    ui->comboBoxMapMode->setToolTip(tr("Mode"));
+    ui->spinBoxCount->setToolTip(tr("Count"));
+    ui->lineEditPartSize->setToolTip(tr("Size"));
+    ui->lineEditTotalEntropy->setToolTip(tr("Total"));
+    ui->lineEditOffset->setToolTip(tr("Offset"));
+    ui->lineEditSize->setToolTip(tr("Size"));
+    ui->progressBarTotalEntropy->setToolTip(tr("Total"));
+    ui->toolButtonReload->setToolTip(tr("Reload"));
+    ui->toolButtonSaveEntropyTable->setToolTip(tr("Save"));
+    ui->toolButtonSaveEntropyDiagram->setToolTip(tr("Save"));
+    ui->checkBoxGridRegions->setToolTip(tr("Grid"));
+    ui->tableWidgetBytes->setToolTip(tr("Bytes"));
+    ui->tableViewRegions->setToolTip(tr("Regions"));
+    ui->widgetEntropy->setToolTip(tr("Entropy"));
+    ui->widgetBytes->setToolTip(tr("Bytes"));
 
     g_entropyData = {};
 
