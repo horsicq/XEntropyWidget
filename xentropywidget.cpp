@@ -36,6 +36,8 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
     ui->setupUi(this);
 
     XOptions::addToolButtonIcon(ui->toolButtonReload, "://icons/Refresh.16.16.png");
+    XOptions::addToolButtonIcon(ui->toolButtonSaveEntropyTable, "://icons/Save.16.16.png");
+    XOptions::addToolButtonIcon(ui->toolButtonSaveEntropyDiagram, "://icons/Image.16.16.png");
 
     g_entropyData = {};
 
