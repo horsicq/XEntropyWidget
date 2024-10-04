@@ -32,6 +32,11 @@ FORMS += \
     include($$PWD/../Controls/xlineedithex.pri)
 }
 
+!contains(XCONFIG, xtableview) {
+    XCONFIG += xtableview
+    include($$PWD/../Controls/xtableview.pri)
+}
+
 !contains(XCONFIG, xshortcuts) {
     XCONFIG += xshortcuts
     include($$PWD/../XShortcuts/xshortcuts.pri)
