@@ -252,8 +252,6 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                 g_listZones.clear();
 
-                QAbstractItemModel *pOldModel = ui->tableViewRegions->model();
-
                 qint32 nNumberOfMemoryRecords = g_entropyData.listMemoryRecords.count();
 
                 QStandardItemModel *pModel = new QStandardItemModel(nNumberOfMemoryRecords, 5);
@@ -313,9 +311,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
                 XOptions::setModelTextAlignment(pModel, 3, Qt::AlignLeft | Qt::AlignVCenter);
                 XOptions::setModelTextAlignment(pModel, 4, Qt::AlignLeft | Qt::AlignVCenter);
 
-                ui->tableViewRegions->setModel(pModel);
-
-                deleteOldAbstractModel(&pOldModel);
+                ui->tableViewRegions->setCustomModel(pModel, true);
 
                 ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
                 ui->tableViewRegions->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Interactive);
@@ -368,7 +364,7 @@ void XEntropyWidget::on_toolButtonSaveEntropyTable_clicked()
     QAbstractItemModel *pModel = nullptr;
 
     if (ui->tabWidget->currentIndex() == 0) {
-        pModel = ui->tableViewRegions->model();
+        pModel = ui->tableViewRegions->getProxyModel();
     } else {
         pModel = ui->tableWidgetBytes->model();
     }
