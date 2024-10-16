@@ -458,8 +458,9 @@ void XEntropyWidget::on_tableViewRegions_customContextMenuRequested(const QPoint
 
     if (nRow != -1) {
         QMenu contextMenu(this);
+        QMenu menuCopy(this);
 
-        contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableViewRegions));
+        getShortcuts()->adjustRowCopyMenu(&contextMenu, &menuCopy, ui->tableViewRegions);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
     }
@@ -471,8 +472,9 @@ void XEntropyWidget::on_tableWidgetBytes_customContextMenuRequested(const QPoint
 
     if (nRow != -1) {
         QMenu contextMenu(this);
+        QMenu menuCopy(this);
 
-        contextMenu.addMenu(getShortcuts()->getRowCopyMenu(this, ui->tableWidgetBytes));
+        getShortcuts()->adjustRowCopyMenu(&contextMenu, &menuCopy, ui->tableWidgetBytes);
 
         contextMenu.exec(ui->tableWidgetBytes->viewport()->mapToGlobal(pos));
     }
