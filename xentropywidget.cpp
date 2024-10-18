@@ -462,6 +462,7 @@ void XEntropyWidget::on_tableViewRegions_customContextMenuRequested(const QPoint
         QList<XShortcuts::MENUITEM> listMenuItems;
 
         getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewRegions);
+
         QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
@@ -480,6 +481,7 @@ void XEntropyWidget::on_tableWidgetBytes_customContextMenuRequested(const QPoint
         QList<XShortcuts::MENUITEM> listMenuItems;
 
         getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableWidgetBytes);
+
         QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableWidgetBytes->viewport()->mapToGlobal(pos));
