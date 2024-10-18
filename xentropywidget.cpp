@@ -458,11 +458,15 @@ void XEntropyWidget::on_tableViewRegions_customContextMenuRequested(const QPoint
 
     if (nRow != -1) {
         QMenu contextMenu(this);
-        QMenu menuCopy(this);
 
-        getShortcuts()->adjustRowCopyMenu(&contextMenu, &menuCopy, ui->tableViewRegions);
+        QList<XShortcuts::MENUITEM> listMenuItems;
+
+        getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableViewRegions);
+        QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
+
+        XOptions::deleteQObjectList(&listObjects);
     }
 }
 
@@ -472,11 +476,15 @@ void XEntropyWidget::on_tableWidgetBytes_customContextMenuRequested(const QPoint
 
     if (nRow != -1) {
         QMenu contextMenu(this);
-        QMenu menuCopy(this);
 
-        getShortcuts()->adjustRowCopyMenu(&contextMenu, &menuCopy, ui->tableWidgetBytes);
+        QList<XShortcuts::MENUITEM> listMenuItems;
+
+        getShortcuts()->_addMenuItem_CopyRow(&listMenuItems, ui->tableWidgetBytes);
+        QList<QObject *> listObjects = getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableWidgetBytes->viewport()->mapToGlobal(pos));
+
+        XOptions::deleteQObjectList(&listObjects);
     }
 }
 
