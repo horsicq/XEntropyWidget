@@ -105,14 +105,14 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
     g_nOffset = nOffset;
     g_nSize = nSize;
 
-    if (this->g_nSize == -1) {
-        this->g_nSize = (pDevice->size()) - (this->g_nOffset);
+    if (g_nSize == -1) {
+        g_nSize = (pDevice->size()) - (this->g_nOffset);
     }
 
     //    g_entropyData.nOffset=0; // We are using subdevice. Offset is always 0.
     //    g_entropyData.nSize=this->g_nSize;
     g_entropyData.nOffset = nOffset;
-    g_entropyData.nSize = nSize;
+    g_entropyData.nSize = g_nSize;
 
     if (fileType != XBinary::FT_REGION) {
         SubDevice subDevice(g_pDevice, g_nOffset, g_nSize);
