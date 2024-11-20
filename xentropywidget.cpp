@@ -335,6 +335,13 @@ void XEntropyWidget::adjustView()
 {
 }
 
+void XEntropyWidget::reloadData(bool bSaveSelection)
+{
+    if (!bSaveSelection) {
+        reload(true, true);
+    }
+}
+
 void XEntropyWidget::on_toolButtonReload_clicked()
 {
     reload(true, true);

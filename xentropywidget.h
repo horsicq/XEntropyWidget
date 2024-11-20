@@ -58,6 +58,7 @@ public:
     void setSaveDirectory(const QString &sSaveDirectory);
     void reload(bool bGraph, bool bRegions);
     virtual void adjustView();
+    virtual void reloadData(bool bSaveSelection);
 
 private slots:
     void on_toolButtonReload_clicked();
