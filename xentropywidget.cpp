@@ -337,9 +337,8 @@ void XEntropyWidget::adjustView()
 
 void XEntropyWidget::reloadData(bool bSaveSelection)
 {
-    if (!bSaveSelection) {
-        reload(true, true);
-    }
+    Q_UNUSED(bSaveSelection)
+    reload(true, true);
 }
 
 void XEntropyWidget::on_toolButtonReload_clicked()
