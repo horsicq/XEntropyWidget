@@ -1,12 +1,17 @@
 include_directories(${CMAKE_CURRENT_LIST_DIR})
 
-include(${CMAKE_CURRENT_LIST_DIR}/entropyprocess.cmake)
+if (NOT DEFINED ENTROPYPROCESS_SOURCES)
+    include(${CMAKE_CURRENT_LIST_DIR}/entropyprocess.cmake)
+    set(XENTROPYWIDGET_SOURCES ${XENTROPYWIDGET_SOURCES} ${ENTROPYPROCESS_SOURCES})
+endif()
+
 include(${CMAKE_CURRENT_LIST_DIR}/../XQwt/xqwt.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../Controls/xlineedithex.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../Controls/xtableview.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/xdialogprocess.cmake)
 
 set(XENTROPYWIDGET_SOURCES
+    ${XENTROPYWIDGET_SOURCES}
     ${ENTROPYPROCESS_SOURCES}
     ${XQWT_SOURCES}
     ${XLINEEDITHEX_SOURCES}
