@@ -333,6 +333,9 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
 void XEntropyWidget::adjustView()
 {
+    getGlobalOptions()->adjustWidget(this, XOptions::ID_VIEW_FONT_CONTROLS);
+    getGlobalOptions()->adjustWidget(ui->tableViewRegions, XOptions::ID_VIEW_FONT_TABLEVIEWS);
+    getGlobalOptions()->adjustWidget(ui->tableWidgetBytes, XOptions::ID_VIEW_FONT_TABLEVIEWS);
 }
 
 void XEntropyWidget::reloadData(bool bSaveSelection)
