@@ -8,8 +8,11 @@ if (NOT DEFINED XQWT_SOURCES)
     include(${CMAKE_CURRENT_LIST_DIR}/../XQwt/xqwt.cmake)
     set(XENTROPYWIDGET_SOURCES ${XENTROPYWIDGET_SOURCES} ${XQWT_SOURCES})
 endif()
+if (NOT DEFINED XLINEEDITHEX_SOURCES)
+    include(${CMAKE_CURRENT_LIST_DIR}/../Controls/xlineedithex.cmake)
+    set(XENTROPYWIDGET_SOURCES ${XENTROPYWIDGET_SOURCES} ${XLINEEDITHEX_SOURCES})
+endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/../Controls/xlineedithex.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../Controls/xtableview.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../FormatDialogs/xdialogprocess.cmake)
 
