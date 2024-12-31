@@ -7,7 +7,6 @@ endif()
 
 set(ENTROPYPROCESS_SOURCES
     ${ENTROPYPROCESS_SOURCES}
-    ${XFORMATS_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/entropyprocess.cpp
     ${CMAKE_CURRENT_LIST_DIR}/entropyprocess.h
     )
