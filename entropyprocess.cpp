@@ -223,7 +223,7 @@ void EntropyProcess::process()
             //        }
             RECORD record = {};
 
-            for (qint32 i = 0; (i < g_nMax) && (!(g_pPdStruct->bIsStop)); i++) {
+            for (qint32 i = 0; (i < g_nMax) && XBinary::isPdStructNotCanceled(g_pPdStruct); i++) {
                 //                g_pData->dOffset[i]=g_pData->nOffset+i*nGraph;
                 //                g_pData->dOffsetEntropy[i]=g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph)));
                 //                g_pData->listOffsetEntropy.append(g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph))));
