@@ -268,7 +268,7 @@ void EntropyProcess::process()
 
         qint32 nNumberOfRecords = memoryMap.listRecords.count();
 
-        for (qint32 i = 0, j = 0; (i < nNumberOfRecords) && (!(g_pPdStruct->bIsStop)); i++) {
+        for (qint32 i = 0, j = 0; (i < nNumberOfRecords) && XBinary::isPdStructNotCanceled(g_pPdStruct); i++) {
             bool bIsVirtual = memoryMap.listRecords.at(i).bIsVirtual;
 
             if (!bIsVirtual) {
