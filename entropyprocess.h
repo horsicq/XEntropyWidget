@@ -29,8 +29,9 @@
 #include "xlineedithex.h"
 #endif
 #include "xformats.h"
+#include "xthreadobject.h"
 
-class EntropyProcess : public QObject {
+class EntropyProcess : public XThreadObject {
     Q_OBJECT
 
 public:
@@ -72,13 +73,7 @@ public:
     static QString dataToXmlString(DATA *pData);
     static QString dataToCsvString(DATA *pData);
     static QString dataToTsvString(DATA *pData);
-
-signals:
-    void errorMessage(const QString &sText);
-    void completed(qint64 nElapsed);
-
-public slots:
-    void process();
+    virtual void process();
 
 private:
     QIODevice *g_pDevice;
