@@ -25,7 +25,8 @@
 #include <QItemSelection>
 #include <QStandardItemModel>
 
-#include "dialogentropyprocess.h"
+#include "entropyprocess.h"
+#include "xdialogprocess.h"
 #include "qwt_legend.h"
 #include "qwt_math.h"
 #include "qwt_plot.h"

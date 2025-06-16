@@ -156,8 +156,12 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
         g_entropyData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
         g_entropyData.mapMode = (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toInt());
 
-        DialogEntropyProcess dep(XOptions::getMainWidget(this), g_pDevice, &g_entropyData, bGraph, bRegions, ui->spinBoxCount->value());
+        EntropyProcess entropyProcess;
+
+        XDialogProcess dep(XOptions::getMainWidget(this), &entropyProcess);
         dep.setGlobal(getShortcuts(), getGlobalOptions());
+        entropyProcess.setData(g_pDevice, &g_entropyData, bGraph, bRegions, ui->spinBoxCount->value(), dep.getPdStruct());
+        dep.start();
         dep.showDialogDelay();
 
         if (dep.isSuccess()) {

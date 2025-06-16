@@ -4,12 +4,10 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
-    $$PWD/dialogentropyprocess.h \
     $$PWD/xentropywidget.h \
     $$PWD/dialogentropy.h
 
 SOURCES += \
-    $$PWD/dialogentropyprocess.cpp \
     $$PWD/xentropywidget.cpp \
     $$PWD/dialogentropy.cpp
 
