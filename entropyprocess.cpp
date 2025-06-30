@@ -190,9 +190,6 @@ QString EntropyProcess::dataToTsvString(DATA *pData)
 
 void EntropyProcess::process()
 {
-    QElapsedTimer scanTimer;
-    scanTimer.start();
-
     qint32 _nFreeIndex = XBinary::getFreeIndex(g_pPdStruct);
 
     XBinary binary(this->g_pDevice);
@@ -294,6 +291,4 @@ void EntropyProcess::process()
     }
 
     XBinary::setPdStructFinished(g_pPdStruct, _nFreeIndex);
-
-    emit completed(scanTimer.elapsed());
 }
