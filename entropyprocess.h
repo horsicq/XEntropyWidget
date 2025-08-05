@@ -76,13 +76,13 @@ public:
     virtual void process();
 
 private:
-    QIODevice *g_pDevice;
-    DATA *g_pData;
-    bool g_bGraph;
-    bool g_bRegions;
-    qint32 g_nMax;
-    XBinary::PDSTRUCT *g_pPdStruct;
-    XBinary::PDSTRUCT g_pdStructEmpty;
+    QIODevice *m_pDevice;
+    DATA *m_pData;
+    bool m_bGraph;
+    bool m_bRegions;
+    qint32 m_nMax;
+    XBinary::PDSTRUCT *m_pPdStruct;
+    XBinary::PDSTRUCT m_pdStructEmpty;
 };
 
 #endif  // ENTROPYPROCESS_H

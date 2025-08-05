@@ -20,28 +20,29 @@
  */
 #include "entropyprocess.h"
 
+
 EntropyProcess::EntropyProcess(QObject *pParent) : XThreadObject(pParent)
 {
-    g_pDevice = nullptr;
-    g_pData = nullptr;
-    g_bGraph = false;
-    g_bRegions = false;
-    g_nMax = 0;
-    g_pPdStruct = nullptr;
-    g_pdStructEmpty = XBinary::createPdStruct();
+    m_pDevice = nullptr;
+    m_pData = nullptr;
+    m_bGraph = false;
+    m_bRegions = false;
+    m_nMax = 0;
+    m_pPdStruct = nullptr;
+    m_pdStructEmpty = XBinary::createPdStruct();
 }
 
 void EntropyProcess::setData(QIODevice *pDevice, DATA *pData, bool bGraph, bool bRegions, qint32 nMax, XBinary::PDSTRUCT *pPdStruct)
 {
-    this->g_pDevice = pDevice;
-    this->g_pData = pData;
-    this->g_bGraph = bGraph;
-    this->g_bRegions = bRegions;
-    this->g_nMax = nMax;
-    this->g_pPdStruct = pPdStruct;
+    this->m_pDevice = pDevice;
+    this->m_pData = pData;
+    this->m_bGraph = bGraph;
+    this->m_bRegions = bRegions;
+    this->m_nMax = nMax;
+    this->m_pPdStruct = pPdStruct;
 
-    if (!(this->g_pPdStruct)) {
-        this->g_pPdStruct = &g_pdStructEmpty;
+    if (!(this->m_pPdStruct)) {
+        this->m_pPdStruct = &m_pdStructEmpty;
     }
 }
 
@@ -190,92 +191,76 @@ QString EntropyProcess::dataToTsvString(DATA *pData)
 
 void EntropyProcess::process()
 {
-    qint32 _nFreeIndex = XBinary::getFreeIndex(g_pPdStruct);
+    qint32 _nFreeIndex = XBinary::getFreeIndex(m_pPdStruct);
 
-    XBinary binary(this->g_pDevice);
+    XBinary binary(this->m_pDevice);
 
     connect(&binary, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
-    g_pData->dTotalEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset, g_pData->nSize, g_pPdStruct);
+    m_pData->dTotalEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, m_pData->nOffset, m_pData->nSize, m_pPdStruct);
 
-    if (binary.isPacked(g_pData->dTotalEntropy)) {
-        g_pData->sStatus = tr("packed");
+    if (binary.isPacked(m_pData->dTotalEntropy)) {
+        m_pData->sStatus = tr("packed");
     } else {
-        g_pData->sStatus = tr("not packed");
+        m_pData->sStatus = tr("not packed");
     }
 
-    if (g_bGraph) {
-        XBinary::setPdStructInit(g_pPdStruct, _nFreeIndex, g_nMax);
+    if (m_bGraph) {
+        XBinary::setPdStructInit(m_pPdStruct, _nFreeIndex, m_nMax);
 
-        g_pData->byteCounts = binary.getByteCounts(g_pData->nOffset, g_pData->nSize, g_pPdStruct);
+        m_pData->byteCounts = binary.getByteCounts(m_pData->nOffset, m_pData->nSize, m_pPdStruct);
 
-        qint64 nGraph = (g_pData->nSize) / g_nMax;
+        qint64 nGraph = (m_pData->nSize) / m_nMax;
 
         if (nGraph) {
-            g_pData->listEntropies.clear();
-            //        for(qint32 i=0;i<=pData->nMaxGraph;i++)
-            //        {
-            //            pData->dOffset[i]=pData->nOffset+i*nGraph;
-            //            pData->dOffsetEntropy[i]=pData->dTotalEntropy;
-            //        }
+            m_pData->listEntropies.clear();
             RECORD record = {};
 
-            for (qint32 i = 0; (i < g_nMax) && XBinary::isPdStructNotCanceled(g_pPdStruct); i++) {
-                //                g_pData->dOffset[i]=g_pData->nOffset+i*nGraph;
-                //                g_pData->dOffsetEntropy[i]=g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph)));
-                //                g_pData->listOffsetEntropy.append(g_binary.getEntropy(g_pData->nOffset+i*nGraph,qMin(nGraph*(g_nMax/10),g_pData->nSize-(i*nGraph))));
+            for (qint32 i = 0; (i < m_nMax) && XBinary::isPdStructNotCanceled(m_pPdStruct); i++) {
+                record.dOffset = m_pData->nOffset + i * nGraph;
+                record.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, m_pData->nOffset + i * nGraph, nGraph, m_pPdStruct);
 
-                record.dOffset = g_pData->nOffset + i * nGraph;
-                record.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset + i * nGraph, nGraph, g_pPdStruct);
+                m_pData->listEntropies.append(record);
 
-                g_pData->listEntropies.append(record);
-
-                XBinary::setPdStructCurrent(g_pPdStruct, _nFreeIndex, i);
+                XBinary::setPdStructCurrent(m_pPdStruct, _nFreeIndex, i);
             }
 
-            record.dOffset = g_pData->nOffset + g_pData->nSize;
+            record.dOffset = m_pData->nOffset + m_pData->nSize;
 
-            g_pData->listEntropies.append(record);
-
-            //            g_pData->listOffsets.append(g_pData->nOffset+g_pData->nSize);
-
-            //            g_pData->listOffsetEntropy.append(g_pData->listOffsetEntropy.last());
-
-            //            g_pData->dOffset[g_pData->nMaxGraph]=;
-            //            g_pData->dOffsetEntropy[g_pData->nMaxGraph]=g_pData->dOffsetEntropy[g_pData->nMaxGraph-1];
+            m_pData->listEntropies.append(record);
         }
     }
 
-    if (g_bRegions) {
-        g_pData->listMemoryRecords.clear();
+    if (m_bRegions) {
+        m_pData->listMemoryRecords.clear();
 
-        XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(g_pData->fileType, g_pData->mapMode, this->g_pDevice);
+        XBinary::_MEMORY_MAP memoryMap = XFormats::getMemoryMap(m_pData->fileType, m_pData->mapMode, this->m_pDevice);
 
 #ifdef QT_GUI_LIB
-        g_pData->mode = XLineEditValidator::MODE_HEX_32;
+        m_pData->mode = XLineEditValidator::MODE_HEX_32;
 
         XBinary::MODE _mode = XBinary::getWidthModeFromMemoryMap(&memoryMap);
 
         // TODO move to Widget
-        if (_mode == XBinary::MODE_8) g_pData->mode = XLineEditValidator::MODE_HEX_8;
-        else if (_mode == XBinary::MODE_16) g_pData->mode = XLineEditValidator::MODE_HEX_16;
-        else if (_mode == XBinary::MODE_32) g_pData->mode = XLineEditValidator::MODE_HEX_32;
-        else if (_mode == XBinary::MODE_64) g_pData->mode = XLineEditValidator::MODE_HEX_64;
+        if (_mode == XBinary::MODE_8) m_pData->mode = XLineEditValidator::MODE_HEX_8;
+        else if (_mode == XBinary::MODE_16) m_pData->mode = XLineEditValidator::MODE_HEX_16;
+        else if (_mode == XBinary::MODE_32) m_pData->mode = XLineEditValidator::MODE_HEX_32;
+        else if (_mode == XBinary::MODE_64) m_pData->mode = XLineEditValidator::MODE_HEX_64;
 #endif
 
         qint32 nNumberOfRecords = memoryMap.listRecords.count();
 
-        for (qint32 i = 0, j = 0; (i < nNumberOfRecords) && XBinary::isPdStructNotCanceled(g_pPdStruct); i++) {
+        for (qint32 i = 0, j = 0; (i < nNumberOfRecords) && XBinary::isPdStructNotCanceled(m_pPdStruct); i++) {
             bool bIsVirtual = memoryMap.listRecords.at(i).bIsVirtual;
 
             if (!bIsVirtual) {
                 MEMORY_RECORD memoryRecord = {};
 
-                if ((memoryMap.listRecords.at(i).nOffset == 0) && (memoryMap.listRecords.at(i).nSize == g_pData->nSize)) {
-                    memoryRecord.dEntropy = g_pData->dTotalEntropy;
+                if ((memoryMap.listRecords.at(i).nOffset == 0) && (memoryMap.listRecords.at(i).nSize == m_pData->nSize)) {
+                    memoryRecord.dEntropy = m_pData->dTotalEntropy;
                 } else {
-                    memoryRecord.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, g_pData->nOffset + memoryMap.listRecords.at(i).nOffset,
-                                                                   memoryMap.listRecords.at(i).nSize, g_pPdStruct);
+                    memoryRecord.dEntropy = binary.getBinaryStatus(XBinary::BSTATUS_ENTROPY, m_pData->nOffset + memoryMap.listRecords.at(i).nOffset,
+                                                                   memoryMap.listRecords.at(i).nSize, m_pPdStruct);
                 }
 
                 memoryRecord.sName = memoryMap.listRecords.at(i).sName;
@@ -283,12 +268,12 @@ void EntropyProcess::process()
                 memoryRecord.nSize = memoryMap.listRecords.at(i).nSize;
                 memoryRecord.sStatus = binary.isPacked(memoryRecord.dEntropy) ? (tr("packed")) : (tr("not packed"));
 
-                g_pData->listMemoryRecords.append(memoryRecord);
+                m_pData->listMemoryRecords.append(memoryRecord);
 
                 j++;
             }
         }
     }
 
-    XBinary::setPdStructFinished(g_pPdStruct, _nFreeIndex);
+    XBinary::setPdStructFinished(m_pPdStruct, _nFreeIndex);
 }
