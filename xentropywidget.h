@@ -79,16 +79,16 @@ protected:
 
 private:
     Ui::XEntropyWidget *ui;
-    QIODevice *g_pDevice;
-    qint64 g_nOffset;
-    qint64 g_nSize;
-    EntropyProcess::DATA g_entropyData;
-    QwtPlotCurve *g_pCurve;
-    QwtPlotHistogram *g_pHistogram;
-    QwtPlotGrid *g_pGrid;
-    QList<QwtPlotZoneItem *> g_listZones;
-    QString g_sSaveDirectory;
-    QwtPlotPicker *g_pPicker;
+    QIODevice *m_pDevice;
+    qint64 m_nOffset;
+    qint64 m_nSize;
+    EntropyProcess::DATA m_entropyData;
+    QwtPlotCurve *m_pCurve;
+    QwtPlotHistogram *m_pHistogram;
+    QwtPlotGrid *m_pGrid;
+    QList<QwtPlotZoneItem *> m_listZones;
+    QString m_sSaveDirectory;
+    QwtPlotPicker *m_pPicker;
 };
 
 #endif  // XENTROPYWIDGET_H
