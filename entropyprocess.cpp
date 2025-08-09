@@ -20,7 +20,6 @@
  */
 #include "entropyprocess.h"
 
-
 EntropyProcess::EntropyProcess(QObject *pParent) : XThreadObject(pParent)
 {
     m_pDevice = nullptr;
