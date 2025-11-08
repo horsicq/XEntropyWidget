@@ -479,8 +479,6 @@ void XEntropyWidget::on_tableViewRegions_customContextMenuRequested(const QPoint
         getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableViewRegions->viewport()->mapToGlobal(pos));
-
-
     }
 }
 
@@ -498,8 +496,6 @@ void XEntropyWidget::on_tableWidgetBytes_customContextMenuRequested(const QPoint
         getShortcuts()->adjustContextMenu(&contextMenu, &listMenuItems);
 
         contextMenu.exec(ui->tableWidgetBytes->viewport()->mapToGlobal(pos));
-
-
     }
 }
 
