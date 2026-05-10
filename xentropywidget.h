@@ -78,6 +78,8 @@ protected:
     virtual void registerShortcuts(bool bState);
 
 private:
+    void clearZones();
+
     Ui::XEntropyWidget *ui;
     QIODevice *m_pDevice;
     qint64 m_nOffset;

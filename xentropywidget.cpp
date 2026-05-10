@@ -96,7 +96,30 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 
 XEntropyWidget::~XEntropyWidget()
 {
+    clearZones();
+
+    m_pGrid->detach();
+    delete m_pGrid;
+
+    m_pCurve->detach();
+    delete m_pCurve;
+
+    m_pHistogram->detach();
+    delete m_pHistogram;
+
+    delete m_pPicker;
+
     delete ui;
+}
+
+void XEntropyWidget::clearZones()
+{
+    for (QwtPlotZoneItem *pItemZone : m_listZones) {
+        pItemZone->detach();
+        delete pItemZone;
+    }
+
+    m_listZones.clear();
 }
 
 void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto)
@@ -246,15 +269,8 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
             }
 
             if (bRegions) {
-                qint32 nNumberOfZones = m_listZones.count();
-
-                for (qint32 i = 0; i < nNumberOfZones; i++) {
-                    m_listZones.at(i)->setVisible(false);
-                }
-
+                clearZones();
                 ui->widgetEntropy->replot();
-
-                m_listZones.clear();
 
                 qint32 nNumberOfMemoryRecords = m_entropyData.listMemoryRecords.count();
 
