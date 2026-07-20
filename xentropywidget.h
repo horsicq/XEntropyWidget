@@ -55,6 +55,7 @@ public:
     explicit XEntropyWidget(QWidget *pParent = nullptr);
     ~XEntropyWidget();
 
+    void setData(const XBinary::INDATA &inData, qint64 nOffset, qint64 nSize, bool bAuto = false);
     void setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto);
     void setSaveDirectory(const QString &sSaveDirectory);
     void reload(bool bGraph, bool bRegions);
@@ -81,7 +82,7 @@ private:
     void clearZones();
 
     Ui::XEntropyWidget *ui;
-    QIODevice *m_pDevice;
+    XBinary::INDATA m_inData;
     qint64 m_nOffset;
     qint64 m_nSize;
     EntropyProcess::DATA m_entropyData;

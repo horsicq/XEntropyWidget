@@ -58,7 +58,7 @@ XEntropyWidget::XEntropyWidget(QWidget *pParent) : XShortcutsWidget(pParent), ui
 
     m_entropyData = {};
 
-    m_pDevice = nullptr;
+    m_inData = {};
     m_nOffset = 0;
     m_nSize = 0;
 
@@ -109,6 +109,7 @@ XEntropyWidget::~XEntropyWidget()
 
     delete m_pPicker;
 
+    XFormats::removeDevice(m_inData.pDevice, m_inData);
     delete ui;
 }
 
@@ -122,14 +123,16 @@ void XEntropyWidget::clearZones()
     m_listZones.clear();
 }
 
-void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto)
+void XEntropyWidget::setData(const XBinary::INDATA &inData, qint64 nOffset, qint64 nSize, bool bAuto)
 {
-    m_pDevice = pDevice;
+    XFormats::removeDevice(m_inData.pDevice, m_inData);
+    m_inData = inData;
+    m_inData.pDevice = XFormats::createDevice(inData);
     m_nOffset = nOffset;
     m_nSize = nSize;
 
-    if (m_nSize == -1) {
-        m_nSize = (pDevice->size()) - (this->m_nOffset);
+    if ((m_nSize == -1) && m_inData.pDevice) {
+        m_nSize = (m_inData.pDevice->size()) - (this->m_nOffset);
     }
 
     //    m_entropyData.nOffset=0; // We are using subdevice. Offset is always 0.
@@ -137,17 +140,17 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
     m_entropyData.nOffset = nOffset;
     m_entropyData.nSize = m_nSize;
 
-    if (fileType != XBinary::FT_REGION) {
-        SubDevice subDevice(m_pDevice, m_nOffset, m_nSize);
+    if ((m_inData.fileType != XBinary::FT_REGION) && m_inData.pDevice) {
+        SubDevice subDevice(m_inData.pDevice, m_nOffset, m_nSize);
 
         if (subDevice.open(QIODevice::ReadOnly)) {
-            m_entropyData.fileType = XFormats::setFileTypeComboBox(fileType, &subDevice, ui->comboBoxType);
-            m_entropyData.mapMode = XFormats::getMapModesList(fileType, ui->comboBoxMapMode);
+            m_entropyData.fileType = XFormats::setFileTypeComboBox(m_inData.fileType, &subDevice, ui->comboBoxType);
+            m_entropyData.mapMode = XFormats::getMapModesList(m_inData.fileType, ui->comboBoxMapMode);
 
             subDevice.close();
         }
-    } else {
-        ui->comboBoxType->addItem(XBinary::fileTypeIdToString(fileType), fileType);
+    } else if (m_inData.fileType == XBinary::FT_REGION) {
+        ui->comboBoxType->addItem(XBinary::fileTypeIdToString(m_inData.fileType), m_inData.fileType);
     }
 
     qint64 nCount = m_nSize / 0x200;  // TODO const
@@ -167,6 +170,11 @@ void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, X
     }
 }
 
+void XEntropyWidget::setData(QIODevice *pDevice, qint64 nOffset, qint64 nSize, XBinary::FT fileType, bool bAuto)
+{
+    setData(XFormats::createINDATA(fileType, pDevice), nOffset, nSize, bAuto);
+}
+
 void XEntropyWidget::setSaveDirectory(const QString &sSaveDirectory)
 {
     this->m_sSaveDirectory = sSaveDirectory;
@@ -175,7 +183,7 @@ void XEntropyWidget::setSaveDirectory(const QString &sSaveDirectory)
 void XEntropyWidget::reload(bool bGraph, bool bRegions)
 {
     // TODO TableWidget -> TableView
-    if (m_pDevice) {
+    if (m_inData.pDevice) {
         m_entropyData.fileType = (XBinary::FT)(ui->comboBoxType->currentData().toInt());
         m_entropyData.mapMode = (XBinary::MAPMODE)(ui->comboBoxMapMode->currentData().toInt());
 
@@ -183,7 +191,7 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
         XDialogProcess dep(XOptions::getMainWidget(this), &entropyProcess);
         dep.setGlobal(getShortcuts(), getGlobalOptions());
-        entropyProcess.setData(m_pDevice, &m_entropyData, bGraph, bRegions, ui->spinBoxCount->value(), dep.getPdStruct());
+        entropyProcess.setData(m_inData.pDevice, &m_entropyData, bGraph, bRegions, ui->spinBoxCount->value(), dep.getPdStruct());
         dep.start();
         dep.showDialogDelay();
 
@@ -388,7 +396,7 @@ void XEntropyWidget::registerShortcuts(bool bState)
 
 void XEntropyWidget::on_toolButtonSaveEntropyTable_clicked()
 {
-    QString sResultFileName = XBinary::getResultFileName(m_pDevice, QString("%1.txt").arg(tr("Strings")));
+    QString sResultFileName = XBinary::getResultFileName(m_inData.pDevice, QString("%1.txt").arg(tr("Strings")));
 
     QAbstractItemModel *pModel = nullptr;
 
@@ -404,7 +412,7 @@ void XEntropyWidget::on_toolButtonSaveEntropyTable_clicked()
 void XEntropyWidget::on_toolButtonSaveEntropyDiagram_clicked()
 {
     QString sFilter = XOptions::getImageFilter();
-    QString sFileName = XBinary::getResultFileName(m_pDevice, QString("%1.png").arg(tr("Entropy")));
+    QString sFileName = XBinary::getResultFileName(m_inData.pDevice, QString("%1.png").arg(tr("Entropy")));
 
     sFileName = QFileDialog::getSaveFileName(this, tr("Save diagram"), sFileName, sFilter);
 
