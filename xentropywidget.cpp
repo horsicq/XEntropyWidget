@@ -251,7 +251,9 @@ void XEntropyWidget::reload(bool bGraph, bool bRegions)
 
                     XPercentageWidgetItem *pItemPercentage = new XPercentageWidgetItem;
 
-                    pItemPercentage->setText(XBinary::doubleToString(((double)m_entropyData.byteCounts.nCount[i] * 100) / m_entropyData.byteCounts.nSize, 4));
+                    // nSize is 0 for an empty region/file; guard against 0.0/0 -> NaN ("nan" in every row).
+                    double dPercentage = m_entropyData.byteCounts.nSize ? ((double)m_entropyData.byteCounts.nCount[i] * 100) / m_entropyData.byteCounts.nSize : 0.0;
+                    pItemPercentage->setText(XBinary::doubleToString(dPercentage, 4));
 
                     pItemPercentage->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
                     ui->tableWidgetBytes->setItem(i, 2, pItemPercentage);
