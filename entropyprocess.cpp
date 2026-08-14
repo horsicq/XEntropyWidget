@@ -50,7 +50,7 @@ EntropyProcess::DATA EntropyProcess::processRegionsDevice(QIODevice *pDevice)
     EntropyProcess::DATA result = {};
 
     result.nSize = -1;
-    result.fileType = XFormats::getPrefFileType(pDevice);
+    result.fileType = XFormats::getPrefFileType(pDevice, XBinary::FT_FLAG_FORMATS);
     result.mapMode = XBinary::MAPMODE_UNKNOWN;
 
     EntropyProcess entropyProcess;
